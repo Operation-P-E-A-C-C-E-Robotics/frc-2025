@@ -78,14 +78,14 @@ public final class Constants {
 
 
 
-
+    
     /* CTRE SWERVE CONSTANTS */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
-    public static final CANIDs frontLeftIDs =   new CANIDs(4,   5,    6); //module 0
-    public static final CANIDs rearLeftIDs =   new CANIDs(7,   8,    9); //module 1
-    public static final CANIDs rearRightIDs =   new CANIDs(10,   11,   12); //module 2
-    public static final CANIDs frontRightIDs =    new CANIDs(13,  14,   15); //module 3
+    public static final CANIDs frontLeftIDs =   new CANIDs(7,   5,    6); //module 0
+    public static final CANIDs rearLeftIDs =   new CANIDs(4,   2,    3); //module 1
+    public static final CANIDs rearRightIDs =   new CANIDs(13,   11,   12); //module 2
+    public static final CANIDs frontRightIDs =    new CANIDs(10,  8,   9); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
     // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
