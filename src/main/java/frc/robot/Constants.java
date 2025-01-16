@@ -38,19 +38,19 @@ public final class Constants {
 
     public static final double LIMELIGHT_FOCAL_LENGTH = (1*83)/0.32; //as calculated by me: (distance * pixels) / size
 
-    public static final Transform3d robotToExamplePhotonvision = new Transform3d(
-        Units.inchesToMeters(10.5), //forward offset
-        Units.inchesToMeters(6),    
-        Units.inchesToMeters(8.5), 
-        new Rotation3d(0,Units.degreesToRadians(15),0)
-    );
+    // public static final Transform3d robotToExamplePhotonvision = new Transform3d(
+    //     Units.inchesToMeters(10.5), //forward offset
+    //     Units.inchesToMeters(6),    
+    //     Units.inchesToMeters(8.5), 
+    //     new Rotation3d(0,Units.degreesToRadians(15),0)
+    // );
 
-    public static final ApriltagPhotonvision examplePhotonvision = new ApriltagPhotonvision(
-      examplePhotonvisionName,
-      robotToExamplePhotonvision,
-      FieldConstants.aprilTags,
-      0.9
-    );
+    // public static final ApriltagPhotonvision examplePhotonvision = new ApriltagPhotonvision(
+    //   examplePhotonvisionName,
+    //   robotToExamplePhotonvision,
+    //   FieldConstants.aprilTags,
+    //   0.9
+    // );
   }
   public static final class Swerve {
     /* TELEOP */
@@ -82,29 +82,31 @@ public final class Constants {
     /* CTRE SWERVE CONSTANTS */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
-    public static final CANIDs frontLeftIDs =   new CANIDs(7,   5,    6); //module 0
-    public static final CANIDs rearLeftIDs =   new CANIDs(4,   2,    3); //module 1
-    public static final CANIDs rearRightIDs =   new CANIDs(13,   11,   12); //module 2
-    public static final CANIDs frontRightIDs =    new CANIDs(10,  8,   9); //module 3
+    public static final CANIDs frontLeftIDs =   new CANIDs(13,   11,    12); //module 3
+    public static final CANIDs frontRightIDs =    new CANIDs(4,  2,   3); //module 0
+    public static final CANIDs rearLeftIDs =   new CANIDs(10, 8, 9); //module 2
+    public static final CANIDs rearRightIDs =   new CANIDs(7,   5,    6); //module 1
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
     // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
     public static final EncoderOffsets offsets = new EncoderOffsets(
-      -0.409424, //Front Left, module 0
-      0.277344, //Front Right, module 3
-      -0.412109,  // Rear Left, module 1
-      -0.307861); //Rear Right, module 2
+      0.324463, //Front Left, module 3
+      -0.062012, //Front Right, module 0
+      -0.338379, //Rear Left, module 2
+      0.042725  // Rear Right, module 1
+    ); 
 
+    // public static final Inversion inversion = new Inversion(true, false, true, false);
     public static final Inversion inversion = new Inversion(false, true, false, true);
 
     //inertia only used for simulation
-    public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 80 : 800, 7);
-    public static final double steerMotorCurrentLimit = Robot.isReal() ? 40 : 120; //amps
+    public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 40 : 800, 7);
+    public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //amps
     
-    public static final PidGains driveGains = new PidGains(2, 0, 0, 0.2, 0.4); 
-    public static final PidGains angleGains = new PidGains(90, 0, 0.001, 0, 0);
+    public static final PidGains driveGains = new PidGains(0, 0, 0, 0, 0); 
+    public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0);
 
-    public static final int pigeonCANId = 3;
+    public static final int pigeonCANId = 0;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
 
     /* HEADING CONTROLLER CONSTANTS */
@@ -157,8 +159,8 @@ public final class Constants {
   }
 
   public static final class ControlSystem {
-    public static final int PDPCanId = 0;
-    public static final ModuleType PDPModuleType = ModuleType.kCTRE;
+    public static final int PDPCanId = 1;
+    public static final ModuleType PDPModuleType = ModuleType.kRev;
   }
 
   public static final class FieldConstants {

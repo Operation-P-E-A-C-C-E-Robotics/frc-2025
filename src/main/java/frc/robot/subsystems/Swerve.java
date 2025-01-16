@@ -40,10 +40,10 @@ public class Swerve extends SubsystemBase {
 
     // private LimelightHelper limelight;
 
-    private static PeaccyVision eyes = new PeaccyVision(
-        new ApriltagCamera.ApriltagLimelight(Constants.Cameras.exampleLimelight, 0.1),
-        Constants.Cameras.examplePhotonvision
-    );
+    // private static PeaccyVision eyes = new PeaccyVision(
+    //     new ApriltagCamera.ApriltagLimelight(Constants.Cameras.exampleLimelight, 0.1),
+    //     Constants.Cameras.examplePhotonvision
+    // );
 
     public Swerve() {
         swerve = SwerveDescription.generateDrivetrain(
@@ -175,9 +175,9 @@ public class Swerve extends SubsystemBase {
         resetOdometry(cachedPose);
     }
     
-    public PeaccyVision getCameras(){
-        return eyes;
-    }
+    // public PeaccyVision getCameras(){
+    //     return eyes;
+    // }
 
     public Rotation3d getGyroAngle() {
         return swerve.getRotation3d();
@@ -216,14 +216,14 @@ public class Swerve extends SubsystemBase {
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
         var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
-        eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
-        if(eyes.hasUpdated()){
-            swerve.addVisionMeasurement(
-                eyes.getPose(),
-                eyes.getTimestamp(),
-                eyes.getStDev()
-            );
-        }
+        // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
+        // if(eyes.hasUpdated()){
+        //     swerve.addVisionMeasurement(
+        //         eyes.getPose(),
+        //         eyes.getTimestamp(),
+        //         eyes.getStDev()
+        //     );
+        // }
     }
 
     @Override

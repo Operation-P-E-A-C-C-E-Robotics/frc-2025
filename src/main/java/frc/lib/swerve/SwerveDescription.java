@@ -66,7 +66,7 @@ public class SwerveDescription {
                                     .withSpeedAt12VoltsMps(physics.freeSpeed)
                                     .withSteerInertia(physics.angularInertia)
                                     .withDriveInertia(physics.linearInertia)
-                                    .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
+                                    .withFeedbackSource(SteerFeedbackType.RemoteCANcoder)
                                     .withCouplingGearRatio(gearing.steerCouplingRatio)
                                     .withSteerMotorInverted(invertSteerMotors);
 

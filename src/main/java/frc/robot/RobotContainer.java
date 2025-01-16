@@ -60,7 +60,7 @@ public class RobotContainer {
                .isFieldRelative(() -> driverController.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
-               .isOpenLoop     (() -> false);
+               .isOpenLoop     (() -> true);
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
   }
