@@ -79,18 +79,30 @@ public final class Constants {
     /* CTRE SWERVE CONSTANTS */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
-    public static final CANIDs frontLeftIDs =   new CANIDs(13,   11,    12); //module 3
-    public static final CANIDs frontRightIDs =    new CANIDs(4,  2,   3); //module 0
-    public static final CANIDs rearLeftIDs =   new CANIDs(10, 8, 9); //module 2
-    public static final CANIDs rearRightIDs =   new CANIDs(7,   5,    6); //module 1
+    //module 0: front right -> rear left
+    //module 1: back right -> front left
+    //module 3: front left -> back right
+    //module 2: back left -> front right
+
+    public static final CANIDs frontLeftIDs =   new CANIDs(7,   5,    6); //module 1
+    public static final CANIDs frontRightIDs =   new CANIDs(10, 8, 9); //module 2
+    public static final CANIDs rearLeftIDs =    new CANIDs(4,  2,   3); //module 0
+    public static final CANIDs rearRightIDs =   new CANIDs(13,   11,    12); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
     // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
+    // public static final EncoderOffsets offsets = new EncoderOffsets(
+    //   0.324463, //Front Left, module 3
+    //   -0.062012, //Front Right, module 0
+    //   -0.338379, //Rear Left, module 2
+    //   0.042725  // Rear Right, module 1
+    // ); 
+
     public static final EncoderOffsets offsets = new EncoderOffsets(
-      0.324463, //Front Left, module 3
-      -0.062012, //Front Right, module 0
-      -0.338379, //Rear Left, module 2
-      0.042725  // Rear Right, module 1
+      0.042725, //front lefts
+      -0.338379, //Front Right, module 2
+      -0.062012, //Rear Left, module 0
+      0.324463 //Rear Right
     ); 
 
     // public static final Inversion inversion = new Inversion(true, false, true, false);

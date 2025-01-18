@@ -37,7 +37,7 @@ public class RobotContainer {
 
 
   /* COMMANDS */
-  private final PeaccyTuner peaccyDrive = new PeaccyTuner(driveTrain);
+  private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -55,7 +55,7 @@ public class RobotContainer {
                .isFieldRelative(() -> driverController.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
-               .isOpenLoop     (() -> driverController.getRawButton(6)); //right bumper
+               .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
   }

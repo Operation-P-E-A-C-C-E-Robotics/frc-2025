@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.RobotState;
 
 public interface ApriltagCamera {
     public VisionResults getLatestResults(Pose2d referencePose);
@@ -27,7 +28,9 @@ public interface ApriltagCamera {
 
         public VisionResults getLatestResults(Pose2d referencePose){
             LimelightHelpers.SetRobotOrientation(name, referencePose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-            var result = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+            var result = RobotState.isEnabled() ? 
+                LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name)
+                : LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
             last = new VisionResults(
                 result.pose,
                 result.tagCount,
