@@ -1,8 +1,6 @@
 package frc.lib.telemetry;
 
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -10,7 +8,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.DataLog;
@@ -34,8 +31,8 @@ public class SwerveTelemetry {
     private static final DataLog log = DataLogManager.getLog();
 
     private static final StructPublisher<Pose3d> swervePosePublisher = swerveTable.getStructTopic("Robot Pose", Pose3d.struct).publish();
-    private static final StructPublisher<Pose3d> pathplannerTargetPosePublisher = swerveTable.getStructTopic("Target Pose", Pose3d.struct).publish();
-    private static final StructArrayPublisher <Pose2d> pathplannerTrajectoryPublisher = swerveTable.getStructArrayTopic("Path", Pose2d.struct).publish();
+    // private static final StructPublisher<Pose3d> pathplannerTargetPosePublisher = swerveTable.getStructTopic("Target Pose", Pose3d.struct).publish();
+    // private static final StructArrayPublisher <Pose2d> pathplannerTrajectoryPublisher = swerveTable.getStructArrayTopic("Path", Pose2d.struct).publish();
     
     private static final DoubleArrayLogEntry swerveDataPublisher = new DoubleArrayLogEntry(log, "Swerve/Swerve Measured Data");
     private static final DoubleArrayLogEntry swerveRequestedData = new DoubleArrayLogEntry(log, "Swerve/Swerve Requested Data");

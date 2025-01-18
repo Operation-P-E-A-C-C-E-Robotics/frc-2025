@@ -65,6 +65,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    for(int i = 0; i < 50; i++)
+    {
+      System.out.println("AUTO INIT FUNCTION STARTED");      
+    }
     DataLogManager.logNetworkTables(true);
     System.out.println("Robot Autonomous");
     System.out.println("EVERYBODY PANIC PEACCY IS RUNNING AUTONOMOUS AND HE DOESN'T KNOW WHAT HE'S DOING");
@@ -72,6 +76,10 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command
     autonomousCommand = robotContainer.getAutonomousCommand();
     if (autonomousCommand != null) {
+      for(int i = 0; i < 300; i++)
+      {
+        System.out.println("!!!!!!ACOM SUCCESSFULLY GOTTEN!!!!!!!!");      
+      }
       autonomousCommand.schedule();
     }
   }

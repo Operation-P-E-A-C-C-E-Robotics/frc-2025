@@ -26,7 +26,8 @@ public interface ApriltagCamera {
         }
 
         public VisionResults getLatestResults(Pose2d referencePose){
-            var result = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+            LimelightHelpers.SetRobotOrientation(name, referencePose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+            var result = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
             last = new VisionResults(
                 result.pose,
                 result.tagCount,

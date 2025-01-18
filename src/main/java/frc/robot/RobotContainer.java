@@ -3,14 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-import java.io.IOException;
-
-import org.json.simple.parser.ParseException;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
+import frc.robot.commands.drivetrain.PeaccyTuner;
 import frc.robot.subsystems.Swerve;
 
 
@@ -42,7 +37,7 @@ public class RobotContainer {
 
 
   /* COMMANDS */
-  private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
+  private final PeaccyTuner peaccyDrive = new PeaccyTuner(driveTrain);
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -60,7 +55,7 @@ public class RobotContainer {
                .isFieldRelative(() -> driverController.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
-               .isOpenLoop     (() -> true);
+               .isOpenLoop     (() -> driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
   }
@@ -68,12 +63,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     try {
-      return AutoBuilder.followPath(PathPlannerPath.fromPathFile("Example Path"));
-    } catch (FileVersionException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
+      PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+      return AutoBuilder.resetOdom(path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(path)); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return null;

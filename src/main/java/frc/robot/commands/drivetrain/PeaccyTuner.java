@@ -563,7 +563,13 @@ public class PeaccyTuner extends Command {
             }
         }
 
-       request.withVelocityX(linearVelocity.getX())
+        SmartDashboard.putNumber("target linear velocity", linearVelocity.getNorm());
+        SmartDashboard.putNumber("Measured Linear Velocity", new Translation2d(
+            driveTrain.getChassisSpeeds().vxMetersPerSecond,
+            driveTrain.getChassisSpeeds().vyMetersPerSecond
+        ).getNorm());
+
+        request.withVelocityX(linearVelocity.getX())
             .withVelocityY(linearVelocity.getY())
             .withRotationalRate(angularVelocity)
             .withIsOpenLoop(isOpenLoop)
@@ -606,7 +612,7 @@ public class PeaccyTuner extends Command {
 
 
         //limit the change in direction
-        double rawLinearAngle = linearVelocity.getAngle().getRadians();
+        double rawLinearAngle = linearVelocity.getNorm() == 0 ? 0 : linearVelocity.getAngle().getRadians();
         double linearAngle = linearAngleLimiter.calculate(rawLinearAngle);
 
         // override the smoothing of the direction if it lags too far behind the raw value

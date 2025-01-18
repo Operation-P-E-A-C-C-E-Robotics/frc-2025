@@ -13,8 +13,6 @@ import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -26,13 +24,12 @@ import frc.lib.swerve.SwerveDescription.Inversion;
 import frc.lib.swerve.SwerveDescription.Physics;
 import frc.lib.swerve.SwerveDescription.PidGains;
 import frc.lib.util.JoystickCurves;
-import frc.lib.vision.ApriltagCamera.ApriltagPhotonvision;
 
 public final class Constants {
   public static final double period = 0.01;
 
   public static final class Cameras {
-    public static final String exampleLimelight = "limelight";
+    public static final String limelight = "limelight";
 
     public static final String examplePhotonvisionName = "photonvision";
 
@@ -103,7 +100,7 @@ public final class Constants {
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 40 : 800, 7);
     public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //amps
     
-    public static final PidGains driveGains = new PidGains(0, 0, 0, 0, 0); 
+    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); 
     public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0);
 
     public static final int pigeonCANId = 0;
@@ -145,12 +142,12 @@ public final class Constants {
     );
 
     public static final RobotConfig defaultPathplannerConfig = new RobotConfig(
-      Units.lbsToKilograms(110), 
-      1, 
+      Units.lbsToKilograms(75), 
+      6.883, 
       new ModuleConfig(
         Units.inchesToMeters(2), 
-        7, 
-        0.1, 
+        5, 
+        1.2, 
         DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio), 
         Swerve.physics.wheelSlipCurrent,
         1

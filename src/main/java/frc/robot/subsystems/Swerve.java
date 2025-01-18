@@ -40,10 +40,9 @@ public class Swerve extends SubsystemBase {
 
     // private LimelightHelper limelight;
 
-    // private static PeaccyVision eyes = new PeaccyVision(
-    //     new ApriltagCamera.ApriltagLimelight(Constants.Cameras.exampleLimelight, 0.1),
-    //     Constants.Cameras.examplePhotonvision
-    // );
+    private static PeaccyVision eyes = new PeaccyVision(
+        new ApriltagCamera.ApriltagLimelight(Constants.Cameras.limelight, 0.1)
+    );
 
     public Swerve() {
         swerve = SwerveDescription.generateDrivetrain(
@@ -83,8 +82,8 @@ public class Swerve extends SubsystemBase {
                 this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
                 new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+                        new PIDConstants(1.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(1.0, 0.0, 0.0) // Rotation PID constants
                 ),
                 config, // The robot configuration
                 () -> {
@@ -175,9 +174,9 @@ public class Swerve extends SubsystemBase {
         resetOdometry(cachedPose);
     }
     
-    // public PeaccyVision getCameras(){
-    //     return eyes;
-    // }
+    public PeaccyVision getCameras(){
+        return eyes;
+    }
 
     public Rotation3d getGyroAngle() {
         return swerve.getRotation3d();
@@ -216,14 +215,14 @@ public class Swerve extends SubsystemBase {
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
         var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
-        // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
-        // if(eyes.hasUpdated()){
-        //     swerve.addVisionMeasurement(
-        //         eyes.getPose(),
-        //         eyes.getTimestamp(),
-        //         eyes.getStDev()
-        //     );
-        // }
+        eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
+        if(eyes.hasUpdated()){
+            swerve.addVisionMeasurement(
+                eyes.getPose(),
+                eyes.getTimestamp(),
+                eyes.getStDev()
+            );
+        }
     }
 
     @Override

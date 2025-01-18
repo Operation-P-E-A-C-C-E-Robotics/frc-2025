@@ -397,7 +397,6 @@ public class DriveTrainTuner extends SubsystemBase {
         if (Math.abs(value) < deadband) return 0;
         return (value - (deadband * Math.signum(value)))/(1 - deadband);
     }
-    
 }
 
 

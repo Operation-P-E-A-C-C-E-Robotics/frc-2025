@@ -31,28 +31,29 @@ public class LimelightTelemetry {
     private static final StructPublisher<Pose3d> rawBotPosePublisher = limelightTable.getStructTopic("Raw BotPose", Pose3d.struct).publish();
 
     public static void update (String llName, Pose3d robotPose){
-        var results = LimelightHelpers.getLatestResults(llName).targetingResults;
-        Pose3d[] tagPosesFromField = new Pose3d[results.targets_Fiducials.length];
-        Pose3d[] tagPosesFromRobot = new Pose3d[results.targets_Fiducials.length];
-        for(int i = 0; i < results.targets_Fiducials.length; i++){
-            tagPosesFromField[i] = results.targets_Fiducials[i].getTargetPose_RobotSpace();
-            tagPosesFromRobot[i] = robotPose.plus(new Transform3d(tagPosesFromField[i].getTranslation(), tagPosesFromField[i].getRotation()));
-        }
+        // var results = LimelightHelpers.getLatestResults(llName).targetingResults;
+        // Pose3d[] tagPosesFromField = new Pose3d[results.targets_Fiducials.length];
+        // Pose3d[] tagPosesFromRobot = new Pose3d[results.targets_Fiducials.length];
+        // for(int i = 0; i < results.targets_Fiducials.length; i++){
+        //     tagPosesFromField[i] = results.targets_Fiducials[i].getTargetPose_RobotSpace();
+        //     tagPosesFromRobot[i] = robotPose.plus(new Transform3d(tagPosesFromField[i].getTranslation(), tagPosesFromField[i].getRotation()));
+        // }
         
-        tagPosePublisher.accept(tagPosesFromRobot);
-        tagPoseFromFieldPublisher.accept(tagPosesFromField);
-        if(results.botpose.length == 6){
-            rawBotPosePublisher.accept(robotPose);
-        }
+        // tagPosePublisher.accept(tagPosesFromRobot);
+        // tagPoseFromFieldPublisher.accept(tagPosesFromField);
+        // if(results.botpose.length == 6){
+        //     rawBotPosePublisher.accept(robotPose);
+        // }
 
-        if(Robot.isSimulation()){
-            tagPoseFromFieldPublisher.accept(new Pose3d[] {
-                new Pose3d(0, 0, 1, new Rotation3d(0, 0, 0)),
-                new Pose3d(2, 2, 1, new Rotation3d(0, 0, 0)),
-                new Pose3d(2, 0, 0.4, new Rotation3d(1, 0, 0)),
-            });
+        // if(Robot.isSimulation()){
+        //     tagPoseFromFieldPublisher.accept(new Pose3d[] {
+        //         new Pose3d(0, 0, 1, new Rotation3d(0, 0, 0)),
+        //         new Pose3d(2, 2, 1, new Rotation3d(0, 0, 0)),
+        //         new Pose3d(2, 0, 0.4, new Rotation3d(1, 0, 0)),
+        //     });
 
-            rawBotPosePublisher.accept(new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0)));
-        }
+        //     rawBotPosePublisher.accept(new Pose3d(0, 0, 0, new Rotation3d(0, 0, 0)));
+        // }
+        //TODO FIX IT
     }
 }
