@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Chute extends SubsystemBase {
   /** Creates a new Chute. */
-  public Chute() {}
+  //1-2 talon srx's, and we should set up (commented out) code for the possible second one, using master-slave system
+  public Chute()
+  {
+    
+  }
 
   @Override
   public void periodic() {
