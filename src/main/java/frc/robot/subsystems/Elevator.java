@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /*The Elevatoré
- * 
+ * Two falcon 500s 
  * 
  */
 public class Elevator extends SubsystemBase {

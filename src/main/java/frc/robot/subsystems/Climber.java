@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
+  //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
   public Climber() {}
 
   @Override

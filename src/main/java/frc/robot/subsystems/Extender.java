@@ -6,11 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Sushi extends SubsystemBase {
-  /** Creates a new Sushi. */
-  //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
-  // Backwards AND forwards
-  public Sushi() {}
+public class Extender extends SubsystemBase {
+  /** Creates a new Extender. */
+  //1 falcon, powered by an initial command and stopped by limit switches
+  public Extender() {}
 
   @Override
   public void periodic() {
