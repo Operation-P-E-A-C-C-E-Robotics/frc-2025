@@ -12,9 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
-import frc.robot.commands.drivetrain.PeaccyTuner;
 import frc.robot.subsystems.Swerve;
-
+import frc.robot.subsystems.Sushi;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -28,6 +27,8 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
+
+  private final Sushi sushi = new Sushi();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -58,8 +59,8 @@ public class RobotContainer {
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
+    sushi.soy(driverController.getRawButton(2));
   }
-
 
   public Command getAutonomousCommand() {
     try {
