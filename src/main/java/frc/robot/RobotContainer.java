@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Sushi;
+import frc.robot.subsystems.Chute;
 
 public class RobotContainer {
   /* OI CONSTANTS */
