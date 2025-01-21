@@ -61,7 +61,7 @@ public class RobotContainer {
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    sushi.soy(driverController.getRawButton(1)); //B
+    sushi.SoySauce(() -> driverController.getRawButton(1)); //B
     chute.JFK(() -> driverController.getRawButton(0)); //A
   }
 

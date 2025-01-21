@@ -5,10 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class Sushi extends SubsystemBase {
+public class Sushi extends Command {
   private final TalonFX spinner = new TalonFX(99);
 
   /** Creates a new Sushi. */
@@ -16,15 +17,9 @@ public class Sushi extends SubsystemBase {
   // Backwards AND forwards
   public Sushi() {}
 
-  public Command soy(Boolean bool) {
-    spinner.set(0);
-    return runOnce(
-      () -> {}
-    );
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void SoySauce(BooleanSupplier bool) {
+    if (bool.getAsBoolean()) {
+      spinner.set(0);
+    }
   }
 }
