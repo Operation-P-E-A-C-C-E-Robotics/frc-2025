@@ -60,7 +60,7 @@ public class RobotContainer {
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    sushi.soy(driverController.getRawButton(2));
+    sushi.soy(() -> driverController.getRawButton(2));
   }
 
   public Command getAutonomousCommand() {
