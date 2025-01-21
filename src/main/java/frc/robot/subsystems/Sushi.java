@@ -4,28 +4,21 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class Sushi extends SubsystemBase {
+public class Sushi extends Command {
   private final TalonFX spinner = new TalonFX(99);
-  private BooleanSupplier bool;
-    
+
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
   public Sushi() {}
-    
-  public Sushi soy(BooleanSupplier bool) {
-    this.bool = bool;
-    return this;
-  }
 
-  @Override
-  public void periodic() {
-    if (bool) {
+  public void soy(BooleanSupplier bool) {
+    if (bool.getAsBoolean()) {
       spinner.set(0);
     }
   }
