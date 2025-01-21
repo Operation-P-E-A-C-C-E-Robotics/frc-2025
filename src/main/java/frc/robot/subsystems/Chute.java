@@ -12,7 +12,7 @@ public class Chute extends SubsystemBase {
   /** Creates a new Chute. */
   //2 BAG motors (1 talon fx) + a solenoid or servo, and we should set up (commented out) code for the possible second one, using master-slave system
   
-  public static TalonFX rightChuteMotor;
+  public static TalonFX rightChuteMotor = new TalonFX(77);
 
   public Chute()
   {
@@ -20,7 +20,9 @@ public class Chute extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic() 
+  {
+    
+
   }
 }
