@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,8 +17,8 @@ public class Chute extends SubsystemBase {
   
   public static TalonFX rightChuteMotor = new TalonFX(77);
   public static TalonFX leftChuteMotor = new TalonFX(78);
-  public boolean chutePressed;
-  public int placeholderSpeed;
+  public boolean chutePressed = false;
+  public double placeholderSpeed = 10;
 
   public void JFK(BooleanSupplier buttonID)
   {
@@ -29,8 +30,8 @@ public class Chute extends SubsystemBase {
   {
     if(chutePressed)
     {
-      rightChuteMotor.set(placeholderSpeed);  //EXTREMLEY BASIC
-
+      rightChuteMotor.set(placeholderSpeed);
+      leftChuteMotor.setPosition(rightChuteMotor.getPosition().getValueAsDouble()); //ask shawne how to actually code master-slave motors
     } 
     else
     {
