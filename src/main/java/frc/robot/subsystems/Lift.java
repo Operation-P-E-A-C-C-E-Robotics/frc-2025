@@ -6,10 +6,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Climber extends SubsystemBase {
-  /** Creates a new Climber. */
-  //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
-  public Climber() {}
+public class Lift extends SubsystemBase {
+  /** Creates a new Lift. */
+  //odometry controlled by zeroing-magnetic-limit-switches
+  //add a "lift all the way to zero" constraint
+  public Lift() {}
 
   @Override
   public void periodic() {

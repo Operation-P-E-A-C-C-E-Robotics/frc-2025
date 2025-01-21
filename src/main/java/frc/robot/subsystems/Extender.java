@@ -6,10 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Climber extends SubsystemBase {
-  /** Creates a new Climber. */
-  //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
-  public Climber() {}
+public class Extender extends SubsystemBase {
+  /** Creates a new Extender. */
+  //1 falcon, powered by an initial command and stopped by limit switches
+  public Extender() {}
 
   @Override
   public void periodic() {
