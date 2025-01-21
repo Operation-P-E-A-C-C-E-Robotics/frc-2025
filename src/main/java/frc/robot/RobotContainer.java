@@ -30,6 +30,7 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve();
 
   private final Sushi sushi = new Sushi();
+  private final Chute chute = new Chute();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -60,7 +61,8 @@ public class RobotContainer {
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    sushi.soy(driverController.getRawButton(2));
+    sushi.soy(driverController.getRawButton(1)); //B
+    chute.JFK(() -> driverController.getRawButton(0)); //A
   }
 
   public Command getAutonomousCommand() {
