@@ -10,6 +10,7 @@ public class SushiConveyor extends SubsystemBase {
 
   /** Creates a new SushiTrain. */
   //operates with "A motor (I get to choose!)" using the reference of a cancoder.
+  //not an actual conveyor. Its just the rotating "gear" part of the sushi base so that it can get at the right angles to score.s
   public SushiConveyor() {}
 
   @Override

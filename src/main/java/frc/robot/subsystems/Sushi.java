@@ -10,7 +10,7 @@ import java.util.function.BooleanSupplier;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Sushi extends Command {
-  private final TalonFX spinner = new TalonFX(99);
+  private final TalonFX tariyaki = new TalonFX(20);
 
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
@@ -18,8 +18,14 @@ public class Sushi extends Command {
   public Sushi() {}
 
   public void SoySauce(BooleanSupplier bool) {
+    System.out.println("Bareminimum");
     if (bool.getAsBoolean()) {
-      spinner.set(0);
+      tariyaki.set(26);
+      System.out.println("RECIEVING INPUT SUSHI EDITION");
+    }
+    else
+    {
+      tariyaki.stopMotor();
     }
   }
 }
