@@ -25,7 +25,7 @@ public class Chute extends SubsystemBase {
   public boolean chutePressed = false;
   public double placeholderSpeed = 10;
 
-  public void JFK(BooleanSupplier buttonID)
+  public Chute JFK(BooleanSupplier buttonID)
   {
     System.out.println("SomewhatWorking");
     System.out.println("SomewhatWorking");
@@ -61,13 +61,14 @@ public class Chute extends SubsystemBase {
     System.out.println("SomewhatWorking");
 
     chutePressed = buttonID.getAsBoolean();
+    return this;
   }
 
   @Override
   public void periodic() 
   {
-    if(RobotContainer.driverController.getRawButton(0))
-    {
+     if(chutePressed)
+     {
       System.out.println("Recieving INPUT 1");
       rightChuteMotor.set(ControlMode.PercentOutput, placeholderSpeed);
       System.out.println("Recieving INPUT 2");

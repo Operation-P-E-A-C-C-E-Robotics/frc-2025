@@ -62,7 +62,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
     sushi.SoySauce(() -> driverController.getRawButton(1)); //B
-    chute.JFK(() -> driverController.getRawButton(0)); //A
+    chute.JFK(() -> driverController.getRawButton(5)); //A
   }
 
   public Command getAutonomousCommand() {
