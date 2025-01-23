@@ -34,7 +34,7 @@ public class RobotContainer {
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
-  public static Joystick driverController = new Joystick(0);
+  private static Joystick driverController = new Joystick(0);
   
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
@@ -61,8 +61,6 @@ public class RobotContainer {
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    sushi.SoySauce(() -> driverController.getRawButton(1)); //B
-    chute.JFK(() -> driverController.getRawButton(5)); //A
   }
 
   public Command getAutonomousCommand() {

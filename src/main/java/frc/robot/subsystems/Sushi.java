@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -12,8 +15,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class Sushi extends Command {
+public class Sushi extends SubsystemBase {
+
+  private double speed = 10; //In Percent
+  private int buttonID = 1;
+
   private final TalonSRX tariyaki = new TalonSRX(16);
+  private static Joystick driverController = new Joystick(0);
+
 
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
@@ -21,10 +30,12 @@ public class Sushi extends Command {
   public Sushi() {}
 
   public void SoySauce(BooleanSupplier bool) {
-    System.out.println("Bareminimum");
-    if (bool.getAsBoolean()) {
-      tariyaki.set(ControlMode.PercentOutput,26);
-      System.out.println("RECIEVING INPUT SUSHI EDITION");
+
+  }
+  public void periodic()
+  {
+    if (driverController.getRawButton(buttonID)) {
+      tariyaki.set(ControlMode.PercentOutput,speed);
     }
     else
     {

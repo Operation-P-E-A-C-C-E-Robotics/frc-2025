@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.BooleanSupplier;
@@ -16,58 +18,23 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.RobotContainer;
-public class Chute extends SubsystemBase {
+
+public class Chute extends SubsystemBase{
   /** Creates a new Chute. */
   //2 BAG motors (1 talon srx) + a solenoid or servo, and we should set up (commented out) code for the possible second one, using master-slave system
-  
+  private static Joystick driverController = new Joystick(0);
+  public double placeholderSpeed = 10; //In Percent
+  public int buttonID = 2;
+
+
   public static TalonSRX rightChuteMotor = new TalonSRX(28);
   public static TalonSRX leftChuteMotor = new TalonSRX(20);
-  public boolean chutePressed = false;
-  public double placeholderSpeed = 10;
 
-  public Chute JFK(BooleanSupplier buttonID)
+
+
+  public void periodic()
   {
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-    System.out.println("SomewhatWorking");
-
-    chutePressed = buttonID.getAsBoolean();
-    return this;
-  }
-
-  @Override
-  public void periodic() 
-  {
-     if(chutePressed)
+    if(driverController.getRawButton(buttonID))
      {
       System.out.println("Recieving INPUT 1");
       rightChuteMotor.set(ControlMode.PercentOutput, placeholderSpeed);
@@ -81,6 +48,6 @@ public class Chute extends SubsystemBase {
       rightChuteMotor.set(ControlMode.PercentOutput, 0);
       leftChuteMotor.set(ControlMode.PercentOutput, 0);
       System.out.println("Recieving INPUT 4");
-    }
+    }    
   }
 }
