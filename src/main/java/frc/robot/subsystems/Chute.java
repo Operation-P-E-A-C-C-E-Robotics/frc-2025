@@ -16,6 +16,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.*;
 
 import frc.robot.RobotContainer;
 
@@ -37,10 +38,10 @@ public class Chute extends SubsystemBase{
     if(driverController.getRawButton(buttonID))
      {
       System.out.println("Recieving INPUT 1");
-      rightChuteMotor.set(ControlMode.PercentOutput, placeholderSpeed);
+      rightChuteMotor.set(ControlMode.PercentOutput,placeholderSpeed);
       System.out.println("Recieving INPUT 2");
       // leftChuteMotor.setPosition(rightChuteMotor.getPosition().getValueAsDouble()); //ask shawne how to actually code master-slave motors
-      leftChuteMotor.set(ControlMode.PercentOutput, placeholderSpeed);
+      leftChuteMotor.set(ControlMode.PercentOutput,placeholderSpeed);
       System.out.println("Recieving INPUT 3");
     } 
     else

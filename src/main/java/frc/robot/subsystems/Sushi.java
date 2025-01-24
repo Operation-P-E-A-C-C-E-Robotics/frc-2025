@@ -30,12 +30,12 @@ public class Sushi extends SubsystemBase {
   public Sushi() {}
 
   public void SoySauce(BooleanSupplier bool) {
-
+    
   }
   public void periodic()
   {
-    if (driverController.getRawButton(buttonID)) {
-      tariyaki.set(ControlMode.PercentOutput,speed);
+    if(driverController.getRawButton(buttonID)) {
+      tariyaki.set(ControlMode.PercentOutput, speed);
     }
     else
     {
