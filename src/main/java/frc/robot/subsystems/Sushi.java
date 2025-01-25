@@ -19,28 +19,29 @@ import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 public class Sushi extends SubsystemBase {
 
   private double speed = 10; //In Percent
-  private int buttonID = 1;
+  private int forwardButtonID = 1;
+  private int backwardButtonID = 2; //Would Require a Second Joystick Button IDK
 
-  private final TalonSRX tariyaki = new TalonSRX(20);
+  private final TalonFX tariyaki = new TalonFX(20);
   private static Joystick driverController = new Joystick(0);
 
 
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
-  public Sushi() {}
+  public Sushi () {}
 
-  public void SoySauce(BooleanSupplier bool) {
-    
-  }
-  public void periodic()
-  {
-    if(driverController.getRawButton(buttonID)) {
-      tariyaki.set(ControlMode.PercentOutput, speed);
+  public void periodic() {
+    if(driverController.getRawButton(forwardButtonID)) {
+      tariyaki.set(speed);
     }
-    else
-    {
-      tariyaki.set(ControlMode.PercentOutput, 0);
+    else if(driverController.getRawButton(backwardButtonID)) {
+      tariyaki.setInverted(true); //Marked for Removal in 2026
+      tariyaki.set(speed);
+    }
+    else {
+      tariyaki.set(0);
     }
   }
 }
+
