@@ -29,7 +29,7 @@ public class Chute extends SubsystemBase{
 
 
   public static TalonSRX rightChuteMotor = new TalonSRX(28);
-  public static TalonSRX leftChuteMotor = new TalonSRX(20);
+  public static TalonSRX leftChuteMotor = new TalonSRX(16);
 
 
 

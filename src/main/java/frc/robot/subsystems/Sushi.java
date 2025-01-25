@@ -21,7 +21,7 @@ public class Sushi extends SubsystemBase {
   private double speed = 10; //In Percent
   private int buttonID = 1;
 
-  private final TalonSRX tariyaki = new TalonSRX(16);
+  private final TalonSRX tariyaki = new TalonSRX(20);
   private static Joystick driverController = new Joystick(0);
 
 
