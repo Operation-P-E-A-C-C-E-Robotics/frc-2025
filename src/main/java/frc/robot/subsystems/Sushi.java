@@ -37,7 +37,8 @@ public class Sushi extends SubsystemBase {
       tariyaki.set(ControlMode.PercentOutput, speed);
     }
     else if(driverController.getRawButton(backwardButtonID)) {
-      tariyaki.set(ControlMode.PercentOutput, -speed);
+      tariyaki.setInverted(true);
+      tariyaki.set(ControlMode.PercentOutput, speed);
     }
     else
     {
