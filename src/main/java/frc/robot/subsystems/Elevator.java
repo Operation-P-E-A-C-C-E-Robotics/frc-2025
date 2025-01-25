@@ -10,12 +10,9 @@ import frc.lib.util.Reporter;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicExpoDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Elevator.*;
 
@@ -91,6 +88,20 @@ public class Elevator extends SubsystemBase {
   */
   public double getHeight() {
     return spoolRotationsToHeight(positionSignal.getValueAsDouble());
+  }  
+  /**
+   * Gets the value the upper limit switch is currently returning
+   * @return
+   */
+  public boolean getUpperLimitSwitch(){
+    return upperLimitSwitch.get();
+  }
+  /**
+   * Gets the value the lower limit switch is currently returning
+   * @return
+   */
+  public boolean getLowerLimitSwitch(){
+    return upperLimitSwitch.get();
   }
   /**
    * pretty self explanatory innit?
@@ -100,7 +111,13 @@ public class Elevator extends SubsystemBase {
   private double spoolRotationsToHeight(double spoolRotations) {
     return spoolRotations * spoolCircumference;
   }
+  /**
+   * Takes in a height value, and returns the amount of the elevator's SpoolRotations
+   * @param height
+   * @return
+   */
   private double heightToSpoolRotations(double height) {
     return height / spoolCircumference;
   }
+
 }

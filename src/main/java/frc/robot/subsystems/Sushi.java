@@ -4,44 +4,58 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.function.BooleanSupplier;
-
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.IMotorController;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 
 public class Sushi extends SubsystemBase {
 
-  private double speed = 10; //In Percent
-  private int forwardButtonID = 1;
-  private int backwardButtonID = 2; //Would Require a Second Joystick Button IDK
-
   private final TalonFX tariyaki = new TalonFX(20);
-  private static Joystick driverController = new Joystick(0);
+  private final StatusSignal<Angle> positionSignal;
+  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  //get current motor pos and add difference to voltage thingy
 
 
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
-  public Sushi () {}
-
-  public void periodic() {
-    if(driverController.getRawButton(forwardButtonID)) {
-      tariyaki.set(speed);
-    }
-    else if(driverController.getRawButton(backwardButtonID)) {
-      tariyaki.setInverted(true); //Marked for Removal in 2026
-      tariyaki.set(speed);
-    }
-    else {
-      tariyaki.set(0);
-    }
+  public Sushi() {
+    positionSignal = tariyaki.getPosition();
+     BaseStatusSignal.setUpdateFrequencyForAll(100, 
+      positionSignal,
+      tariyaki.getDutyCycle(), 
+      tariyaki.getVelocity(), 
+      tariyaki.getAcceleration(), 
+      tariyaki.getClosedLoopError(),
+      tariyaki.getClosedLoopReference());
   }
+
+  public void setSpeed(double speed)
+  {
+    tariyaki.set(speed);
+  }
+  
+  //Implement all of this in command
+  // public void periodic() {
+  //   if(driverController.getRawButton(forwardButtonID)) {
+  //     setSpeed(defaultSpeed);
+  //   }
+  //   else if(driverController.getRawButton(backwardButtonID)) {
+  //     setSpeed(-defaultSpeed);
+  //   }
+  //   else {
+  //     setSpeed(0);
+  //   }
+  // }
+
+  public void adjustCoral(double meters)
+  {
+    
+  }
+
 }
 
