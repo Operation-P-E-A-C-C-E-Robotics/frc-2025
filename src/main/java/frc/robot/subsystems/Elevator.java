@@ -85,11 +85,18 @@ public class Elevator extends SubsystemBase {
   public void setSpeed(double value) {
     elevatorMaster.setControl(dutyCycle.withOutput(value));
   }
- //angle to height *
+ /**
+  * Returns the elevators height
+  * @return
+  */
   public double getHeight() {
     return spoolRotationsToHeight(positionSignal.getValueAsDouble());
   }
-
+  /**
+   * pretty self explanatory innit?
+   * @param spoolRotations
+   * @return
+   */
   private double spoolRotationsToHeight(double spoolRotations) {
     return spoolRotations * spoolCircumference;
   }
