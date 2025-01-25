@@ -29,7 +29,12 @@ public class Sushi extends SubsystemBase {
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
-  public Sushi() {}
+  public 
+  Sushi
+    (
+   )
+     {
+}
 
   public void periodic() {
     if(driverController.getRawButton(forwardButtonID)) {
