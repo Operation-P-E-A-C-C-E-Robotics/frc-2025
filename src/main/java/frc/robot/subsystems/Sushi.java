@@ -19,7 +19,8 @@ import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 public class Sushi extends SubsystemBase {
 
   private double speed = 10; //In Percent
-  private int buttonID = 1;
+  private int forwardButtonID = 1;
+  private int backwardButtonID = 2; //Would Require a Second Joystick Button IDK
 
   private final TalonSRX tariyaki = new TalonSRX(20);
   private static Joystick driverController = new Joystick(0);
@@ -30,13 +31,13 @@ public class Sushi extends SubsystemBase {
   // Backwards AND forwards
   public Sushi() {}
 
-  public void SoySauce(BooleanSupplier bool) {
-    
-  }
   public void periodic()
   {
-    if(driverController.getRawButton(buttonID)) {
+    if(driverController.getRawButton(forwardButtonID)) {
       tariyaki.set(ControlMode.PercentOutput, speed);
+    }
+    else if(driverController.getRawButton(backwardButtonID)) {
+      tariyaki.set(ControlMode.PercentOutput, -speed);
     }
     else
     {
@@ -44,3 +45,4 @@ public class Sushi extends SubsystemBase {
     }
   }
 }
+
