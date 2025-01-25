@@ -31,8 +31,7 @@ public class Sushi extends SubsystemBase {
   // Backwards AND forwards
   public Sushi() {}
 
-  public void periodic()
-  {
+  public void periodic() {
     if(driverController.getRawButton(forwardButtonID)) {
       tariyaki.set(ControlMode.PercentOutput, speed);
     }
@@ -40,8 +39,7 @@ public class Sushi extends SubsystemBase {
       tariyaki.setInverted(true);
       tariyaki.set(ControlMode.PercentOutput, speed);
     }
-    else
-    {
+    else {
       tariyaki.set(ControlMode.PercentOutput, 0);
     }
   }
