@@ -6,11 +6,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Lift extends SubsystemBase {
-  /** Creates a new Lift. */
-  //odometry controlled by zeroing-magnetic-limit-switches
-  //add a "lift all the way to zero" constraint
-  public Lift() {}
+public class Wrist extends SubsystemBase {
+
+  /** Creates a new SushiTrain. */
+  //operates with "A motor (I get to choose!)" using the reference of a cancoder.
+  //not an actual conveyor. Its just the rotating "gear" part of the sushi base so that it can get at the right angles to score.s
+  public Wrist() {}
 
   @Override
   public void periodic() {

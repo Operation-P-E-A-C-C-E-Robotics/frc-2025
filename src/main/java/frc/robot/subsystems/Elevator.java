@@ -3,61 +3,97 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.Reporter;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicExpoDutyCycle;
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.TimedRobot;
+import static frc.robot.Constants.Elevator.*;
 
 /*The Elevatoré
  * Two falcon 500s 
  * no available srx on the robot atm, but the can id placeholder is 20 (which we swap out with the sushi's srx can id)
  */
 public class Elevator extends SubsystemBase {
-  //Uses CANcoders PARKER
+  /* HARDS */
+  private TalonFX elevatorMaster = new TalonFX(elevatorMasterID); //falcon 500
+  private TalonFX elevatorFollower = new TalonFX(elevatorFollowerID);  
+  private DigitalInput upperLimitSwitch = new DigitalInput(upperLimitSwitchID); 
+  private DigitalInput lowerLimitSwitch = new DigitalInput(lowerLimitSwitchID);
+
+  /* CONTROL MODES */
+  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
+
+  /* STATUS SIGNALS */
+  private final StatusSignal<Angle> positionSignal;
   
-  private static Joystick driverController = new Joystick(0);
-  private double upSpeed = 10;
-  private double downSpeed = -10;
-  private int activeButton = 3; //x button on xbox
-  private int deactiveButton = 4; //y button on xbox
-  // private static Falcon;
-  public static TalonSRX rightMotor = new TalonSRX(0); //falcon 500
-  public static TalonSRX leftMotor = new TalonSRX(0);  
-  //Todo    CHANGE THESE IDS WHEN THEIR DONE, and FIX THE RIGHT/LEFTOUT OUTPUT KEYBINDS
-  // private final DutyCycleOut leftOut = new DutyCycleOut(0);
-  // private final DutyCycleOut rightOut = new DutyCycleOut(0);
-  
-  /** Creates a new Elevator. */
-  public Elevator()
-  {
-    
+  /**
+   * Is what controls the elevator on the robot, in order to position the sushi at the right height to score
+   */
+  public Elevator() {
+    Reporter.report(
+      elevatorMaster.getConfigurator().apply(motorConfig),
+      "couldn't config elevator master motor"
+    );
+
+    Reporter.report(
+      elevatorFollower.getConfigurator().apply(motorConfig),
+      "couldn't config elevator follower motor"
+    );
+
+    Reporter.report(
+      elevatorFollower.setControl(new Follower(elevatorMasterID, false)),
+      "failed to configure elevator follow motor to follow master"
+    );
+
+    positionSignal = elevatorMaster.getPosition();
+
+    //yer limited in how many CAN signals your motors can send the rio, so to not max it out with unneccessary signals,
+    // the first line sets all them to not run, and the second 8 or so set the neccessary ones to run
+    // ParentDevice.optimizeBusUtilizationForAll(elevatorMaster, elevatorFollower);
+    BaseStatusSignal.setUpdateFrequencyForAll(100, 
+      positionSignal,
+      elevatorMaster.getDutyCycle(), 
+      elevatorMaster.getVelocity(), 
+      elevatorMaster.getAcceleration(), 
+      elevatorMaster.getClosedLoopError(),
+      elevatorMaster.getClosedLoopReference()
+    );
+  }
+  /**
+   * Sets the height of the end effector, in meters
+   * @param meters How high the end effector is relative to when it was turned on
+   */
+  public void setHeight(double meters) {
+    motionMagicControl.withPosition(heightToSpoolRotations(meters));
+    elevatorMaster.setControl(motionMagicControl);
+  }
+ /**
+  * A manual control for the elevator
+  * @param value The generic speed at which the elevator moves up and down
+  */
+  public void setSpeed(double value) {
+    elevatorMaster.setControl(dutyCycle.withOutput(value));
+  }
+ //angle to height *
+  public double getHeight() {
+    return spoolRotationsToHeight(positionSignal.getValueAsDouble());
   }
 
-
-  public void periodic() 
-  {
-    // rightOut.Output = driverController.getYChannel(); 
-    // leftOut.Output = driverController.getYChannel();
-    if(driverController.getRawButton(activeButton))
-    {
-      rightMotor.setInverted(false);
-      leftMotor.setInverted(false);
-      rightMotor.set(ControlMode.PercentOutput, upSpeed);
-      leftMotor.set(ControlMode.PercentOutput, upSpeed);   
-    }
-    else if(driverController.getRawButton(deactiveButton))
-    {      
-      rightMotor.setInverted(true);
-      leftMotor.setInverted(true);
-      rightMotor.set(ControlMode.PercentOutput, downSpeed);
-      leftMotor.set(ControlMode.PercentOutput, downSpeed);  
-
-    }
-
+  private double spoolRotationsToHeight(double spoolRotations) {
+    return spoolRotations * spoolCircumference;
+  }
+  private double heightToSpoolRotations(double height) {
+    return height / spoolCircumference;
   }
 }

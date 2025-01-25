@@ -7,6 +7,17 @@ package frc.robot;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathConstraints;
@@ -181,6 +192,41 @@ public final class Constants {
         throw new RuntimeException(e);
       }
     }
+  }
+  //Elevator
+  public class Elevator {
+    public static int elevatorMasterID  = 0;//CAN IDS
+    public static int elevatorFollowerID = 0;//CAN IDS
+    public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
+    public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
+    public static double spoolCircumference = 1;
+
+
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
+      
+      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+                            .withMotionMagicCruiseVelocity(0)
+                            .withMotionMagicJerk(0)
+                            .withMotionMagicExpo_kA(0)
+                            .withMotionMagicExpo_kV(0);
+
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                                .withStatorCurrentLimitEnable(true);
+      
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+     }
   }
 
   //stolen from 364 :D
