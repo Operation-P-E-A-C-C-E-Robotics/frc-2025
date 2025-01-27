@@ -52,10 +52,23 @@ public class Sushi extends SubsystemBase {
   //   }
   // }
 
-  public void adjustCoral(double meters)
-  {
-    
+  public void adjustCoral(double meters) {
+    double ticks = metersToTicks(meters);
+
+    // Set TalonFX to Position mode
+    tariyaki.setControl(new DutyCycleOut(0)); // Replace with Position PID mode
+    tariyaki.set(ticks); // Go to target position
   }
 
+  // Helper method to convert meters to ticks
+  private double metersToTicks(double meters) {
+      // Example conversion based on gearing and encoder resolution
+      double wheelCircumference = 0.1; // 10 cm diameter wheel
+      double gearRatio = 10.0;         // Motor:Wheel
+      double encoderResolution = 2048; // Falcon encoder has 2048 CPR (counts per rev)? math idk
+
+      // Meters -> Revolutions -> Ticks
+      return (meters / wheelCircumference) * gearRatio * encoderResolution;
+  }
 }
 
