@@ -10,13 +10,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import static frc.robot.Constants.Sushi.*;
 
 public class Sushi extends SubsystemBase {
 
-  private final TalonFX tariyaki = new TalonFX(20);
+  private final TalonFX teriyaki = new TalonFX(20);
   private final StatusSignal<Angle> positionSignal;
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  private final PositionVoltage positionVoltage = new PositionVoltage(0);
   //get current motor pos and add difference to voltage thingy
 
 
@@ -24,19 +27,18 @@ public class Sushi extends SubsystemBase {
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
   public Sushi() {
-    positionSignal = tariyaki.getPosition();
+    positionSignal = teriyaki.getPosition();
      BaseStatusSignal.setUpdateFrequencyForAll(100, 
       positionSignal,
-      tariyaki.getDutyCycle(), 
-      tariyaki.getVelocity(), 
-      tariyaki.getAcceleration(), 
-      tariyaki.getClosedLoopError(),
-      tariyaki.getClosedLoopReference());
+      teriyaki.getDutyCycle(), 
+      teriyaki.getVelocity(), 
+      teriyaki.getAcceleration(), 
+      teriyaki.getClosedLoopError(),
+      teriyaki.getClosedLoopReference());
   }
 
-  public void setSpeed(double speed)
-  {
-    tariyaki.set(speed);
+  public void setSpeed(double speed) {
+    teriyaki.set(speed);
   }
   
   //Implement all of this in command
@@ -53,22 +55,18 @@ public class Sushi extends SubsystemBase {
   // }
 
   public void adjustCoral(double meters) {
-    double ticks = metersToTicks(meters);
+    double motorRotations = metersToMotorRotations(meters);
+    double currentPosition = positionSignal.getValueAsDouble();
 
-    // Set TalonFX to Position mode
-    tariyaki.setControl(new DutyCycleOut(0)); // Replace with Position PID mode
-    tariyaki.set(ticks); // Go to target position
+    positionVoltage.withPosition(currentPosition + motorRotations);
+    teriyaki.setControl(positionVoltage);
   }
 
   // Helper method to convert meters to ticks
-  private double metersToTicks(double meters) {
-      // Example conversion based on gearing and encoder resolution
-      double wheelCircumference = 0.1; // 10 cm diameter wheel
-      double gearRatio = 10.0;         // Motor:Wheel
-      double encoderResolution = 2048; // Falcon encoder has 2048 CPR (counts per rev)? math idk
+  private double metersToMotorRotations(double meters) {
 
-      // Meters -> Revolutions -> Ticks
-      return (meters / wheelCircumference) * gearRatio * encoderResolution;
+      // Meters -> Revolutions
+      return (meters / wheelCircumference) * gearRatio;
   }
 }
 

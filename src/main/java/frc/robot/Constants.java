@@ -6,15 +6,7 @@ package frc.robot;
 
 import java.io.IOException;
 import java.util.function.DoubleFunction;
-
-import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.FeedbackConfigs;
-import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -177,24 +169,8 @@ public final class Constants {
       ), 
       Swerve.dimensions.frontLeft, Swerve.dimensions.frontRight, Swerve.dimensions.rearLeft, Swerve.dimensions.rearRight);
   }
-
-  public static final class ControlSystem {
-    public static final int PDPCanId = 1;
-    public static final ModuleType PDPModuleType = ModuleType.kRev;
-  }
-
-  public static final class FieldConstants {
-    public static final AprilTagFieldLayout aprilTags;
-    static {
-      try {
-        aprilTags = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-  //Elevator
-  public class Elevator {
+  
+  public static final class Elevator {
     public static int elevatorMasterID  = 0;//CAN IDS
     public static int elevatorFollowerID = 0;//CAN IDS
     public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
@@ -229,6 +205,27 @@ public final class Constants {
      }
   }
 
+  public static final class Sushi {
+    public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
+    public static final double gearRatio = 10.0;         // Motor:Wheel
+  }
+
+  public static final class ControlSystem {
+    public static final int PDPCanId = 1;
+    public static final ModuleType PDPModuleType = ModuleType.kRev;
+  }
+
+  public static final class FieldConstants {
+    public static final AprilTagFieldLayout aprilTags;
+    static {
+      try {
+        aprilTags = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+  //Elevator
   //stolen from 364 :D
   public class DriveGearRatios{
     /** SDS MK3 - 8.16 : 1 */
