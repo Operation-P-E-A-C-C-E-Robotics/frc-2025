@@ -17,7 +17,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Sushi.*;
 
-public class Sushi extends SubsystemBase {
+public class Sushi extends Command {
 
   private final TalonFX tariyaki = new TalonFX(sushiMainID);
   private final StatusSignal<Angle> positionSignal;
