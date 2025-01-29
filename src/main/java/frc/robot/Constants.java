@@ -199,7 +199,42 @@ public final class Constants {
     public static int elevatorFollowerID = 0;//CAN IDS
     public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
     public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
-    public static double spoolCircumference = 1;
+    public static double spoolCircumference = 0;
+
+
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
+      
+      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+                            .withMotionMagicCruiseVelocity(0)
+                            .withMotionMagicJerk(0)
+                            .withMotionMagicExpo_kA(0)
+                            .withMotionMagicExpo_kV(0);
+
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                                .withStatorCurrentLimitEnable(true);
+      
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+     }
+  }
+
+    //Elevator
+  public class Sushi {
+    public static int sushiMainID  = 0;//CAN IDS
+    public static int frontBeamBrakeID = 0;//pwm port ID, labled DIO
+    public static int backBeamBrakeID = 0;//pwn Port ID, labled DIO
+    public static double spoolCircumference = 0;
 
 
 

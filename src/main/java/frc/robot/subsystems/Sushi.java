@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
+import frc.robot.Constants.Sushi.*;
 
 public class Sushi extends SubsystemBase {
 
-  private final TalonFX tariyaki = new TalonFX(20);
+  private final TalonFX tariyaki = new TalonFX(0);
   private final StatusSignal<Angle> positionSignal;
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
   //get current motor pos and add difference to voltage thingy
@@ -24,6 +26,11 @@ public class Sushi extends SubsystemBase {
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
   public Sushi() {
+
+    tariyaki = new TalonFX(sushiMainID);
+
+
+    ParentDevice.optimizeBusUtilizationForAll(tariyaki);
     positionSignal = tariyaki.getPosition();
      BaseStatusSignal.setUpdateFrequencyForAll(100, 
       positionSignal,
