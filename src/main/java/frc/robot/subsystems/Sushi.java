@@ -5,20 +5,28 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import frc.robot.Constants.Sushi.*;
+import static frc.robot.Constants.Sushi.*;
 
 public class Sushi extends SubsystemBase {
 
-  private final TalonFX tariyaki = new TalonFX(0);
+  private final TalonFX tariyaki = new TalonFX(sushiMainID);
   private final StatusSignal<Angle> positionSignal;
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  private final PositionVoltage positionVoltage = new PositionVoltage(0);
+
+  private DigitalInput frontBeamBreak = new DigitalInput(frontBeamBreakID); //Todo: ask if shawne meant two *Sets* of beam blocks, 
+  private DigitalInput backBeamBreak = new DigitalInput(backBeamBreakID); //or two *Induvidual* beam block sensors
+
   //get current motor pos and add difference to voltage thingy
 
 
@@ -26,9 +34,6 @@ public class Sushi extends SubsystemBase {
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
   // Backwards AND forwards
   public Sushi() {
-
-    tariyaki = new TalonFX(sushiMainID);
-
 
     ParentDevice.optimizeBusUtilizationForAll(tariyaki);
     positionSignal = tariyaki.getPosition();
@@ -41,8 +46,7 @@ public class Sushi extends SubsystemBase {
       tariyaki.getClosedLoopReference());
   }
 
-  public void setSpeed(double speed)
-  {
+  public void setSpeed(double speed) {
     tariyaki.set(speed);
   }
   
@@ -59,10 +63,27 @@ public class Sushi extends SubsystemBase {
   //   }
   // }
 
-  public void adjustCoral(double meters)
-  {
-    
+  public void adjustCoral(double meters) {
+    double motorRotations = metersToMotorRotations(meters);
+    double currentPosition = positionSignal.getValueAsDouble();
+
+    positionVoltage.withPosition(currentPosition + motorRotations);
+    tariyaki.setControl(positionVoltage);
   }
 
+  public boolean getFrontBeamBrake()
+  {
+    return frontBeamBreak.get();
+  }
+  public boolean getBackBeamBrake()
+  {
+    return backBeamBreak.get();
+  }
+
+  // Helper method to convert meters to ticks
+  private double metersToMotorRotations(double meters) {
+      // Meters -> Revolutions
+      return (meters / wheelCircumference) * gearRatio;
+  }
 }
 
