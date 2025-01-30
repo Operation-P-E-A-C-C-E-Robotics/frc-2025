@@ -13,23 +13,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 
 public class Climber extends SubsystemBase {
-  private final TalonFX Greed = new TalonFX(motorID[0]);
-  private final TalonFX Slave = new TalonFX(motorID[1]);
+  private final TalonFX leadMotor = new TalonFX(leadClimberMotorID);
+  private final TalonFX followerMotor = new TalonFX(followerClimberMotorID);
   /** Creates a new Climber. */
   //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
   public Climber() {
     Reporter.report(
-      Greed.getConfigurator().apply(motorConfig),
+      leadMotor.getConfigurator().apply(motorConfig),
       "couldn't config climber master motor"
     );
 
     Reporter.report(
-      Slave.getConfigurator().apply(motorConfig),
+      followerMotor.getConfigurator().apply(motorConfig),
       "couldn't config climber follower motor"
     );
 
     Reporter.report(
-      Slave.setControl(new Follower(motorID[0], false)),
+      followerMotor.setControl(new Follower(leadClimberMotorID, false)),
       "failed to configure climber follow motor to follow master"
     );
   }

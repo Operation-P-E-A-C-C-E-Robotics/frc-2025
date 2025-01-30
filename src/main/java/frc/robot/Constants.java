@@ -226,7 +226,8 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int[] motorID = {0, 1}; // example CAN IDs
+    public static final int leadClimberMotorID = 90, 
+                            followerClimberMotorID = 90;
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
