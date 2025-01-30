@@ -29,7 +29,7 @@ public class Climber extends SubsystemBase {
     );
 
     Reporter.report(
-      followerMotor.setControl(new Follower(leadClimberMotorID, false)),
+      followerMotor.setControl(new Follower(leadClimberMotorID, true)),
       "failed to configure climber follow motor to follow master"
     );
   }
