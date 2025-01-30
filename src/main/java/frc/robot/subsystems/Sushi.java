@@ -17,6 +17,8 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Sushi.*;
 
+import java.util.function.DoubleSupplier;
+
 public class Sushi extends Command {
 
   private final TalonFX tariyaki = new TalonFX(sushiMainID);
@@ -46,8 +48,9 @@ public class Sushi extends Command {
       tariyaki.getClosedLoopReference());
   }
 
-  public void setSpeed(double speed) {
-    tariyaki.set(speed);
+  public void setSpeed(DoubleSupplier speed) {
+    tariyaki.set(speed.getAsDouble());
+    System.out.println("WORKIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
   }
   
   //Implement all of this in command

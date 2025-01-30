@@ -59,7 +59,7 @@ public class RobotContainer {
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
-               sushi.setSpeed(0.14);
+               sushi.setSpeed(() -> driverController.getRawAxis(2));
 
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
