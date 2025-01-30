@@ -42,22 +42,26 @@ public class Sushi extends SubsystemBase {
       tariyaki.getAcceleration(), 
       tariyaki.getClosedLoopError(),
       tariyaki.getClosedLoopReference());
+      tariyaki.getConfigurator().apply(motorConfig);
   }
-
+  /**
+   * 
+   */
   public void setSpeed(DoubleSupplier speed) {
     tariyaki.set(speed.getAsDouble());
   }
-  
-//rip
 
+//rip
+  /**CASSEROLE + Takes in an amount of meters, and adjusts the gamepiece that distance*/
   public void adjustCoral(double meters) {
     double motorRotations = metersToMotorRotations(meters);
     double currentPosition = positionSignal.getValueAsDouble();
 
     positionVoltage.withPosition(currentPosition + motorRotations);
     tariyaki.setControl(positionVoltage);
-  }
-
+  } 
+  /** not more than ten words nope denfinetly not. no siree. no */
+  /** */
   public boolean getFrontBeamBrake()
   {
     return frontBeamBreak.get();

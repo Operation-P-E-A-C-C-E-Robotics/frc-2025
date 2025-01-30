@@ -5,7 +5,6 @@
 package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,7 +58,6 @@ public class RobotContainer {
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
-               sushi.setSpeed(() -> driverController.getRawAxis(2));
 
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
