@@ -214,6 +214,10 @@ public final class Constants {
     public static final double gearRatio = 10.0;         // Motor:Wheel
   }
 
+  public static final class Climber {
+    public static final int[] motorID = {0, 1}; // example CAN IDs
+  }
+
   public static final class ControlSystem {
     public static final int PDPCanId = 1;
     public static final ModuleType PDPModuleType = ModuleType.kRev;
