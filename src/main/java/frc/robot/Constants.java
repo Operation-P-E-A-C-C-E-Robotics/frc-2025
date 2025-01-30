@@ -225,6 +225,35 @@ public final class Constants {
     }
   }
 
+  public static final class Climber {
+    public static final int[] motorID = {0, 1}; // example CAN IDs
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
+      
+      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+                            .withMotionMagicCruiseVelocity(0)
+                            .withMotionMagicJerk(0)
+                            .withMotionMagicExpo_kA(0)
+                            .withMotionMagicExpo_kV(0);
+
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                                .withStatorCurrentLimitEnable(true);
+      
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+     }
+  }
+
   public static final class ControlSystem {
     public static final int PDPCanId = 1;
     public static final ModuleType PDPModuleType = ModuleType.kRev;
