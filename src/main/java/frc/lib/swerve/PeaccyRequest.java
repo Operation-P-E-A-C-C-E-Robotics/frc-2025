@@ -217,7 +217,7 @@ public class PeaccyRequest implements LegacySwerveRequest {
         SwerveTelemetry.updateRequestedState(states);
 
         for (int i = 0; i < modulesToApply.length; ++i) {
-            modulesToApply[i].apply(states[i], IsOpenLoop ? DriveRequestType.OpenLoopVoltage : DriveRequestType.Velocity, SteerRequestType.MotionMagic); //TODO change to motion magic expo
+            modulesToApply[i].apply(states[i], IsOpenLoop ? DriveRequestType.OpenLoopVoltage : DriveRequestType.Velocity, SteerRequestType.MotionMagic);
         }
 
         return StatusCode.OK;

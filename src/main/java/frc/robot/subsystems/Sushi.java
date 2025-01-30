@@ -6,12 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -19,18 +16,17 @@ import static frc.robot.Constants.Sushi.*;
 
 import java.util.function.DoubleSupplier;
 
-public class Sushi extends Command {
+public class Sushi extends SubsystemBase {
 
   private final TalonFX tariyaki = new TalonFX(sushiMainID);
   private final StatusSignal<Angle> positionSignal;
-  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
   private final PositionVoltage positionVoltage = new PositionVoltage(0);
 
   private DigitalInput frontBeamBreak = new DigitalInput(frontBeamBreakID); //Todo: ask if shawne meant two *Sets* of beam blocks, 
   private DigitalInput backBeamBreak = new DigitalInput(backBeamBreakID); //or two *Induvidual* beam block sensors
 
   //get current motor pos and add difference to voltage thingy
-
+//todo configure motor thingies the same way elevator did it
 
   /** Creates a new Sushi. */
   //Set up literally one falcon 500, that (theoretically) triggers when you press a button/trigger. You can do this!!!
@@ -50,21 +46,9 @@ public class Sushi extends Command {
 
   public void setSpeed(DoubleSupplier speed) {
     tariyaki.set(speed.getAsDouble());
-    System.out.println("WORKIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
   }
   
-  //Implement all of this in command
-  // public void periodic() {
-  //   if(driverController.getRawButton(forwardButtonID)) {
-  //     setSpeed(defaultSpeed);
-  //   }
-  //   else if(driverController.getRawButton(backwardButtonID)) {
-  //     setSpeed(-defaultSpeed);
-  //   }
-  //   else {
-  //     setSpeed(0);
-  //   }
-  // }
+//rip
 
   public void adjustCoral(double meters) {
     double motorRotations = metersToMotorRotations(meters);

@@ -46,7 +46,7 @@ public class ServoArm extends SubsystemBase {
         this.voltDriveFunction = voltDriveFunction;
         this.getPosition = getPosition;
         this.getVelocity = getVelocity;
-        plant = LinearSystemId.createSingleJointedArmSystem(constants.motor, constants.inertia, constants.gearing); //TODO ask sean for help (n2 is stupid)
+        plant = LinearSystemId.createSingleJointedArmSystem(constants.motor, constants.inertia, constants.gearing);
         KalmanFilter<N2, N1, N2> observer = new KalmanFilter<N2, N1, N2>(
                 Nat.N2(),
                 Nat.N2(),
