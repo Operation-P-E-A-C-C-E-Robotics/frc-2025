@@ -7,7 +7,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -24,7 +23,7 @@ public class Elevator extends SubsystemBase {
   /* HARDS */
   private TalonFX elevatorMaster = new TalonFX(elevatorMasterID); //falcon 500
   private TalonFX elevatorFollower = new TalonFX(elevatorFollowerID);  
-  private DigitalInput upperLimitSwitch = new DigitalInput(upperLimitSwitchID); 
+  private DigitalInput upperLimitSwitch = new DigitalInput(upperLimitSwitchID); //TODO :D
   private DigitalInput lowerLimitSwitch = new DigitalInput(lowerLimitSwitchID);
 
   /* CONTROL MODES */
@@ -101,7 +100,7 @@ public class Elevator extends SubsystemBase {
    * @return
    */
   public boolean getLowerLimitSwitch(){
-    return upperLimitSwitch.get();
+    return lowerLimitSwitch.get();
   }
   /**
    * pretty self explanatory innit?

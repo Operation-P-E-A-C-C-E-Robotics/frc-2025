@@ -1,14 +1,6 @@
 package frc.lib.telemetry;
 
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.networktables.StructPublisher;
-import frc.lib.vision.LimelightHelpers;
-import frc.robot.Robot;
 
 /**
  * Telemetry for a limelight camera, intended for use with apriltag tracking.
@@ -25,10 +17,10 @@ import frc.robot.Robot;
  * I LEGINTIMATELY HAVE NO IDEA WHAT I'M DOING
  */
 public class LimelightTelemetry {
-    private static final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("Limelight");
-    private static final StructArrayPublisher<Pose3d> tagPosePublisher = limelightTable.getStructArrayTopic("Tag Poses From Robot", Pose3d.struct).publish();
-    private static final StructArrayPublisher<Pose3d> tagPoseFromFieldPublisher = limelightTable.getStructArrayTopic("Tag Poses From Field", Pose3d.struct).publish();
-    private static final StructPublisher<Pose3d> rawBotPosePublisher = limelightTable.getStructTopic("Raw BotPose", Pose3d.struct).publish();
+    // private static final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("Limelight");
+    // private static final StructArrayPublisher<Pose3d> tagPosePublisher = limelightTable.getStructArrayTopic("Tag Poses From Robot", Pose3d.struct).publish();
+    // private static final StructArrayPublisher<Pose3d> tagPoseFromFieldPublisher = limelightTable.getStructArrayTopic("Tag Poses From Field", Pose3d.struct).publish();
+    // private static final StructPublisher<Pose3d> rawBotPosePublisher = limelightTable.getStructTopic("Raw BotPose", Pose3d.struct).publish();
 
     public static void update (String llName, Pose3d robotPose){
         // var results = LimelightHelpers.getLatestResults(llName).targetingResults;
