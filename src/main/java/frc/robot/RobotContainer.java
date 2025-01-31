@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Sushi;
-import frc.robot.subsystems.Chute;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -28,8 +26,6 @@ public class RobotContainer {
   //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
 
-  private final Sushi sushi = new Sushi();
-  private final Chute chute = new Chute();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */

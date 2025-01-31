@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
       followerMotor.getConfigurator().apply(motorConfig),
       "couldn't config climber follower motor"
     );
-
+    
     Reporter.report(
       followerMotor.setControl(new Follower(leadClimberMotorID, true)),
       "failed to configure climber follow motor to follow master"

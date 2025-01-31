@@ -10,15 +10,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Chute extends SubsystemBase{
   /** Creates a new Chute. */
   //2 BAG motors (1 talon srx) + a solenoid or servo, and we should set up (commented out) code for the possible second one, using master-slave system
-  public double placeholderSpeed = 10; //In Percent
+  public double placeholderSpeed = 10; //In Percent  //TODO i need sean's help to set up solenoid stuff 
   public int buttonID = 2;
 
+  public static TalonSRX rightChuteMotor = new TalonSRX(28); //Should be 28
+  public static TalonSRX leftChuteMotor = new TalonSRX(16); //Should be 16
 
-  public static TalonSRX rightChuteMotor = new TalonSRX(28);
-  public static TalonSRX leftChuteMotor = new TalonSRX(16);
+  public void setSpeed(double leftSpeed, double rightSpeed)
+  {
 
-
-
-  public void periodic(){ 
-  }
+  } 
 }

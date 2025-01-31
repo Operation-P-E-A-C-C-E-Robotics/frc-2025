@@ -170,12 +170,13 @@ public final class Constants {
       Swerve.dimensions.frontLeft, Swerve.dimensions.frontRight, Swerve.dimensions.rearLeft, Swerve.dimensions.rearRight);
   }
   
+  ///Elevator
   public static final class Elevator {
     public static int elevatorMasterID  = 0;//CAN IDS
     public static int elevatorFollowerID = 0;//CAN IDS
     public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
     public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
-    public static double spoolCircumference = 0;
+    public static double spoolCircumference = 0;//TODO
 
 
 
@@ -205,7 +206,41 @@ public final class Constants {
      }
   }
 
-    //Sushi
+
+  ///WRIST
+  public static final class Wrist
+  {
+    public static final int mainMotorID = 0; //TODO set motor can id
+    // public static final int spoolCircumference = 0; //TODO
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
+      
+      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+                            .withMotionMagicCruiseVelocity(0)
+                            .withMotionMagicJerk(0)
+                            .withMotionMagicExpo_kA(0)
+                            .withMotionMagicExpo_kV(0);
+
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                                .withStatorCurrentLimitEnable(true);
+      
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+     }
+  }
+
+
+  //Sushi
   public static final class Sushi {
     public static final int sushiMainID = 20;
     public static final int frontBeamBreakID = 0;
