@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -13,18 +12,15 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
+import com.ctre.phoenix6.signals.ReverseLimitValue;
+
 import static frc.robot.Constants.Elevator.*;
 
-/*The Elevatoré
- * Two falcon 500s 
- * no available srx on the robot atm, but the can id placeholder is 20 (which we swap out with the sushi's srx can id)
- */
 public class Elevator extends SubsystemBase {
-  /* HARDS */
+  /* HARDWARE */
   private TalonFX elevatorMaster = new TalonFX(elevatorMasterID); //falcon 500
-  private TalonFX elevatorFollower = new TalonFX(elevatorFollowerID);  
-  private DigitalInput upperLimitSwitch = new DigitalInput(upperLimitSwitchID); //TODO :D
-  private DigitalInput lowerLimitSwitch = new DigitalInput(lowerLimitSwitchID);
+  private TalonFX elevatorFollower = new TalonFX(elevatorFollowerID);
 
   /* CONTROL MODES */
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
@@ -32,7 +28,10 @@ public class Elevator extends SubsystemBase {
 
   /* STATUS SIGNALS */
   private final StatusSignal<Angle> positionSignal;
-  
+  private final StatusSignal<ForwardLimitValue> upperLimitSignal;
+  private final StatusSignal<ReverseLimitValue> lowerLimitSignal;
+
+
   /**
    * Is what controls the elevator on the robot, in order to position the sushi at the right height to score
    */
@@ -53,15 +52,17 @@ public class Elevator extends SubsystemBase {
     );
 
     positionSignal = elevatorMaster.getPosition();
+    upperLimitSignal = elevatorMaster.getForwardLimit();
+    lowerLimitSignal = elevatorMaster.getReverseLimit();
 
     //yer limited in how many CAN signals your motors can send the rio, so to not max it out with unneccessary signals,
     // the first line sets all them to not run, and the second 8 or so set the neccessary ones to run
     // ParentDevice.optimizeBusUtilizationForAll(elevatorMaster, elevatorFollower);
-    BaseStatusSignal.setUpdateFrequencyForAll(100, 
+    BaseStatusSignal.setUpdateFrequencyForAll(100,
       positionSignal,
-      elevatorMaster.getDutyCycle(), 
-      elevatorMaster.getVelocity(), 
-      elevatorMaster.getAcceleration(), 
+      elevatorMaster.getDutyCycle(),
+      elevatorMaster.getVelocity(),
+      elevatorMaster.getAcceleration(),
       elevatorMaster.getClosedLoopError(),
       elevatorMaster.getClosedLoopReference()
     );
@@ -87,20 +88,29 @@ public class Elevator extends SubsystemBase {
   */
   public double getHeight() {
     return spoolRotationsToHeight(positionSignal.getValueAsDouble());
-  }  
+  }
   /**
    * Gets the value the upper limit switch is currently returning
    * @return
    */
   public boolean getUpperLimitSwitch(){
-    return upperLimitSwitch.get();
+    return upperLimitSignal.getValue() == ForwardLimitValue.ClosedToGround;
   }
   /**
    * Gets the value the lower limit switch is currently returning
    * @return
    */
   public boolean getLowerLimitSwitch(){
-    return lowerLimitSwitch.get();
+    return lowerLimitSignal.getValue() == ReverseLimitValue.ClosedToGround;
+  }
+
+  @Override
+  public void periodic() {
+    //Note to parker: the benefit of storing all your status signals in variables
+    //is that the values are cached, meaning if we access the value multiple times per loop,
+    //it won't impact can bus utilization.
+    //However, it requires that we call this function to update the values once per loop.
+    StatusSignal.refreshAll(upperLimitSignal, lowerLimitSignal, positionSignal);
   }
   /**
    * pretty self explanatory innit?

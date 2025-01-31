@@ -25,16 +25,13 @@ public class RobotContainer {
   /* SENSORS */
 
   /* SUBSYSTEMS */
-  //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
-
   private final Sushi sushi = new Sushi();
   private final Chute chute = new Chute();
-  // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
   private static Joystick driverController = new Joystick(0);
-  
+
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
 
