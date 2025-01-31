@@ -29,29 +29,78 @@ import frc.lib.swerve.SwerveDescription.PidGains;
 import frc.lib.util.JoystickCurves;
 
 public final class Constants {
-  public static final double period = 0.01;
+  public static final double period = 0.01; //loop time
 
-  public static final class Cameras {
-    public static final String limelight = "limelight";
+  public static final class Elevator {
+    public static int elevatorMasterID  = 0;//CAN IDS
+    public static int elevatorFollowerID = 0;//CAN IDS
+    public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
+    public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
+    public static double spoolCircumference = Units.inchesToMeters(2) * Math.PI;
 
-    public static final String examplePhotonvisionName = "photonvision";
 
-    public static final double LIMELIGHT_FOCAL_LENGTH = (1*83)/0.32; //as calculated by me: (distance * pixels) / size
 
-    // public static final Transform3d robotToExamplePhotonvision = new Transform3d(
-    //     Units.inchesToMeters(10.5), //forward offset
-    //     Units.inchesToMeters(6),    
-    //     Units.inchesToMeters(8.5), 
-    //     new Rotation3d(0,Units.degreesToRadians(15),0)
-    // );
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
 
-    // public static final ApriltagPhotonvision examplePhotonvision = new ApriltagPhotonvision(
-    //   examplePhotonvisionName,
-    //   robotToExamplePhotonvision,
-    //   FieldConstants.aprilTags,
-    //   0.9
-    // );
+      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+                            .withMotionMagicCruiseVelocity(0)
+                            .withMotionMagicJerk(0)
+                            .withMotionMagicExpo_kA(0)
+                            .withMotionMagicExpo_kV(0);
+
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                                .withStatorCurrentLimitEnable(true);
+
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+
+      // TODO enable once limit switches are on elevator. Could cause issues if not connected.
+      // motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0;
+
+      // motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
+      // motorConfig.HardwareLimitSwitch.ForwardLimitEnable = true;
+     }
   }
+    //Sushi
+  public static final class Sushi {
+    public static final int sushiMainID = 90;
+    public static final int frontBeamBreakID = 0;
+    public static final int backBeamBreakID = 0;
+    public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
+    public static final double gearRatio = 10.0;         // Motor:Wheel
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+      motorConfig.Slot0.withKP(0)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0)
+                        .withKA(0);
+
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+                               .withStatorCurrentLimitEnable(true);
+
+      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                               .withNeutralMode(NeutralModeValue.Brake);
+    }
+  }
+
+  public static final class Wrist {
+    //TODO sir parker
+  }
+
   public static final class Swerve {
     /* TELEOP */
     //speeds in m/s (probably)
@@ -73,12 +122,9 @@ public final class Constants {
     public static final DoubleFunction <Double> teleopAngularVelocityCurve = (double angularVelocity) -> JoystickCurves.powerCurve(angularVelocity, 2); //TODO decide if the driver (me) wants a curve on this or not.
 
     //number of loops to keep track of position correction for (so multiply by 20ms to get the duration the correction is considering)
-    //todo too slow?
-    public static final int teleopPositionCorrectionIters = 0; 
+    public static final int teleopPositionCorrectionIters = 0;
 
 
-
-    
     /* CTRE SWERVE CONSTANTS */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
@@ -93,30 +139,22 @@ public final class Constants {
     public static final CANIDs rearRightIDs =   new CANIDs(13,   11,    12); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
-    // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
-    // public static final EncoderOffsets offsets = new EncoderOffsets(
-    //   0.324463, //Front Left, module 3
-    //   -0.062012, //Front Right, module 0
-    //   -0.338379, //Rear Left, module 2
-    //   0.042725  // Rear Right, module 1
-    // ); 
 
     public static final EncoderOffsets offsets = new EncoderOffsets(
-      0.042725, //front lefts
+      0.042725, //Front left, module 1
       -0.338379, //Front Right, module 2
       -0.062012, //Rear Left, module 0
-      0.324463 //Rear Right
-    ); 
+      0.324463 //Rear Right, module 3
+    );
 
-    // public static final Inversion inversion = new Inversion(true, false, true, false);
     public static final Inversion inversion = new Inversion(false, true, false, true);
 
     //inertia only used for simulation
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 40 : 800, 7);
-    public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //amps
-    
-    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); 
-    public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0);
+    public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //TODO turn this up
+
+    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); //TODO tune with final robot
+    public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0); //TODO tune with final robot
 
     public static final int pigeonCANId = 0;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
@@ -137,7 +175,7 @@ public final class Constants {
 
     public static final double aimTolerance = 1; //degrees
 
-    
+
     /* PATH FOLLOWING CONSTANTS */
     public static final double pathfollowingMaxVelocity = 3,
                               pathfollowingMaxAcceleration = 3,
@@ -157,107 +195,17 @@ public final class Constants {
     );
 
     public static final RobotConfig defaultPathplannerConfig = new RobotConfig(
-      Units.lbsToKilograms(75), 
-      6.883, 
+      Units.lbsToKilograms(75), //robot weight
+      6.883, //robot MOI
       new ModuleConfig(
-        Units.inchesToMeters(2), 
-        5, 
-        1.2, 
-        DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio), 
-        Swerve.physics.wheelSlipCurrent,
-        1
-      ), 
+        Units.inchesToMeters(2), //wheel radius //TODO fudge factor
+        5, //Measured max robot speed
+        1.2, //wheel Coefficient of Friction
+        DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio),
+        Swerve.physics.wheelSlipCurrent, //Drive current limit
+        1 //drive motors per module
+      ),
       Swerve.dimensions.frontLeft, Swerve.dimensions.frontRight, Swerve.dimensions.rearLeft, Swerve.dimensions.rearRight);
-  }
-  
-  ///Elevator
-  public static final class Elevator {
-    public static int elevatorMasterID  = 0;//CAN IDS
-    public static int elevatorFollowerID = 0;//CAN IDS
-    public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
-    public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
-    public static double spoolCircumference = 0;//TODO
-
-
-
-    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
-    static {
-      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0)
-                        .withKI(0)
-                        .withKD(0)
-                        .withKS(0)
-                        .withKV(0)
-                        .withKA(0);
-      
-      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
-                            .withMotionMagicCruiseVelocity(0)
-                            .withMotionMagicJerk(0)
-                            .withMotionMagicExpo_kA(0)
-                            .withMotionMagicExpo_kV(0);
-
-      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
-
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
-                                .withStatorCurrentLimitEnable(true);
-      
-      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
-                             .withNeutralMode(NeutralModeValue.Brake);
-     }
-  }
-
-
-  ///WRIST
-  public static final class Wrist
-  {
-    public static final int mainMotorID = 0; //TODO set motor can id
-    // public static final int spoolCircumference = 0; //TODO
-
-    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
-    static {
-      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0)
-                        .withKI(0)
-                        .withKD(0)
-                        .withKS(0)
-                        .withKV(0)
-                        .withKA(0);
-      
-      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
-                            .withMotionMagicCruiseVelocity(0)
-                            .withMotionMagicJerk(0)
-                            .withMotionMagicExpo_kA(0)
-                            .withMotionMagicExpo_kV(0);
-
-      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
-
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
-                                .withStatorCurrentLimitEnable(true);
-      
-      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
-                             .withNeutralMode(NeutralModeValue.Brake);
-     }
-  }
-
-
-  //Sushi
-  public static final class Sushi {
-    public static final int sushiMainID = 20;
-    public static final int frontBeamBreakID = 0;
-    public static final int backBeamBreakID = 0;
-    public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
-    public static final double gearRatio = 10.0;         // Motor:Wheel
-
-    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
-    static {
-      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0)
-                        .withKI(0)
-                        .withKD(0)
-                        .withKS(0)
-                        .withKV(0)
-                        .withKA(0);
-    }
   }
 
   public static final class Climber {
@@ -293,6 +241,14 @@ public final class Constants {
   public static final class ControlSystem {
     public static final int PDPCanId = 1;
     public static final ModuleType PDPModuleType = ModuleType.kRev;
+  }
+
+  public static final class Cameras {
+    public static final String limelight = "limelight";
+
+    public static final String examplePhotonvisionName = "photonvision";
+
+    public static final double LIMELIGHT_FOCAL_LENGTH = (1*83)/0.32; //as calculated by me: (distance * pixels) / size
   }
 
   public static final class FieldConstants {

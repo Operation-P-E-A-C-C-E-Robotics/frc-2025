@@ -398,7 +398,6 @@ public class PeaccyRequest implements LegacySwerveRequest {
 
         prevHeading = currentHeading;
 
-        
         //calculate the correction
         var target = headingTrajectory.calculate(holdHeadingTrajectoryTimer.get() + (parameters.updatePeriod*1.5));
         if (LockHeading) {
@@ -408,13 +407,15 @@ public class PeaccyRequest implements LegacySwerveRequest {
         var kP = LockHeading ? lockHeadingkP : holdHeadingkP;
         var error = target.position - currentHeading;
 
-        var acceleration = (target.velocity - getChassisSpeeds.get().omegaRadiansPerSecond);
+        var currentVelocity = getChassisSpeeds.get().omegaRadiansPerSecond;
+        var acceleration = (target.velocity - currentVelocity);
 
         if(robotMovingTimer.get() < 0.3 && Math.abs(error) < 0.01 && !LockHeading){
             return 0;
         }
 
-        var feedforward = headingFeedforward.calculate(target.velocity, acceleration);
+        // var feedforward = headingFeedforward.calculate(target.velocity, acceleration);
+        var feedforward = headingFeedforward.calculateWithVelocities(currentVelocity, target.velocity);
         var pGain = error * kP * parameters.updatePeriod;
         if(SoftHoldHeading) {
             var currentDraw = currentLimitSmoother.calculate(totalDriveCurrent.getAsDouble());
