@@ -28,8 +28,8 @@ public class Chute extends SubsystemBase{
   public Chute(){  
     Trigger intakeButton = new JoystickButton(RobotContainer.commandController, intakeID); 
     intakeButton.onTrue(intake());
-    Trigger dejamButton = new JoystickButton(RobotContainer.commandController, unjamID); 
-    intakeButton.onTrue(unjam());
+    Trigger unjamButton = new JoystickButton(RobotContainer.commandController, unjamID); 
+    unjamButton.onTrue(unjam());
     // Invert the motor output if necessary
     rightChuteMotor.setInverted(false); 
     rightChuteMotor.configPeakCurrentLimit(40);
