@@ -36,9 +36,9 @@ public class Wrist extends SubsystemBase {
   
 
   public Wrist() {
-    Trigger Button = new JoystickButton(RobotContainer.driverController, 0); 
+    Trigger Button = new JoystickButton(RobotContainer.driverController, 0); Button.whileTrue(GoToSetpoint(WristSetpoints.REST));
 
-    Button.whileTrue(GoToSetpoint(WristSetpoints.REST));
+    
     Reporter.report(
       motor.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
