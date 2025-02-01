@@ -36,9 +36,12 @@ public class Wrist extends SubsystemBase {
   
 
   public Wrist() {
-    Trigger Button = new JoystickButton(RobotContainer.driverController, 0); Button.whileTrue(GoToSetpoint(WristSetpoints.REST));
+    Trigger WristRestingSetpoint = new JoystickButton(RobotContainer.driverController, restButtonID); WristRestingSetpoint.onTrue(GoToSetpoint(WristSetpoints.REST));
+    Trigger WristL1Setpoint = new JoystickButton(RobotContainer.driverController, L1ButtonID); WristL1Setpoint.onTrue(GoToSetpoint(WristSetpoints.L1));
+    Trigger WristL2L3Setpoint = new JoystickButton(RobotContainer.driverController, L2L3ButtonID); WristL2L3Setpoint.onTrue(GoToSetpoint(WristSetpoints.L2L3));
+    Trigger WristL4Setpoint = new JoystickButton(RobotContainer.driverController, L4ButtonID); WristL4Setpoint.onTrue(GoToSetpoint(WristSetpoints.L4));
 
-    
+
     Reporter.report(
       motor.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
@@ -63,7 +66,7 @@ public class Wrist extends SubsystemBase {
     motor.setControl(dutyCycle.withOutput(speed));
   }
 
-  /**
+  /** 
    * Sets the climber position based on arbitrary (Rotation2d) units 
    *                                                 -
    * spool rotations are tough to convert
