@@ -103,6 +103,10 @@ public final class Constants {
    public static final int mainMotorID = 0; //TODO set motor can id
    // public static final int spoolCircumference = 0; //TODO
 
+    public static final int restButtonID = 0;
+    public static final int L1ButtonID = 1;//TODO
+    public static final int L2L3ButtonID = 2; 
+    public static final int L4ButtonID = 3;
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
