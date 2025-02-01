@@ -258,8 +258,9 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int leadClimberMotorID = 90, 
-                            followerClimberMotorID = 90;
+    public static final int leadClimberMotorID = 90;
+    public static final int climberDeployButton = 0; //TODO
+                            //followerClimberMotorID = 90;
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {

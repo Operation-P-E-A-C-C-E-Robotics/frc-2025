@@ -4,29 +4,55 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.Climber.leadClimberMotorID;
+
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Climber extends SubsystemBase {
-  /** Creates a new Climber. */
-  //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
-    // private final TalonFX tariyaki = new TalonFX(sushiMainID);
-  private final TalonFX climbMaster = new TalonFX(10);
   private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
+  private final StatusSignal<Angle> positionSignal;
+  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+
+  private final TalonFX climbMaster = new TalonFX(leadClimberMotorID);
   //Your gonna want setposition to take in a "MotionMagicExpoVoltage"
   
   public Climber() {
-
+    positionSignal = climbMaster.getPosition();
+    BaseStatusSignal.setUpdateFrequencyForAll(100,
+      positionSignal,
+      climbMaster.getDutyCycle(),
+      climbMaster.getVelocity(),
+      climbMaster.getAcceleration(),
+      climbMaster.getClosedLoopError(),
+      climbMaster.getClosedLoopReference()
+    );
+    rest();
   }
 
   public void setSpeed(double speed) {
-    climbMaster.set(speed);
+    climbMaster.setControl(dutyCycle.withOutput(speed));
   }
 
   public void setPosition(double position) {
     climbMaster.setControl(motionMagicControl.withPosition(position));
+  }
+
+  public double getPosition()
+  {
+    return positionSignal.getValueAsDouble();
+  }
+
+  /** the climber does nothing */
+  public void rest()
+  {
+    climbMaster.setControl(dutyCycle.withOutput(0));
   }
 }
