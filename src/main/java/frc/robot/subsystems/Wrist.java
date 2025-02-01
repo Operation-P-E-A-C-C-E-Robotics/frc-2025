@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.Reporter;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -16,6 +18,8 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.XboxController;
+
 import static frc.robot.Constants.Wrist.*;
 import frc.robot.RobotContainer;
 
@@ -29,9 +33,12 @@ public class Wrist extends SubsystemBase {
   private final StatusSignal<Angle> positionSignal;
   private final TalonFX motor = new TalonFX(mainMotorID);
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  
 
   public Wrist() {
-    RobotContainer.driverController.y().onTrue(GoToSetpoint(WristSetpoints.REST));
+    Trigger yButton = new JoystickButton(RobotContainer.commandController, XboxController.Button.kA.value); 
+
+    yButton.whileTrue(GoToSetpoint(WristSetpoints.REST));
     Reporter.report(
       motor.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
