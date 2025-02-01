@@ -140,10 +140,14 @@ public final class Constants {
     }
  }
 
- ///WRIST
+ ///Chute
   public static final class Chute {
     public static final int leftMotorID = 16; //TODO set motor can id
     public static final int rightMotorID = 28;
+    public static final int intakeID = 0;//TODO
+    public static final int unjamID = 0;
+    public static final double intakeSpeed = 0.6; //For now
+    public static final double unjamSpeed = -0.8;
   }
 
   public static final class Swerve {
