@@ -28,7 +28,7 @@ public class RobotContainer {
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
-  private static Joystick driverController = new Joystick(0);
+  public static Joystick driverController = new Joystick(0);
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 

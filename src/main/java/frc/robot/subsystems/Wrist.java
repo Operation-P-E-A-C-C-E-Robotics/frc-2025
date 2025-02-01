@@ -17,6 +17,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import static frc.robot.Constants.Wrist.*;
+import frc.robot.RobotContainer;
 
 public class Wrist extends SubsystemBase {
 
@@ -30,6 +31,7 @@ public class Wrist extends SubsystemBase {
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
 
   public Wrist() {
+    RobotContainer.driverController.y().onTrue(GoToSetpoint(WristSetpoints.REST));
     Reporter.report(
       motor.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
@@ -68,7 +70,7 @@ public class Wrist extends SubsystemBase {
    * Returns the wrist motor's position as a Rotation2d
    * @return
    */
-  public Rotation2d getWristPosition(){
+  public Rotation2d getWristPosition(){  //Sheahne why is it going to a rest setpoint first?
     GoToSetpoint(WristSetpoints.REST);
     return Rotation2d.fromRotations(motor.getRotorPosition().getValueAsDouble()); //TODO ask sean if when you get the rotor pos as a double, it is converted to degrees
   }
@@ -80,9 +82,9 @@ public class Wrist extends SubsystemBase {
 
   public enum WristSetpoints {
     REST  (Rotation2d.fromDegrees(0)),
-    L1    (Rotation2d.fromDegrees(0)),
-    L2L3  (Rotation2d.fromDegrees(0)),
-    L4    (Rotation2d.fromDegrees(0));
+    L1    (Rotation2d.fromDegrees(35)),
+    L2L3  (Rotation2d.fromDegrees(75)),
+    L4    (Rotation2d.fromDegrees(90));
 
     private Rotation2d angle;
     private WristSetpoints (Rotation2d angle) {
