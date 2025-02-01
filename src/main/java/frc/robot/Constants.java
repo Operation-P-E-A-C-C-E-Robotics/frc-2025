@@ -105,7 +105,7 @@ public final class Constants {
 
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
-     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+    motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
                        .withKP(0)
                        .withKI(0)
                        .withKD(0)
@@ -126,9 +126,21 @@ public final class Constants {
      
      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
                             .withNeutralMode(NeutralModeValue.Brake);
+
+      // TODO enable once limit switches are on wrist. Could cause issues if not connected.
+      // motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0;
+
+      // motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
+      // motorConfig.HardwareLimitSwitch.ForwardLimitEnable = true;
     }
  }
 
+ ///WRIST
+  public static final class Chute {
+    public static final int leftMotorID = 16; //TODO set motor can id
+    public static final int rightMotorID = 28;
+  }
 
   public static final class Swerve {
     /* TELEOP */

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
+import edu.wpi.first.wpilibj2.command.Command;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -49,8 +50,7 @@ public class Wrist extends SubsystemBase {
    * Sets the speed of the wrist based on arbitrary units
    * @param speed The arbitrary unity in question
    */
-  public void setSpeed(double speed)
-  {
+  public void setSpeed(double speed) {
     motor.setControl(dutyCycle.withOutput(speed));
   }
 
@@ -59,8 +59,7 @@ public class Wrist extends SubsystemBase {
    *                                                 -
    * spool rotations are tough to convert
    */
-  public void setPosition(Rotation2d angle)
-  {
+  public void setPosition(Rotation2d angle) {
     motionMagicControl.withPosition(angle.getDegrees());
     motor.setControl(motionMagicControl);
   }
@@ -69,8 +68,29 @@ public class Wrist extends SubsystemBase {
    * Returns the wrist motor's position as a Rotation2d
    * @return
    */
-  public Rotation2d getClimberPosition()
-  {
-    return Rotation2d.fromDegrees(motor.getRotorPosition().getValueAsDouble()); //TODO ask sean if when you get the rotor pos as a double, it is converted to degrees
+  public Rotation2d getWristPosition(){
+    GoToSetpoint(WristSetpoints.REST);
+    return Rotation2d.fromRotations(motor.getRotorPosition().getValueAsDouble()); //TODO ask sean if when you get the rotor pos as a double, it is converted to degrees
+  }
+  //degs  90   75   35   0
+  //arrs  0    1    2    3
+  public Command GoToSetpoint(WristSetpoints setpoint){
+    return this.runOnce(() -> setPosition(setpoint.getAngle()));
+  }
+
+  public enum WristSetpoints {
+    REST  (Rotation2d.fromDegrees(0)),
+    L1    (Rotation2d.fromDegrees(0)),
+    L2L3  (Rotation2d.fromDegrees(0)),
+    L4    (Rotation2d.fromDegrees(0));
+
+    private Rotation2d angle;
+    private WristSetpoints (Rotation2d angle) {
+      this.angle = angle;
+    }
+
+    public Rotation2d getAngle() {
+      return angle;
+    }
   }
 }

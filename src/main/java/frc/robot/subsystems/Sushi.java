@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 
@@ -89,6 +90,14 @@ public class Sushi extends SubsystemBase {
    */
   public boolean getRearBeamBrake() {
     return rearBeamBreak.get();
+  }
+
+  public Command restCommand() {
+    return this.runOnce(() -> setSpeed(0));
+  }
+
+  public Command place() {
+    return this.runOnce(() -> setSpeed(1));
   }
 
   // Helper method to convert meters to ticks

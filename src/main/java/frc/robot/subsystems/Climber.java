@@ -4,38 +4,29 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.Climber.*;
-
-import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.Reporter;
+
 
 public class Climber extends SubsystemBase {
-  private final TalonFX leadMotor = new TalonFX(leadClimberMotorID);
-  private final TalonFX followerMotor = new TalonFX(followerClimberMotorID);
   /** Creates a new Climber. */
   //literally 2 falcons (with a setpoint and set angle distances from the setpoint, which the motor "counts by")
+    // private final TalonFX tariyaki = new TalonFX(sushiMainID);
+  private final TalonFX climbMaster = new TalonFX(10);
+  private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
+  //Your gonna want setposition to take in a "MotionMagicExpoVoltage"
+  
   public Climber() {
-    Reporter.report(
-      leadMotor.getConfigurator().apply(motorConfig),
-      "couldn't config climber master motor"
-    );
 
-    Reporter.report(
-      followerMotor.getConfigurator().apply(motorConfig),
-      "couldn't config climber follower motor"
-    );
-    
-    Reporter.report(
-      followerMotor.setControl(new Follower(leadClimberMotorID, true)),
-      "failed to configure climber follow motor to follow master"
-    );
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void setSpeed(double speed) {
+    climbMaster.set(speed);
+  }
+
+  public void setPosition(double position) {
+    climbMaster.setControl(motionMagicControl.withPosition(position));
   }
 }
