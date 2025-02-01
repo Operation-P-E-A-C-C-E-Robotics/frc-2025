@@ -8,8 +8,9 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.Reporter;
-
+import frc.robot.RobotContainer;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.ParentDevice;
@@ -34,6 +35,11 @@ public class Sushi extends SubsystemBase {
    * the other is in the rear to ensure the coral clears the elevator when indexed.
    */
   public Sushi() {
+    new JoystickButton(RobotContainer.driverController, 0).whileTrue(restCommand());
+    new JoystickButton(RobotContainer.driverController, 0).whileTrue(place());
+
+
+
     Reporter.report(
       tariyaki.getConfigurator().apply(motorConfig),
       "Failed to configure tariyaki"
