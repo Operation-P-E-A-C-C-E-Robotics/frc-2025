@@ -106,6 +106,20 @@ public class Sushi extends SubsystemBase {
     return this.runOnce(() -> setSpeed(1));
   }
 
+  public Command intake() {
+    return this.startEnd(
+      () -> setSpeed(0.5),  // Start intake at 50% speed
+      () -> setSpeed(0)     // Stop when command ends
+    ).until(this::getRearBeamBrake); // Stop when coral is detected
+  }
+  
+  public Command index() {
+    return this.startEnd(
+      () -> adjustCoral(0.1), // Move coral forward by 0.1 meters
+      () -> setSpeed(0)       // Stop when command ends
+    ).until(this::getRearBeamBrake);
+  }
+
   // Helper method to convert meters to ticks
   private double metersToMotorRotations(double meters) {
       // Meters -> Revolutions
