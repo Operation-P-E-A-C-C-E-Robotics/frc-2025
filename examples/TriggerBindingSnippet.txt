@@ -1,0 +1,13 @@
+TriggerBindingSnippet.txt
+-----------------------------
+This snippet demonstrates using a Trigger for advanced input handling instead of a simple button.
+
+Code:
+------
+Trigger armTrigger = new Trigger(() -> RobotContainer.driverController.getRawAxis(2) > 0.5);
+armTrigger.whileActiveContinuous(new AdjustArmCommand());
+
+Explanation:
+- A Trigger is created using a lambda expression that returns true when the specified axis value exceeds 0.5.
+- whileActiveContinuous() runs the AdjustArmCommand continuously while the trigger condition is met.
+- This method is useful for analog input controls or more complex conditions.
