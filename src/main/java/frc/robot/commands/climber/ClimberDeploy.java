@@ -10,18 +10,18 @@ import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
     private double deployHeight = 10;//TODO
-    public ClimberDeploy()
-    {
+    private Climber climber; // Create an instance variable for Climber
+
+    public ClimberDeploy() {
+        climber = new Climber(); // Initialize the Climber instance
         Trigger ClimberDeploy = new JoystickButton(RobotContainer.commandController, frc.robot.Constants.Climber.climberDeployButton);
         //TODO parker you better fix up the constants import (just declare a static constants.climber.* when this is all done)
-        if(ClimberDeploy.getAsBoolean())
-        {
+        if(ClimberDeploy.getAsBoolean()) {
             deploy();
         }
     }
 
-    public void deploy()
-    {
-        Climber.setPosition(10);
+    public void deploy() {
+        climber.setPosition(10); // Call setPosition on the Climber instance
     }
 }
