@@ -13,6 +13,7 @@ import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -51,8 +52,8 @@ public class Climber extends SubsystemBase {
   }
 
   /** the climber does nothing */
-  public void rest()
+  public Command rest()
   {
-    climbMaster.setControl(dutyCycle.withOutput(0));
+    return this.run(() -> setSpeed(0));
   }
 }

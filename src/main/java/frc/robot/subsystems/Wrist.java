@@ -7,8 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.Reporter;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -18,16 +16,10 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.XboxController;
 
 import static frc.robot.Constants.Wrist.*;
-import frc.robot.RobotContainer;
 
 public class Wrist extends SubsystemBase {
-
-  /** Creates a new SushiTrain. */
-  //operates with "A motor (I get to choose!)" using the reference of a cancoder.
-  //not an actual conveyor. Its just the rotating "gear" part of the sushi base so that it can get at the right angles to score.s
   
   private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
   private final StatusSignal<Angle> positionSignal;
@@ -36,10 +28,10 @@ public class Wrist extends SubsystemBase {
   
 
   public Wrist() {
-    Trigger WristRestingSetpoint = new JoystickButton(RobotContainer.driverController, restButtonID); WristRestingSetpoint.onTrue(GoToSetpoint(WristSetpoints.REST));
-    Trigger WristL1Setpoint = new JoystickButton(RobotContainer.driverController, L1ButtonID); WristL1Setpoint.onTrue(GoToSetpoint(WristSetpoints.L1));
-    Trigger WristL2L3Setpoint = new JoystickButton(RobotContainer.driverController, L2L3ButtonID); WristL2L3Setpoint.onTrue(GoToSetpoint(WristSetpoints.L2L3));
-    Trigger WristL4Setpoint = new JoystickButton(RobotContainer.driverController, L4ButtonID); WristL4Setpoint.onTrue(GoToSetpoint(WristSetpoints.L4));
+    // Trigger WristRestingSetpoint = new JoystickButton(RobotContainer.driverController, restButtonID); WristRestingSetpoint.onTrue(GoToSetpoint(WristSetpoints.REST));
+    // Trigger WristL1Setpoint = new JoystickButton(RobotContainer.driverController, L1ButtonID); WristL1Setpoint.onTrue(GoToSetpoint(WristSetpoints.L1));
+    // Trigger WristL2L3Setpoint = new JoystickButton(RobotContainer.driverController, L2L3ButtonID); WristL2L3Setpoint.onTrue(GoToSetpoint(WristSetpoints.L2L3));
+    // Trigger WristL4Setpoint = new JoystickButton(RobotContainer.driverController, L4ButtonID); WristL4Setpoint.onTrue(GoToSetpoint(WristSetpoints.L4));
 
 
     Reporter.report(
@@ -59,17 +51,14 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
-   * Sets the speed of the wrist based on arbitrary units
-   * @param speed The arbitrary unity in question
+   * Sets the speed of the wrist based on duty cycle
    */
   public void setSpeed(double speed) {
     motor.setControl(dutyCycle.withOutput(speed));
   }
 
   /** 
-   * Sets the climber position based on arbitrary (Rotation2d) units 
-   *                                                 -
-   * spool rotations are tough to convert
+   * 
    */
   public void setPosition(Rotation2d angle) {
     motionMagicControl.withPosition(angle.getDegrees());
@@ -81,12 +70,10 @@ public class Wrist extends SubsystemBase {
    * @return
    */
   public Rotation2d getWristPosition(){  //Sheahne why is it going to a rest setpoint first?
-    GoToSetpoint(WristSetpoints.REST);
     return Rotation2d.fromRotations(motor.getRotorPosition().getValueAsDouble()); //TODO ask sean if when you get the rotor pos as a double, it is converted to degrees
   }
-  //degs  90   75   35   0
-  //arrs  0    1    2    3
-  public Command GoToSetpoint(WristSetpoints setpoint){
+  
+  public Command goToSetpoint(WristSetpoints setpoint){
     return this.runOnce(() -> setPosition(setpoint.getAngle()));
   }
 

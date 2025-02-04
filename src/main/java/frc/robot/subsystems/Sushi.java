@@ -31,6 +31,11 @@ public class Sushi extends SubsystemBase {
    * It also has two beam brake sensors to allow automatic indexing of coral
    * One is positioned at the front to assist with gamepiece detection with placing,
    * the other is in the rear to ensure the coral clears the elevator when indexed.
+   * 
+   * 
+   * 
+   * 
+   * Move all inputs to robotcontainer. Climber bottom function and Chute rest function need to be changed to actual commands
    */
   public Sushi() {
     Reporter.report(
