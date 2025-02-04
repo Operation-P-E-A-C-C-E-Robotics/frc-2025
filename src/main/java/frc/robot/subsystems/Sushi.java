@@ -8,9 +8,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.Reporter;
-import frc.robot.RobotContainer;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.ParentDevice;
@@ -35,11 +33,6 @@ public class Sushi extends SubsystemBase {
    * the other is in the rear to ensure the coral clears the elevator when indexed.
    */
   public Sushi() {
-    new JoystickButton(RobotContainer.driverController, 0).whileTrue(restCommand());
-    new JoystickButton(RobotContainer.driverController, 0).whileTrue(place());
-
-
-
     Reporter.report(
       tariyaki.getConfigurator().apply(motorConfig),
       "Failed to configure tariyaki"
@@ -92,14 +85,10 @@ public class Sushi extends SubsystemBase {
    * Get whether a gamepiece is blocking the rear beam break sensor.
    * The sensor is positioned to detect a coral as soon as it enters the sushi,
    * but should NOT be able to see the coral once it is fully in the sushi.
-   * It allows us to gurantee that the coral will not collide with the elevator cross bars.
+   * It allows us to guarantee that the coral will not collide with the elevator cross bars.
    */
   public boolean getRearBeamBrake() {
     return rearBeamBreak.get();
-  }
-
-  public Command restCommand() {
-    return this.runOnce(() -> setSpeed(0));
   }
 
   public Command place() {
@@ -109,15 +98,14 @@ public class Sushi extends SubsystemBase {
   public Command intake() {
     return this.startEnd(
       () -> setSpeed(0.5),  // Start intake at 50% speed
-      () -> setSpeed(0)     // Stop when command ends
+      () -> setSpeed(0)   // Stop when command ends             //Ask shawne if I can just call a command like a normal function
     ).until(this::getRearBeamBrake); // Stop when coral is detected
   }
   
   public Command index() {
-    return this.startEnd(
-      () -> adjustCoral(0.1), // Move coral forward by 0.1 meters
-      () -> setSpeed(0)       // Stop when command ends
-    ).until(this::getRearBeamBrake);
+    return this.run(
+      () -> setSpeed(getRearBeamBrake() ? 0.1 : 0) // Move coral forward by 0.1 meters
+    );
   }
 
   // Helper method to convert meters to ticks

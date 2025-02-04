@@ -22,14 +22,14 @@ public class Chute extends SubsystemBase{
   /** Creates a new Chute. */
   //2 BAG motors (1 talon srx), and we should set up (commented out) code for the possible second one, using master-slave system
 
-  public static TalonSRX rightChuteMotor = new TalonSRX(28); //Should be 28
-  public static TalonSRX leftChuteMotor = new TalonSRX(16); //Should be 16
+  public static TalonSRX rightChuteMotor = new TalonSRX(91); //Should be 28
+  public static TalonSRX leftChuteMotor = new TalonSRX(90); //Should be 16
 
   public Chute(){  
-    Trigger intakeButton = new JoystickButton(RobotContainer.commandController, intakeID); 
-    intakeButton.onTrue(intake());
-    Trigger unjamButton = new JoystickButton(RobotContainer.commandController, unjamID); 
-    unjamButton.onTrue(unjam());
+    // Trigger intakeButton = new JoystickButton(RobotContainer.commandController, intakeID); 
+    // intakeButton.onTrue(intake());
+    // Trigger unjamButton = new JoystickButton(RobotContainer.commandController, unjamID); 
+    // unjamButton.onTrue(unjam());
     // Invert the motor output if necessary
     rightChuteMotor.setInverted(false); 
     rightChuteMotor.configPeakCurrentLimit(40);
@@ -43,13 +43,11 @@ public class Chute extends SubsystemBase{
     leftChuteMotor.set(ControlMode.PercentOutput, leftSpeed);
     rightChuteMotor.set(ControlMode.PercentOutput, rightSpeed);
   }
-  public Command intake()//will need to decide later which direction to run them in
-  {
+  public Command intake() {
     return this.runOnce(() -> setSpeed(intakeSpeed, intakeSpeed));
   }
 
-  public Command unjam()
-  {
+  public Command unjam() {
     return this.runOnce(() -> setSpeed(unjamSpeed, unjamSpeed));
   }
 }

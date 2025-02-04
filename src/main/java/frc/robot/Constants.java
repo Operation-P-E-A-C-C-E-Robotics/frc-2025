@@ -80,6 +80,8 @@ public final class Constants {
     public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
     public static final double gearRatio = 10.0;         // Motor:Wheel
 
+    public static final int intakeID = 6;
+    public static final int indexID = 3;
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
       motorConfig.Slot0.withKP(0)

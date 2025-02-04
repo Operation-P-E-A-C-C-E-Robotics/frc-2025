@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
+import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 
 public class RobotContainer {
@@ -25,12 +26,13 @@ public class RobotContainer {
 
   /* SUBSYSTEMS */
   private final Swerve driveTrain = new Swerve();
+  private final Sushi sushi = new Sushi();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
-  public static XboxController commandController = new XboxController(1);
-  public static Joystick driverController = new Joystick(0);
+  private final XboxController commandController = new XboxController(1);
+  private final Joystick driverController = new Joystick(0);
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
@@ -55,9 +57,14 @@ public class RobotContainer {
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
-
-    driveTrain.setDefaultCommand(peaccyDrive);
+               
     driveTrain.register(driverController);
+    driveTrain.setDefaultCommand(peaccyDrive);
+
+    sushi.setDefaultCommand(sushi.index());
+
+    new JoystickButton(commandController, 0).whileTrue(sushi.place());
+    new JoystickButton(commandController, 6).onTrue(sushi.intake());
   }
 
 
