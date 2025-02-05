@@ -70,10 +70,10 @@ public class RobotContainer {
     new JoystickButton(commandController, 0).whileTrue(sushi.place());
     new JoystickButton(commandController, 6).onTrue(sushi.intake());
 
-    new JoystickButton(commandController, restButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.REST));
-    new JoystickButton(commandController, L1ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L1));
-    new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L2L3));
-    new JoystickButton(commandController, L4ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L4));
+    new JoystickButton(commandController, restButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.REST));
+    new JoystickButton(commandController, L1ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L1));
+    new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L2L3));
+    new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
   }
 
 
