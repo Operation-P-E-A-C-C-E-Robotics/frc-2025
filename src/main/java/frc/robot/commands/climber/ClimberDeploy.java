@@ -31,8 +31,9 @@ public class ClimberDeploy extends Command {
     }
 
     public boolean climberDeployed = false;
-    public static Command deployLeftSide(boolean rightSide)
-    {
-        return 
-    }
+    //Next meeting standardize this to JUST "deploy"
+    // public static Command deployLeftSide(boolean rightSide)
+    // {
+    //     return
+    // }
 }
