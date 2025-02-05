@@ -128,5 +128,4 @@ public class Elevator extends SubsystemBase {
   private double heightToSpoolRotations(double height) {
     return height / spoolCircumference;
   }
-
 }

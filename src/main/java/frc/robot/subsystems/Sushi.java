@@ -35,7 +35,7 @@ public class Sushi extends SubsystemBase {
    * 
    * 
    * 
-   * Move all inputs to robotcontainer. Climber bottom function and Chute rest function need to be changed to actual commands
+   * Climber (I possibly meant climberdeploy?) bottom function and Chute rest function need to be changed to actual commands
    */
   public Sushi() {
     Reporter.report(

@@ -15,6 +15,7 @@ import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
+import frc.robot.commands.climber.ClimberDeploy;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import static frc.robot.Constants.Wrist.*;
 
@@ -67,13 +68,20 @@ public class RobotContainer {
 
     sushi.setDefaultCommand(sushi.index());
 
+    //Sushi Buttons
     new JoystickButton(commandController, 0).whileTrue(sushi.place());
     new JoystickButton(commandController, 6).onTrue(sushi.intake());
 
+    //Wrist Buttons
     new JoystickButton(commandController, restButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.REST));
     new JoystickButton(commandController, L1ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L1));
     new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L2L3));
     new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
+
+    JoystickButton DeployButton = new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft);
+    new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight).onTrue(ClimberDeploy.deployLeftSide(true)
+    .onlyIf(() -> JoystickButton.getAsBoolean()));
+
   }
 
 

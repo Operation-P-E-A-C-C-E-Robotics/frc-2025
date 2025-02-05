@@ -50,8 +50,7 @@ public class Climber extends SubsystemBase {
   {
     return positionSignal.getValueAsDouble();
   }
-
-  /** the climber does nothing */
+  
   public Command rest()
   {
     return this.run(() -> setSpeed(0));
