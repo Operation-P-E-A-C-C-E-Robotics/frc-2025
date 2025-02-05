@@ -16,7 +16,6 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
-
 import static frc.robot.Constants.Wrist.*;
 
 public class Wrist extends SubsystemBase {
@@ -28,12 +27,6 @@ public class Wrist extends SubsystemBase {
   
 
   public Wrist() {
-    // Trigger WristRestingSetpoint = new JoystickButton(RobotContainer.driverController, restButtonID); WristRestingSetpoint.onTrue(GoToSetpoint(WristSetpoints.REST));
-    // Trigger WristL1Setpoint = new JoystickButton(RobotContainer.driverController, L1ButtonID); WristL1Setpoint.onTrue(GoToSetpoint(WristSetpoints.L1));
-    // Trigger WristL2L3Setpoint = new JoystickButton(RobotContainer.driverController, L2L3ButtonID); WristL2L3Setpoint.onTrue(GoToSetpoint(WristSetpoints.L2L3));
-    // Trigger WristL4Setpoint = new JoystickButton(RobotContainer.driverController, L4ButtonID); WristL4Setpoint.onTrue(GoToSetpoint(WristSetpoints.L4));
-
-
     Reporter.report(
       motor.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"

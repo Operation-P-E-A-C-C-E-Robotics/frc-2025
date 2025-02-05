@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Wrist.WristSetpoints;
+import static frc.robot.Constants.Wrist.*;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -27,6 +30,7 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   private final Swerve driveTrain = new Swerve();
   private final Sushi sushi = new Sushi();
+  private final Wrist wrist = new Wrist();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
@@ -65,6 +69,11 @@ public class RobotContainer {
 
     new JoystickButton(commandController, 0).whileTrue(sushi.place());
     new JoystickButton(commandController, 6).onTrue(sushi.intake());
+
+    new JoystickButton(commandController, restButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.REST));
+    new JoystickButton(commandController, L1ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L1));
+    new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L2L3));
+    new JoystickButton(commandController, L4ButtonID).onTrue(wrist.GoToSetpoint(WristSetpoints.L4));
   }
 
 
