@@ -17,6 +17,8 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 import frc.robot.commands.climber.ClimberDeploy;
 import frc.robot.subsystems.Wrist.WristSetpoints;
+
+import static frc.robot.Constants.Sushi.*;
 import static frc.robot.Constants.Wrist.*;
 
 public class RobotContainer {
@@ -70,8 +72,8 @@ public class RobotContainer {
     sushi.setDefaultCommand(sushi.index());
 
     //Sushi Buttons
-    new JoystickButton(commandController, 0).whileTrue(sushi.place());
-    new JoystickButton(commandController, 6).onTrue(sushi.intake());
+    new JoystickButton(commandController, placeButton).whileTrue(sushi.place());
+    new JoystickButton(commandController, intakeButton).onTrue(sushi.intake());
 
     //Wrist Buttons
     new JoystickButton(commandController, restButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.REST));
