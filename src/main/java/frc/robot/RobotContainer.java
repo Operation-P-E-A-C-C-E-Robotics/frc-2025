@@ -32,6 +32,7 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve();
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
+  private final ClimberDeploy climberDeploy = new ClimberDeploy();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
@@ -78,10 +79,8 @@ public class RobotContainer {
     new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L2L3));
     new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
 
-    JoystickButton DeployButton = new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft);
-    new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight).onTrue(ClimberDeploy.deployLeftSide(true)
-    .onlyIf(() -> JoystickButton.getAsBoolean()));
-
+    JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft);
+    new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight).onTrue(climberDeploy.deploy(deployButtonRight.getAsBoolean()));
   }
 
 

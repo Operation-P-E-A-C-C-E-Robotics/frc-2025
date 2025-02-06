@@ -6,7 +6,7 @@ import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
     private double deployHeight = 10;//TODO
-    private Climber climber; // Create an instance variable for Climber
+    private Climber climber = new Climber(); // Create an instance variable for Climber
 
     /*
      *  If the wrist is too far back, elevator not allowed to go up.
@@ -14,7 +14,6 @@ public class ClimberDeploy extends Command {
         If coral is not fully indexed, elevator not allowed to go up. / -  
         Elevator needs to be all the way down when climber is deployed
         Elevator cannot go up when climber is deployed
-
      */
 
     public ClimberDeploy() {
@@ -26,11 +25,12 @@ public class ClimberDeploy extends Command {
         // }
     }
 
-    public void deploy() {
-      climber.setPosition(10); // Call setPosition on the Climber instance
+    public Command deploy(boolean rightSide) {
+     // Call setPosition on the Climber instance
+      climber.setPosition(deployHeight);
+      return null;
     }
 
-    public boolean climberDeployed = false;
     //Next meeting standardize this to JUST "deploy"
     // public static Command deployLeftSide(boolean rightSide)
     // {
