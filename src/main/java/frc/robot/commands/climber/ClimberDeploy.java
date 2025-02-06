@@ -1,11 +1,19 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Sushi;
+import frc.robot.subsystems.Chute;
 
 import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
     private double deployHeight = 10;//TODO
+    private Elevator elevator = new Elevator();
+    private Wrist wrist = new Wrist();
+    private Chute chute = new Chute();
+    private Sushi sushi = new Sushi();
     private Climber climber = new Climber(); // Create an instance variable for Climber
 
     /*
@@ -27,8 +35,27 @@ public class ClimberDeploy extends Command {
 
     public Command deploy(boolean rightSide) {
      // Call setPosition on the Climber instance
+      //elevator not allowed to go up  <- TODO make this, by changing the actual inputs required to 
+      //make it go up in some way, once the ele inputs are done
       climber.setPosition(deployHeight);
       return null;
+    }
+
+    //Checks to see that the climber has good enough room to deploy
+    public boolean deployReady()
+    {
+        if(wrist isnt too far back)
+        {
+            return false;
+        }
+        if(!sushi.getRearBeamBrake())
+        {
+            return false;
+        }
+        if(elevator.getHeight() <= 0.1)
+        {
+            return false;
+        }
     }
 
     //Next meeting standardize this to JUST "deploy"
