@@ -209,10 +209,10 @@ public final class Constants {
 
     //inertia only used for simulation
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 40 : 800, 7);
-    public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //TODO turn this up
+    public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //TODO: turn this up
 
-    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); //TODO tune with final robot
-    public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0); //TODO tune with final robot
+    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); //TODO: tune with final robot
+    public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0); //TODO: tune with final robot
 
     public static final int pigeonCANId = 0;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
@@ -256,7 +256,7 @@ public final class Constants {
       Units.lbsToKilograms(75), //robot weight
       6.883, //robot MOI
       new ModuleConfig(
-        Units.inchesToMeters(2), //wheel radius //TODO fudge factor
+        Units.inchesToMeters(2), //wheel radius //TODO: fudge factor
         5, //Measured max robot speed
         1.2, //wheel Coefficient of Friction
         DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio),
@@ -268,7 +268,7 @@ public final class Constants {
 
   public static final class Climber {
     public static final int leadClimberMotorID = 90;
-    public static final int climberDeployButtonRight = 0; //TODO
+    public static final int climberDeployButtonRight = 0; //TODO:
     public static final int climberDeployButtonLeft = 0;
                             //followerClimberMotorID = 90;
 
@@ -288,7 +288,7 @@ public final class Constants {
                             .withMotionMagicExpo_kA(0)
                             .withMotionMagicExpo_kV(0);
 
-      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
+      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO:
 
       motorConfig.CurrentLimits.withStatorCurrentLimit(40)
                                 .withStatorCurrentLimitEnable(true);
