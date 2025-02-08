@@ -5,7 +5,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Chute;
-
 import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
@@ -44,7 +43,7 @@ public class ClimberDeploy extends Command {
     //Checks to see that the climber has good enough room to deploy
     public boolean deployReady()
     {
-        if(wrist isnt too far back)
+        if(10 >= wrist.getWristPosition().getDegrees()) //TODO figure out what angle is "too far back"- 10 is the placeholder atm
         {
             return false;
         }
@@ -56,6 +55,7 @@ public class ClimberDeploy extends Command {
         {
             return false;
         }
+        return true;
     }
 
     //Next meeting standardize this to JUST "deploy"
