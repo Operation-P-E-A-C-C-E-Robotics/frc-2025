@@ -4,14 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Sushi;
-import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
-    private double deployHeight = 10;//TODO
+    public double deployHeight = 10;//TODO
     private Elevator elevator = new Elevator();
     private Wrist wrist = new Wrist();
-    private Chute chute = new Chute();
     private Sushi sushi = new Sushi();
     private Climber climber = new Climber(); // Create an instance variable for Climber
 
@@ -35,8 +33,11 @@ public class ClimberDeploy extends Command {
     public Command deploy(boolean rightSide) {
      // Call setPosition on the Climber instance
       //elevator not allowed to go up  <- TODO make this, by changing the actual inputs required to 
-      //make it go up in some way, once the ele inputs are done
+      //make it go up in some way, once the ele inputs are done. //TODO IE get rid of the if statement below 
+      if(deployReady())
+      {
       climber.setPosition(deployHeight);
+      }
       return null;
     }
 
@@ -55,7 +56,11 @@ public class ClimberDeploy extends Command {
         {
             return false;
         }
-        return true;
+        else
+        {
+            return true;      //TODO Ask Shwahilie if returning ends the command early. If it does, this works perfectly fine.      
+        }
+
     }
 
     //Next meeting standardize this to JUST "deploy"
