@@ -6,7 +6,7 @@ import frc.robot.subsystems.Climber;
 public class ClimberClimb extends Command{
     private ClimberDeploy climberDeploy = new ClimberDeploy();
     private Climber climber = new Climber();
-    public void ClimberClimb()
+    public ClimberClimb()
     {   
 
     }
@@ -14,7 +14,7 @@ public class ClimberClimb extends Command{
     public Command getToClimbPos()
     {
         if(climber.getPosition() < (climberDeploy.deployHeight - 0.01))
-        climber.setPosition(0);
+        climber.setPosition(0); //TODO figure out where climb pos is
         return null;
     }
 }
