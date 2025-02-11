@@ -23,9 +23,11 @@ public class Climber extends SubsystemBase {
   private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
   private final StatusSignal<Angle> positionSignal;
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
-
+  
+  private double deployHeight = 10;//TODO
   private final TalonFX climbMaster = new TalonFX(leadClimberMotorID);
   public boolean deployed;
+
   //Motor configs + current limit + inversion + PID constants
   //Set default 
   
@@ -60,6 +62,13 @@ public class Climber extends SubsystemBase {
   public Command rest()
   {
     return this.run(() -> setSpeed(0));
+  }
+
+  public Command getToClimbPos()
+  {
+      if(getPosition() < (deployHeight - 0.01))
+      setPosition(0); //TODO figure out where climb pos is
+      return null;
   }
 
   public Command manualInput(DoubleSupplier speed){

@@ -41,3 +41,7 @@
   //delete induvdual climber command files and put them in the climber subsystem
   //set aside a file just for figuring out constraints (ClimberDeploy and elevator)
   //
+
+  //Stuff parker is doing currently:
+  
+  remaking all the inputs in the fancy input manager way (Specific to robot container line 100 atm)

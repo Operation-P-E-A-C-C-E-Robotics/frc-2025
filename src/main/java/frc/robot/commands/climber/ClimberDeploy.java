@@ -7,14 +7,9 @@ import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
-<<<<<<< HEAD
-    private double deployHeight = 10;//TODO
-=======
-    public double deployHeight = 10;//TODO
     private Elevator elevator = new Elevator();
     private Wrist wrist = new Wrist();
     private Sushi sushi = new Sushi();
->>>>>>> origin/Non-Quin
     private Climber climber = new Climber(); // Create an instance variable for Climber
 
     /*

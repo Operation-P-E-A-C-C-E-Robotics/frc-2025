@@ -23,6 +23,7 @@ import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.commands.climber.ClimberClimb;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Elevator;
 
 import static frc.robot.Constants.Climber.climberClimbButton;
 import static frc.robot.Constants.Sushi.*;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
   private final Climber climber = new Climber();
+  private final Elevator elevator = new Elevator();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
@@ -95,13 +97,31 @@ public class RobotContainer {
 
     //ClimberDeploy
     JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight);
-    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climberDeploy.deploy(deployButtonRight.getAsBoolean()));
+    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climber.deploy(deployButtonRight.getAsBoolean()));
 
     //ClimberClimbPos
-    new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climberClimb.getToClimbPos());
+    new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climber.getToClimbPos());
   }
 
-
+  public boolean deployReady()
+  {
+      if(10 >= wrist.getWristPosition().getDegrees()) //TODO figure out what angle is "too far back"- 10 is the placeholder atm
+      {
+          return false;
+      }
+      if(sushi.getRearBeamBrake())
+      {
+          return false;
+      }
+      if(elevator.getHeight() <= 0.1)
+      {
+          return false;
+      }
+      else
+      {
+          return true;      //TODO Ask Shwahilie if returning ends the command early. If it does, this works perfectly fine.      
+      }
+  }
 
   public Command getAutonomousCommand() {
     try {
