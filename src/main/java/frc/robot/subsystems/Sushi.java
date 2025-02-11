@@ -22,7 +22,7 @@ public class Sushi extends SubsystemBase {
   private final StatusSignal<Angle> positionSignal;
   private final PositionVoltage positionVoltage = new PositionVoltage(0);
 
-  private DigitalInput frontBeamBreak = new DigitalInput(frontBeamBreakID); //Todo: ask if shawne meant two *Sets* of beam blocks, << yes. "one beam brake sensor" = 1 transmitter + 1 reciever = one digital input
+  private DigitalInput frontBeamBreak = new DigitalInput(frontBeamBreakID); // TODO: ask if shawne meant two *Sets* of beam blocks, << yes. "one beam brake sensor" = 1 transmitter + 1 reciever = one digital input
   private DigitalInput rearBeamBreak = new DigitalInput(backBeamBreakID); //or two *Induvidual* beam block sensors
 
   /**

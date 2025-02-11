@@ -63,7 +63,7 @@ public class Wrist extends SubsystemBase {
    * @return
    */
   public Rotation2d getWristPosition(){  //Sheahne why is it going to a rest setpoint first?
-    return Rotation2d.fromRotations(motor.getRotorPosition().getValueAsDouble()); //TODO ask sean if when you get the rotor pos as a double, it is converted to degrees
+    return Rotation2d.fromRotations(motor.getRotorPosition().getValueAsDouble()); //TODO: ask sean if when you get the rotor pos as a double, it is converted to degrees
   }
   
   public Command goToSetpoint(WristSetpoints setpoint){
