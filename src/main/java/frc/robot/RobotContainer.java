@@ -19,6 +19,7 @@ import frc.robot.commands.climber.ClimberDeploy;
 import frc.robot.commands.climber.ManualClimb;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
+import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.commands.climber.ClimberClimb;
 import frc.robot.subsystems.Wrist.WristSetpoints;
@@ -55,6 +56,8 @@ public class RobotContainer {
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
   private final OIEntry[] operatorMap = new OIEntry[]{
     Button.onPress(sushi.place(), placeButton)
+    //MultiButton.onPress(sushi.deploy(), constants.climber.climberDeployButtonLeft)
+    Button.onPress()
   };
 
 
