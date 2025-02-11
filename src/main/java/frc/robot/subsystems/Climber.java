@@ -17,12 +17,15 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 
 public class Climber extends SubsystemBase {
   private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
   private final StatusSignal<Angle> positionSignal;
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
+  private RobotContainer robotContainer = new RobotContainer();
   
   private double deployHeight = 10;//TODO
   private final TalonFX climbMaster = new TalonFX(leadClimberMotorID);
@@ -80,7 +83,7 @@ public class Climber extends SubsystemBase {
      //elevator not allowed to go up  <- TODO make this, by changing the actual inputs required to 
      //make it go up in some way, once the ele inputs are done. //TODO IE get rid of the if statement below 
     return this.run(() -> {
-      if(deployReady()) {
+      if(robotContainer.deployReady()) {
         setPosition(deployHeight);
         deployed = true;
       }
