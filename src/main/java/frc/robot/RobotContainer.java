@@ -27,6 +27,8 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 
 import static frc.robot.Constants.Climber.climberClimbButton;
+import static frc.robot.Constants.Climber.climberDeployButtonLeft;
+import static frc.robot.Constants.Climber.climberDeployButtonRight;
 import static frc.robot.Constants.Sushi.*;
 import static frc.robot.Constants.Wrist.*;
 
@@ -55,9 +57,9 @@ public class RobotContainer {
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
   private final OIEntry[] operatorMap = new OIEntry[]{
-    Button.onPress(sushi.place(), placeButton)
+    Button.onPress(sushi.place(), placeButton),
     //MultiButton.onPress(sushi.deploy(), constants.climber.climberDeployButtonLeft)
-    Button.onPress()
+    MultiButton.onPress(climber.deploy(), climberDeployButtonLeft, climberDeployButtonRight)
   };
 
 
@@ -100,8 +102,8 @@ public class RobotContainer {
 
     //ClimberDeploy
     JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight);
-    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climber.deploy(deployButtonRight.getAsBoolean()));
-
+    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climber.deploy());
+    //deployButtonRight.getAsBoolean()
     //ClimberClimbPos
     new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climber.getToClimbPos());
   }
