@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.Climber.leadClimberMotorID;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -23,7 +25,9 @@ public class Climber extends SubsystemBase {
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
 
   private final TalonFX climbMaster = new TalonFX(leadClimberMotorID);
-  //Your gonna want setposition to take in a "MotionMagicExpoVoltage"
+  public boolean deployed;
+  //Motor configs + current limit + inversion + PID constants
+  //Set default 
   
   public Climber() {
     positionSignal = climbMaster.getPosition();
@@ -35,11 +39,13 @@ public class Climber extends SubsystemBase {
       climbMaster.getClosedLoopError(),
       climbMaster.getClosedLoopReference()
     );
-    rest();
   }
 
   public void setSpeed(double speed) {
-    climbMaster.setControl(dutyCycle.withOutput(speed));
+    if(deployed)
+    {
+      climbMaster.setControl(dutyCycle.withOutput(speed));      
+    }
   }
 
   public void setPosition(double position) {
@@ -55,4 +61,20 @@ public class Climber extends SubsystemBase {
   {
     return this.run(() -> setSpeed(0));
   }
+
+  public Command manualInput(DoubleSupplier speed){
+    return  this.run(() -> setSpeed(speed.getAsDouble())); //TODO figure out this axis
+  }
+
+  public Command deploy() {
+    // Call setPosition on the Climber instance
+     //elevator not allowed to go up  <- TODO make this, by changing the actual inputs required to 
+     //make it go up in some way, once the ele inputs are done. //TODO IE get rid of the if statement below 
+    return this.run(() -> {
+      if(deployReady()) {
+        setPosition(deployHeight);
+        deployed = true;
+      }
+    });
+   }
 }

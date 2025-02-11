@@ -16,10 +16,18 @@ import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 import frc.robot.commands.climber.ClimberDeploy;
+import frc.robot.commands.climber.ManualClimb;
+import frc.lib.util.ButtonMap;
+import frc.lib.util.ButtonMap.Button;
+import frc.lib.util.ButtonMap.OIEntry;
+import frc.robot.commands.climber.ClimberClimb;
 import frc.robot.subsystems.Wrist.WristSetpoints;
+import frc.robot.subsystems.Climber;
 
+import static frc.robot.Constants.Climber.climberClimbButton;
 import static frc.robot.Constants.Sushi.*;
 import static frc.robot.Constants.Wrist.*;
+
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -34,7 +42,7 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve();
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
-  private final ClimberDeploy climberDeploy = new ClimberDeploy();
+  private final Climber climber = new Climber();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
@@ -43,6 +51,9 @@ public class RobotContainer {
   private final Joystick driverController = new Joystick(0);
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
+  private final OIEntry[] operatorMap = new OIEntry[]{
+    Button.onPress(sushi.place(), placeButton)
+  };
 
 
   /* COMMANDS */
@@ -70,6 +81,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
 
     sushi.setDefaultCommand(sushi.index());
+    climber.setDefaultCommand(climber.rest());
 
     //Sushi Buttons
     new JoystickButton(commandController, placeButton).whileTrue(sushi.place());
@@ -81,8 +93,12 @@ public class RobotContainer {
     new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L2L3));
     new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
 
-    JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft);
-    new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight).onTrue(climberDeploy.deploy(deployButtonRight.getAsBoolean()));
+    //ClimberDeploy
+    JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight);
+    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climberDeploy.deploy(deployButtonRight.getAsBoolean()));
+
+    //ClimberClimbPos
+    new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climberClimb.getToClimbPos());
   }
 
 

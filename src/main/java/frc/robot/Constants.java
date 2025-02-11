@@ -157,7 +157,7 @@ public final class Constants {
     public static final int unjamID = 0;
     public static final double intakeSpeed = 0.6; //For now
     public static final double unjamSpeed = -0.8;
-  }
+}
 
   public static final class Swerve {
     /* TELEOP */
@@ -270,6 +270,7 @@ public final class Constants {
     public static final int leadClimberMotorID = 90;
     public static final int climberDeployButtonRight = 0; //TODO:
     public static final int climberDeployButtonLeft = 0;
+    public static final int climberClimbButton = 0;
                             //followerClimberMotorID = 90;
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();

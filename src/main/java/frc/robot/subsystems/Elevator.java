@@ -30,6 +30,9 @@ public class Elevator extends SubsystemBase {
   private final StatusSignal<Angle> positionSignal;
   private final StatusSignal<ForwardLimitValue> upperLimitSignal;
   private final StatusSignal<ReverseLimitValue> lowerLimitSignal;
+  //Wrist conversions, default commands, button mapping, manual controls, Do elevator commands same way as wrist (with enums)
+  //delete induvdual climber command files and put them in the climber subsystem
+  //set aside a file just for figuring out constraints (ClimberDeploy and elevator)
 
 
   /**

@@ -4,12 +4,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Sushi;
-import frc.robot.subsystems.Chute;
-
 import frc.robot.subsystems.Climber;
 
 public class ClimberDeploy extends Command {
+<<<<<<< HEAD
     private double deployHeight = 10;//TODO
+=======
+    public double deployHeight = 10;//TODO
+    private Elevator elevator = new Elevator();
+    private Wrist wrist = new Wrist();
+    private Sushi sushi = new Sushi();
+>>>>>>> origin/Non-Quin
     private Climber climber = new Climber(); // Create an instance variable for Climber
 
     /*
@@ -32,19 +37,23 @@ public class ClimberDeploy extends Command {
     public Command deploy(boolean rightSide) {
      // Call setPosition on the Climber instance
       //elevator not allowed to go up  <- TODO make this, by changing the actual inputs required to 
-      //make it go up in some way, once the ele inputs are done
+      //make it go up in some way, once the ele inputs are done. //TODO IE get rid of the if statement below 
+      if(deployReady())
+      {
       climber.setPosition(deployHeight);
+      climber.deployed = true;
+      }
       return null;
     }
 
     //Checks to see that the climber has good enough room to deploy
     public boolean deployReady()
     {
-        if(wrist isnt too far back)
+        if(10 >= wrist.getWristPosition().getDegrees()) //TODO figure out what angle is "too far back"- 10 is the placeholder atm
         {
             return false;
         }
-        if(!sushi.getRearBeamBrake())
+        if(sushi.getRearBeamBrake())
         {
             return false;
         }
@@ -52,6 +61,11 @@ public class ClimberDeploy extends Command {
         {
             return false;
         }
+        else
+        {
+            return true;      //TODO Ask Shwahilie if returning ends the command early. If it does, this works perfectly fine.      
+        }
+
     }
 
     //Next meeting standardize this to JUST "deploy"
