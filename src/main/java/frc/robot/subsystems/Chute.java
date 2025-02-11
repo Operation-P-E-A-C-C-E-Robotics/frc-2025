@@ -21,7 +21,9 @@ public class Chute extends SubsystemBase{
 
   public static TalonSRX rightChuteMotor = new TalonSRX(91); //Should be 28
   public static TalonSRX leftChuteMotor = new TalonSRX(90); //Should be 16
-  public static TalonSRX chuteDropMotor = new TalonSRX(90); //TODO
+  public static TalonSRX chuteDropMotor = new TalonSRX(90); //TODO 
+
+  private boolean hasDropped = false;
 
   public Chute(){  
     // Trigger intakeButton = new JoystickButton(RobotContainer.commandController, intakeID); 
@@ -35,6 +37,9 @@ public class Chute extends SubsystemBase{
     // Invert the motor output if necessary
     leftChuteMotor.setInverted(false); 
     leftChuteMotor.configPeakCurrentLimit(40);
+
+    chuteDropMotor.setInverted(false); 
+    chuteDropMotor.configPeakCurrentLimit(40);
   }
   
   public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -52,10 +57,14 @@ public class Chute extends SubsystemBase{
   /**
    * Activates the "Drop motor" to run backwards. This pulls the pin holding the chute up, allowing it to drop.
    */
-  public Command drop()
+  public boolean hasDropped()
   {
-    chuteDropMotor.set(ControlMode.PercentOutput, -0.4); //TODO Figure out if this is a good speed to pull the pins
-    return null;
+    return hasDropped;
+  }
+  public void drop()
+  {
+    chuteDropMotor.set(ControlMode.PercentOutput, 0.4); //TODO Figure out if this is a good speed to pull the pins
+    hasDropped = true;
   }
 
   public Command intake(){
@@ -65,6 +74,9 @@ public class Chute extends SubsystemBase{
   public Command unjam() {
     return this.runOnce(() -> setSpeed(unjamSpeed, unjamSpeed));
   }
-
-  //Drop() might not exist, cuz we arent gonna use a solenoid
+  
+  public Command dropCommand()
+  {
+    return this.run(this::drop);
+  }
 }

@@ -37,6 +37,7 @@ public class ClimberDeploy extends Command {
       if(deployReady())
       {
       climber.setPosition(deployHeight);
+      climber.deployed = true;
       }
       return null;
     }
@@ -48,7 +49,7 @@ public class ClimberDeploy extends Command {
         {
             return false;
         }
-        if(!sushi.getRearBeamBrake())
+        if(sushi.getRearBeamBrake())
         {
             return false;
         }
