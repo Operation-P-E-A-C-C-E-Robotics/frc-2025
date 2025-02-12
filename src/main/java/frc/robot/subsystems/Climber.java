@@ -65,7 +65,7 @@ public class Climber extends SubsystemBase {
     }
 
     // Ensure the elevator is at a minimum height
-    return elevator.getHeight() > 0.1;
+    return elevator.getHeight() > 0.1; //TODO: if theres any elevator input issues it might be from this
   }
 
   /**
@@ -133,9 +133,10 @@ public class Climber extends SubsystemBase {
    * 
    * @return A command to deploy the climber.
    */
-  public Command deploy() {
+  public Command deploy() 
+  {
     return this.run(() -> {
-      if (robotContainer.deployReady()) {
+      if(robotContainer.deployReady()) {
         setPosition(deployHeight);
         deployed = true;
       }

@@ -15,13 +15,11 @@ import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
-import frc.robot.commands.climber.ClimberDeploy;
-import frc.robot.commands.climber.ManualClimb;
 import frc.lib.util.ButtonMap;
+import frc.lib.util.ButtonMap.AnyPOV;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
-import frc.robot.commands.climber.ClimberClimb;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -52,16 +50,28 @@ public class RobotContainer {
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
-  private final XboxController commandController = new XboxController(1);
+  private final Joystick commandController = new Joystick(1);
   private final Joystick driverController = new Joystick(0);
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
-  private final OIEntry[] operatorMap = new OIEntry[]{
-    Button.onPress(sushi.place(), placeButton),
-    //MultiButton.onPress(sushi.deploy(), constants.climber.climberDeployButtonLeft)
-    MultiButton.onPress(climber.deploy(), climberDeployButtonLeft, climberDeployButtonRight)
-  };
 
+  private final OIEntry[] operatorSushiMap = new OIEntry[]{
+    Button.onHold(sushi.place(), placeButton),
+    Button.onHold(sushi.intake(), intakeButton)
+  };
+  private final OIEntry[] operatorClimberMap = new OIEntry[]
+  {
+    MultiButton.onPress(climber.deploy(), climberDeployButtonLeft, climberDeployButtonRight),
+    Button.onPress(climber.getToClimbPos(), climberClimbButton),
+    // AnyPOV.bindTo(() -> if(true){});
+  };
+  private final OIEntry[] operatorWristMap = new OIEntry[]
+  {
+    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.REST), restButtonID, setpointModeButton),
+    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L1), L1ButtonID, setpointModeButton),
+    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L2L3), L2L3ButtonID, setpointModeButton),
+    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L4), L4ButtonID, setpointModeButton)
+  };
 
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
@@ -83,27 +93,15 @@ public class RobotContainer {
                .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
                .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
-               
     driveTrain.register(driverController);
-    driveTrain.setDefaultCommand(peaccyDrive);
 
+    driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
 
-    //Sushi Buttons
-    new JoystickButton(commandController, placeButton).whileTrue(sushi.place());
-    new JoystickButton(commandController, intakeButton).onTrue(sushi.intake());
-
-    //Wrist Buttons
-    new JoystickButton(commandController, restButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.REST));
-    new JoystickButton(commandController, L1ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L1));
-    new JoystickButton(commandController, L2L3ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L2L3));
-    new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
-
-    //ClimberDeploy
-    //deployButtonRight.getAsBoolean()
-    //ClimberClimbPos
-    new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climber.getToClimbPos());
+    new ButtonMap(commandController).map(operatorSushiMap);
+    new ButtonMap(commandController).map(operatorClimberMap);
+    new ButtonMap(commandController).map(operatorWristMap);
   }
 
   public boolean deployReady()
