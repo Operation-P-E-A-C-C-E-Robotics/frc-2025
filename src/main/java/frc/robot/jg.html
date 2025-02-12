@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image</title>
+  <style>
+    /* Make sure the html and body take full height and remove default margins */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    /* Center content horizontally and vertically using Flexbox */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* This class disables pointer events and sets image dimensions */
+    .protected-img {
+      pointer-events: none;
+      transform-origin: top left;
+      user-select: none;
+      width: 50%;
+      height: 70%;
+    }
+  </style>
+  <script>
+    // Disable the context menu (right-click) on the entire page
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    }, false);
+  </script>
+</head>
+<body>
+  <img class="protected-img" 
+       src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/04/24/21/guinea-pig-alamy.jpg" 
+       alt="Protected Image">
+</body>
+</html>
