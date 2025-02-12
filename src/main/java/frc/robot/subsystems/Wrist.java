@@ -100,7 +100,7 @@ public class Wrist extends SubsystemBase {
         L2L3(Rotation2d.fromDegrees(75)),
         L4(Rotation2d.fromDegrees(90));
 
-        private final Rotation2d angle;
+        private Rotation2d angle;
 
         WristSetpoints(Rotation2d angle) {
             this.angle = angle;
