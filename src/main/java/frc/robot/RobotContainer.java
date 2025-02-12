@@ -101,8 +101,6 @@ public class RobotContainer {
     new JoystickButton(commandController, L4ButtonID).onTrue(wrist.goToSetpoint(WristSetpoints.L4));
 
     //ClimberDeploy
-    JoystickButton deployButtonRight = new JoystickButton(commandController, Constants.Climber.climberDeployButtonRight);
-    new JoystickButton(commandController, Constants.Climber.climberDeployButtonLeft).onTrue(climber.deploy());
     //deployButtonRight.getAsBoolean()
     //ClimberClimbPos
     new JoystickButton(commandController, Constants.Climber.climberClimbButton).onTrue(climber.getToClimbPos());
