@@ -37,15 +37,11 @@
 
 
 
-  //Wrist conversions, default commands, button mapping, manual controls, Do elevator commands same way as wrist (with enums)
+  //Wrist conversions, default commands,, manual controls, Do elevator commands same way as wrist (with enums)
   //delete induvdual climber command files and put them in the climber subsystem
   //Determine if we should- and set aside, a file just for figuring out constraints (ClimberDeploy and elevator)
-  //
 
   //Stuff parker is doing currently:
-  
-  remaking all the inputs in the fancy input manager way (The important stuff is done, but everything still needs to be redone at some point)
-
 
   //Kind of prioritized:
 
