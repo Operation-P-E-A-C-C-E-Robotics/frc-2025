@@ -1,0 +1,60 @@
+# Commit Message Convention Guide
+
+## Format
+<emoji> <type>[(scope)]: <message>
+
+## Type Codes and Emojis
+- 🔧 RF → Refactoring: Changes that neither fix a bug nor add a feature
+- 🐞 FX → Bug Fix: Changes that fix a bug
+- ✨ NF → New Feature: Changes that add new functionality
+- 📄 DC → Documentation: Changes to documentation only
+- 🎨 ST → Styling: Formatting, missing semi colons, etc; no code change
+- 🔥 RM → Removed: Removed code or files
+- 🚀 OP → Optimization: Performance improvements
+
+## Rules
+
+1. Message Structure
+   - Start with the emoji matching the change type
+   - Follow with the type code in lowercase
+   - Add scope in parentheses if applicable
+   - Use a colon and space before the message
+   - Message should be in imperative mood
+
+2. Message Content
+   - Start with a capital letter
+   - No period at the end
+   - Keep it concise but descriptive
+   - Use imperative form ("Add" not "Added")
+   - Maximum 72 characters total
+
+3. Scope (Optional)
+   - Use lowercase
+   - Use single word when possible
+   - No spaces (use hyphens if needed)
+   - Should describe the section of codebase
+
+## Examples
+
+Good commits:
+✨ feat(auth): Add user authentication system
+🐞 fix: Resolve memory leak in image processing
+🔧 refactor(api): Restructure endpoint handlers
+📄 docs: Update installation instructions
+🎨 style: Format according to style guide
+🔥 remove: Delete deprecated user service
+🚀 perf(query): Optimize database indexing
+
+Bad commits:
+fixed bug                    // Missing type and emoji
+🐞 FX: added new stuff      // Type in wrong case, past tense
+✨ feat: New Feature.       // Ends with period
+🔧 refactor(back end): xxx  // Scope contains space
+
+## Best Practices
+
+1. Keep commits atomic - one logical change per commit
+2. Use scope when changes affect specific component/module
+3. Reference issue numbers in commit body if applicable
+4. Provide detailed description in commit body for complex changes
+5. Break long changes into multiple focused commits
