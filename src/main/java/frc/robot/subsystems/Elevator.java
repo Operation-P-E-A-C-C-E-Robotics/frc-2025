@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
@@ -18,117 +19,95 @@ import com.ctre.phoenix6.signals.ReverseLimitValue;
 import static frc.robot.Constants.Elevator.*;
 
 public class Elevator extends SubsystemBase {
-  /* HARDWARE */
-  private TalonFX elevatorMaster = new TalonFX(elevatorMasterID); //falcon 500
-  private TalonFX elevatorFollower = new TalonFX(elevatorFollowerID);
 
-  /* CONTROL MODES */
+  private final TalonFX master = new TalonFX(elevatorMasterID);
+  private final TalonFX follower = new TalonFX(elevatorFollowerID);
+
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
-  private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
+  private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
-  /* STATUS SIGNALS */
-  private final StatusSignal<Angle> positionSignal;
-  private final StatusSignal<ForwardLimitValue> upperLimitSignal;
-  private final StatusSignal<ReverseLimitValue> lowerLimitSignal;
-  //Wrist conversions, default commands, button mapping, manual controls, Do elevator commands same way as wrist (with enums)
-  //delete induvdual climber command files and put them in the climber subsystem
-  //set aside a file just for figuring out constraints (ClimberDeploy and elevator)
+  private final StatusSignal<Angle> position = master.getPosition();
+  private final StatusSignal<ForwardLimitValue> upperLimit = master.getForwardLimit();
+  private final StatusSignal<ReverseLimitValue> lowerLimit = master.getReverseLimit();
 
-
-  /**
-   * Is what controls the elevator on the robot, in order to position the sushi at the right height to score
-   */
   public Elevator() {
     Reporter.report(
-      elevatorMaster.getConfigurator().apply(motorConfig),
+      master.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
     );
 
     Reporter.report(
-      elevatorFollower.getConfigurator().apply(motorConfig),
+      follower.getConfigurator().apply(motorConfig),
       "couldn't config elevator follower motor"
     );
 
     Reporter.report(
-      elevatorFollower.setControl(new Follower(elevatorMasterID, false)),
+      follower.setControl(new Follower(elevatorMasterID, false)),
       "failed to configure elevator follow motor to follow master"
     );
 
-    positionSignal = elevatorMaster.getPosition();
-    upperLimitSignal = elevatorMaster.getForwardLimit();
-    lowerLimitSignal = elevatorMaster.getReverseLimit();
-
-    //yer limited in how many CAN signals your motors can send the rio, so to not max it out with unneccessary signals,
-    // the first line sets all them to not run, and the second 8 or so set the neccessary ones to run
-    // ParentDevice.optimizeBusUtilizationForAll(elevatorMaster, elevatorFollower);
     BaseStatusSignal.setUpdateFrequencyForAll(100,
-      positionSignal,
-      elevatorMaster.getDutyCycle(),
-      elevatorMaster.getVelocity(),
-      elevatorMaster.getAcceleration(),
-      elevatorMaster.getClosedLoopError(),
-      elevatorMaster.getClosedLoopReference()
+      position,
+      master.getDutyCycle(),
+      master.getVelocity(),
+      master.getAcceleration(),
+      master.getClosedLoopError(),
+      master.getClosedLoopReference()
     );
   }
+
   /**
-   * Sets the height of the end effector, in meters
-   * @param meters How high the end effector is relative to when it was turned on
+   * Sets the height of the elevator to the given height by using the position control mode of the Talon.
+   * @param height the desired height of the elevator in inches
    */
-  public void setHeight(double meters) {
-    motionMagicControl.withPosition(heightToSpoolRotations(meters));
-    elevatorMaster.setControl(motionMagicControl);
+  public void setHeight(double height) {
+    motionMagic.withPosition(spoolRotations(height));
+    master.setControl(motionMagic);
   }
- /**
-  * A manual control for the elevator
-  * @param value The generic speed at which the elevator moves up and down
-  */
-  public void setSpeed(double value) {
-    elevatorMaster.setControl(dutyCycle.withOutput(value));
+
+  /**
+   * Sets the speed of the elevator motor.
+   * @param speed The desired motor speed between -1 and 1.
+   */
+  public void setSpeed(double speed) {
+    master.setControl(dutyCycle.withOutput(speed));
   }
- /**
-  * Returns the elevators height
-  * @return
-  */
+
   public double getHeight() {
-    return spoolRotationsToHeight(positionSignal.getValueAsDouble());
+    return heightFromSpoolRotations(position.getValueAsDouble());
   }
-  /**
-   * Gets the value the upper limit switch is currently returning
-   * @return
-   */
-  public boolean getUpperLimitSwitch(){
-    return upperLimitSignal.getValue() == ForwardLimitValue.ClosedToGround;
+
+  public boolean getUpperLimitSwitch() {
+    return upperLimit.getValue() == ForwardLimitValue.ClosedToGround;
   }
-  /**
-   * Gets the value the lower limit switch is currently returning
-   * @return
-   */
-  public boolean getLowerLimitSwitch(){
-    return lowerLimitSignal.getValue() == ReverseLimitValue.ClosedToGround;
+
+  public boolean getLowerLimitSwitch() {
+    return lowerLimit.getValue() == ReverseLimitValue.ClosedToGround;
   }
 
   @Override
   public void periodic() {
-    //Note to parker: the benefit of storing all your status signals in variables
-    //is that the values are cached, meaning if we access the value multiple times per loop,
-    //it won't impact can bus utilization.
-    //However, it requires that we call this function to update the values once per loop.
-    StatusSignal.refreshAll(upperLimitSignal, lowerLimitSignal, positionSignal);
+    // periodically refresh all status signals from the talon, including
+    // position, upper limit switch, and lower limit switch
+    StatusSignal.refreshAll(position, upperLimit, lowerLimit);
   }
+
   /**
-   * pretty self explanatory innit?
-   * @param spoolRotations
-   * @return
+   * Converts a given height to the equivalent number of spool rotations.
+   *
+   * @param height the height to convert to spool rotations
+   * @return the number of spool rotations corresponding to the given height
    */
-  private double spoolRotationsToHeight(double spoolRotations) {
-    return spoolRotations * spoolCircumference;
-  }
-  /**
-   * Takes in a height value, and returns the amount of the elevator's SpoolRotations
-   * @param height
-   * @return
-   */
-  private double heightToSpoolRotations(double height) {
+  private double spoolRotations(double height) {
     return height / spoolCircumference;
   }
+
+  /**
+   * @param rotations the spool rotations to convert to a height
+   * @return the height corresponding to the given spool rotations
+   */
+  private double heightFromSpoolRotations(double rotations) {
+    return rotations * spoolCircumference;
+  }
 }
+

@@ -1,0 +1,82 @@
+# Java Code Conventions
+
+## Naming Conventions
+
+Classes and Interfaces: PascalCase (UpperCamelCase)
+Examples:
+  GameEngine
+  Renderable
+
+Methods: camelCase (lowerCamelCase)
+Examples:
+  generateTerrain
+  startGame
+
+Variables: camelCase
+Examples:
+  blockCount
+  playerName
+
+Constants: UPPER_SNAKE_CASE
+Examples:
+  MAX_PLAYERS = 100
+
+Enums: PascalCase for enum types, UPPER_SNAKE_CASE for enum values
+Examples:
+  BlockType
+    STONE
+    DIRT
+    ORE
+
+Packages: snake_case with all lowercase
+Examples:
+  com.mygame.world_generation
+
+File Names: match the class name exactly (PascalCase)
+Examples:
+  GameEngine.java
+
+## Braces `{}` Placement
+
+Classes and Methods: open brace `{` on the same line as the class or method signature, closing brace `}` on a new line at the same indentation level as the start
+Examples:
+  public class Game {
+    public void startGame() {
+      System.out.println("Game started");
+    }
+  }
+
+Control Statements (if, for, while, switch): always use braces `{}`, open brace `{` on the same line
+Examples:
+  if (isRunning) {
+    update();
+  }
+
+Arrays: use consistent spacing for array declarations
+Examples:
+  int[] blockIds = new int[10];
+
+## Indentation and Spacing
+
+* Use 4 spaces for indentation (no tabs)
+* One space before `{` in method and class declarations
+* No space before `(` in method calls and definitions
+* One space after commas in argument lists
+Examples:
+  public void movePlayer(int x, int y) {
+    System.out.println("Moving player to: " + x + ", " + y);
+  }
+
+## Comments
+
+* Use Javadoc-style comments (`/** ... */`) for classes and methods
+* Use `//` for inline comments
+Examples:
+  /**
+   * Starts the game loop.
+   */
+  public void startGame() {
+    // Initialize game components
+    System.out.println("Starting game...");
+  }
+

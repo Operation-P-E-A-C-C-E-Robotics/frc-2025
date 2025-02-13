@@ -6,7 +6,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +15,6 @@ import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 import frc.lib.util.ButtonMap;
-import frc.lib.util.ButtonMap.AnyPOV;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
@@ -37,8 +35,6 @@ public class RobotContainer {
   private final int strafeAxis = 4;
   private final int rotationAxis = 0;
   private final int zeroButtonNo = 7;
-
-  /* SENSORS */
 
   /* SUBSYSTEMS */
   private final Swerve driveTrain = new Swerve();

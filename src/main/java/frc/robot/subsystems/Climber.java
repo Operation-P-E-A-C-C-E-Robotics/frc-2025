@@ -54,17 +54,14 @@ public class Climber extends SubsystemBase {
    * @return true if the climber is ready to deploy, false otherwise.
    */
   public boolean deployReady() {
-    // Ensure wrist is not too far back
     if (wrist.getWristPosition().getDegrees() <= 10) { // TODO: Adjust angle threshold
       return false;
     }
     
-    // Ensure there is no obstruction detected by the rear beam brake
     if (sushi.getRearBeamBrake()) {
       return false;
     }
 
-    // Ensure the elevator is at a minimum height
     return elevator.getHeight() > 0.1; //TODO: if theres any elevator input issues it might be from this
   }
 
