@@ -72,7 +72,17 @@ public class Climber extends SubsystemBase {
    */
   public void setSpeed(double speed) {
     if (deployed) {
-      climbMaster.setControl(dutyCycle.withOutput(speed));
+      if(speed < 0)
+      {
+        if(elevator.getHeight() >= 0.1)
+        {
+          climbMaster.setControl(dutyCycle.withOutput(speed));    
+        }
+      }
+      else
+      {
+        climbMaster.setControl(dutyCycle.withOutput(speed));        
+      }
     }
   }
 
@@ -121,9 +131,7 @@ public class Climber extends SubsystemBase {
    * @param speed A supplier providing the desired speed.
    * @return A command that allows manual control of the climber.
    */
-  public Command manualInput(DoubleSupplier speed) {
-    return this.run(() -> setSpeed(speed.getAsDouble())); // TODO: Verify correct axis mapping
-  }
+
 
   /**
    * Deploys the climber if all conditions are met.
@@ -149,5 +157,10 @@ public class Climber extends SubsystemBase {
   public Command climb(double speed) {
     setSpeed(speed * maxSpeed);
     return null;
+  }
+
+  public Climber manualInput(DoubleSupplier speed) {
+    setSpeed(speed.getAsDouble());
+    return this; // TODO: Verify correct axis mapping
   }
 }

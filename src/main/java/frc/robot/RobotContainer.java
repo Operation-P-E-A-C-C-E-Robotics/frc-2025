@@ -94,10 +94,12 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
+    climber.manualInput(() -> driverController.getRawAxis(translationAxis));
 
     new ButtonMap(commandController).map(operatorSushiMap);
     new ButtonMap(commandController).map(operatorClimberMap);
     new ButtonMap(commandController).map(operatorWristMap);
+    SmartDashboard.putBoolean("Setpoint Mode", commandController.getRawButton(setpointModeButton)); //TODO figure out if this will continue to update based on the button input after being declared
   }
 
   public boolean deployReady()
