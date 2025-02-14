@@ -16,6 +16,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import static frc.robot.Constants.Wrist.*;
 
+import java.util.function.DoubleSupplier;
+
 public class Wrist extends SubsystemBase {
 
     private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
@@ -109,5 +111,10 @@ public class Wrist extends SubsystemBase {
         public Rotation2d getAngle() {
             return angle;
         }
+    }
+
+    public Wrist manualInput(DoubleSupplier speed) {
+    setSpeed(speed.getAsDouble());
+    return this; // TODO: Verify correct axis mapping
     }
 }

@@ -94,6 +94,8 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
+
+    wrist.manualInput(() -> driverController.getRawAxis(rotationAxis));
     climber.manualInput(() -> driverController.getRawAxis(translationAxis));
 
     new ButtonMap(commandController).map(operatorSushiMap);

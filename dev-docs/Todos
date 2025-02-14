@@ -37,7 +37,7 @@
 
 
 
-  //Wrist conversions, default commands,, manual controls, Do elevator commands same way as wrist (with enums)
+  //Wrist conversions, default commands, Figure out if RobotContainer line 98 is a correct axis, Do elevator commands same way as wrist (with enums)
   //delete induvdual climber command files and put them in the climber subsystem
   //Determine if we should- and set aside, a file just for figuring out constraints (ClimberDeploy and elevator)
 
