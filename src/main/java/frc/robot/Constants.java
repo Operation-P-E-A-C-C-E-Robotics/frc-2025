@@ -277,24 +277,12 @@ public final class Constants {
     public static final int climberDeployButtonRight = 0; //TODO:
     public static final int climberDeployButtonLeft = 0;
     public static final int climberClimbButton = 0;
-                            //followerClimberMotorID = 90;
+
+    public static final double autoClimbSpeed = 0.5;
+    public static final double autoClimbPosition = 0;
 
     public static TalonFXConfiguration winchConfig = new TalonFXConfiguration();
     static {
-      winchConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0)
-                        .withKI(0)
-                        .withKD(0)
-                        .withKS(0)
-                        .withKV(0)
-                        .withKA(0);
-      
-      winchConfig.MotionMagic.withMotionMagicAcceleration(0)
-                            .withMotionMagicCruiseVelocity(0)
-                            .withMotionMagicJerk(0)
-                            .withMotionMagicExpo_kA(0)
-                            .withMotionMagicExpo_kV(0);
-
       winchConfig.CurrentLimits.withStatorCurrentLimit(40)
                                 .withStatorCurrentLimitEnable(true);
       

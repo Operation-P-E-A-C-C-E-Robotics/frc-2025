@@ -19,6 +19,7 @@ import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.subsystems.Wrist.WristSetpoints;
+import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 
@@ -38,10 +39,11 @@ public class RobotContainer {
 
   /* SUBSYSTEMS */
   private final Swerve driveTrain = new Swerve();
+  private final Elevator elevator = new Elevator();
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
-  private final Climber climber = new Climber(this::deployReady);
-  private final Elevator elevator = new Elevator();
+  private final Chute chute = new Chute();
+  private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 

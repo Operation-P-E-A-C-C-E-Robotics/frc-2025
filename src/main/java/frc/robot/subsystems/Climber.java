@@ -4,44 +4,34 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.Climber.climberDeployButtonLeft;
+import static frc.robot.Constants.Climber.autoClimbPosition;
+import static frc.robot.Constants.Climber.autoClimbSpeed;
 import static frc.robot.Constants.Climber.climberDeployMotorID;
 import static frc.robot.Constants.Climber.climberWinchMotorID;
 import static frc.robot.Constants.Climber.deployConfig;
 import static frc.robot.Constants.Climber.winchConfig;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
-import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 
 public class Climber extends SubsystemBase {
   private final TalonFX climbWinch = new TalonFX(climberWinchMotorID);
   private final TalonFX climbDeploy = new TalonFX(climberDeployMotorID);
-  private final MotionMagicExpoVoltage motionMagicControl = new MotionMagicExpoVoltage(0);
 
   private final StatusSignal<Angle> positionSignal;
-  private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
-
-  private final double deploySetpoint = 10; // TODO: Determine the correct deploy height
-  private final BooleanSupplier deployReady;
-
+  private final BooleanSupplier deployReady, chuteDropped;
   private boolean deployed = false;
 
-  public Climber(BooleanSupplier deployReady) {
+  public Climber(BooleanSupplier deployReady, BooleanSupplier chuteDropped) {
     this.deployReady = deployReady;
+    this.chuteDropped = chuteDropped;
   
-    positionSignal = climbWinch.getPosition();
+    positionSignal = climbDeploy.getPosition();
     climbWinch.getConfigurator().apply(winchConfig);
     climbDeploy.getConfigurator().apply(deployConfig);
     
@@ -53,33 +43,32 @@ public class Climber extends SubsystemBase {
     //   climbWinch.getVelocity(),
     //   climbWinch.getAcceleration(),
     //   climbWinch.getClosedLoopError(),
-    //   climbWinch.getClosedLoopReference()
+    //   climbWinch.getClosedLoopReference(),
+    //   climbDeploy.getDutyCycle(),
+    //   climbDeploy.getVelocity(),
+    //   climbDeploy.getAcceleration(),
+    //   climbDeploy.getClosedLoopError(),
+    //   climbDeploy.getClosedLoopReference(),
     // );
   }
 
 
   /**
-   * Sets the climber motor speed.
+   * Sets the deploy motor speed.
    * 
-   * @param speed The desired motor speed.
+   * @param speed The desired motor speed - negative values to deploy
    */
-  public void setSpeed(double speed) {
-    // if (deployed) {
-    //   if(speed < 0)
-    //   {
-    //     if(elevator.getHeight() >= 0.1)
-    //     {
-    //       climbWinch.setControl(dutyCycle.withOutput(speed));    
-    //     }
-    //   }
-    //   else
-    //   {
-    //     climbWinch.setControl(dutyCycle.withOutput(speed));        
-    //   }
-    // }
-    dutyCycle.withOutput(speed);
-    climbWinch.setControl(dutyCycle);
-    climbDeploy.setControl(dutyCycle);
+  public void setDeploySpeed(double speed) {
+    climbDeploy.set(speed);
+  }
+
+  /**
+   * Sets the winch motor speed.
+   * 
+   * @param speed The desired motor speed - positive values to climb
+   */
+  public void setWinchSpeed(double speed) {
+    climbWinch.set(speed);
   }
 
   /**
@@ -87,8 +76,14 @@ public class Climber extends SubsystemBase {
    * 
    * @param position The desired position.
    */
-  public void setPosition(double position) {
-    climbWinch.setControl(motionMagicControl.withPosition(position));
+  public void winchToPosition(double position) {
+    if(getPosition() < position) {
+      climbWinch.set(autoClimbSpeed);
+      climbDeploy.set(1);
+    } else {
+      setWinchSpeed(0);
+      setDeploySpeed(0);
+    }
   }
 
   /**
@@ -100,13 +95,20 @@ public class Climber extends SubsystemBase {
     return positionSignal.getValueAsDouble();
   }
 
+  public boolean hasDeployed() {
+    return deployed;
+  }
+
   /**
    * Stops the climber by setting its speed to zero.
    * 
    * @return A command that stops the climber.
    */
   public Command rest() {
-    return this.run(() -> setSpeed(0));
+    return this.run(() -> {
+      setDeploySpeed(0);
+      setWinchSpeed(0);
+    });
   }
 
   /**
@@ -115,10 +117,7 @@ public class Climber extends SubsystemBase {
    * @return A command to move the climber to the climb position.
    */
   public Command getToClimbPos() {
-    if (getPosition() < (deploySetpoint - 0.01)) {
-      setPosition(0); // TODO: Determine the correct climb position
-    }
-    return null;
+    return this.run(() -> winchToPosition(autoClimbPosition));
   }
 
 
@@ -130,7 +129,7 @@ public class Climber extends SubsystemBase {
   public Command deploy() {
     return this.run(() -> {
       if(deployReady.getAsBoolean()) {
-        setPosition(deploySetpoint);
+        setDeploySpeed(-1);
         deployed = true;
       }
     });
@@ -142,7 +141,12 @@ public class Climber extends SubsystemBase {
    * @param speed A supplier providing the desired speed.
    * @return A command that allows manual control of the climber.
    */
-  public Command manualInput(DoubleSupplier speed) {
-    return this.run(() ->  setSpeed(speed.getAsDouble()));
+  public Command manualInput(DoubleSupplier speedSupplier) {
+    return this.run(() ->  {
+      var speed = speedSupplier.getAsDouble();
+      if(speed > 0 && !chuteDropped.getAsBoolean() && getPosition() > 0) speed = 0;
+      setDeploySpeed(speed);
+      setWinchSpeed(speed);
+    });
   }
 }

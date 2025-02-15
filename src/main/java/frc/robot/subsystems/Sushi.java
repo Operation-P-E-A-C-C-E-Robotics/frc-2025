@@ -109,7 +109,7 @@ public class Sushi extends SubsystemBase {
   
   public Command index() {
     return this.run(
-      () -> setSpeed(getRearBeamBrake() ? 0.1 : 0) // Move coral forward by 0.1 meters
+      () -> setSpeed(getRearBeamBrake() ? 0.1 : 0)
     );
   }
 
