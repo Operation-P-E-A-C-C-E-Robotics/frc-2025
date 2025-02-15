@@ -232,6 +232,10 @@ public final class Constants {
     public static final boolean useSoftHoldHeading = false;
     public static final double softHeadingCurrentLimit = 30;
 
+    public static final double autoAlignKP = 0;
+    public static final double autoAlignKV = 0;
+    public static final double autoAlignTrajectoryTolerance = 0.2; //distance from target position to switch to plain PID control
+
     public static final double aimTolerance = 1; //degrees
 
 
