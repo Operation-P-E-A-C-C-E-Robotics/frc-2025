@@ -272,15 +272,16 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int leadClimberMotorID = 90;
+    public static final int climberWinchMotorID = 90;
+    public static final int climberDeployMotorID = 90;
     public static final int climberDeployButtonRight = 0; //TODO:
     public static final int climberDeployButtonLeft = 0;
     public static final int climberClimbButton = 0;
                             //followerClimberMotorID = 90;
 
-    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    public static TalonFXConfiguration winchConfig = new TalonFXConfiguration();
     static {
-      motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+      winchConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
                         .withKP(0)
                         .withKI(0)
                         .withKD(0)
@@ -288,18 +289,25 @@ public final class Constants {
                         .withKV(0)
                         .withKA(0);
       
-      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
+      winchConfig.MotionMagic.withMotionMagicAcceleration(0)
                             .withMotionMagicCruiseVelocity(0)
                             .withMotionMagicJerk(0)
                             .withMotionMagicExpo_kA(0)
                             .withMotionMagicExpo_kV(0);
 
-      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO:
-
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+      winchConfig.CurrentLimits.withStatorCurrentLimit(40)
                                 .withStatorCurrentLimitEnable(true);
       
-      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+      winchConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+                             .withNeutralMode(NeutralModeValue.Brake);
+     }
+
+     public static TalonFXConfiguration deployConfig = new TalonFXConfiguration();
+    static {
+      deployConfig.CurrentLimits.withStatorCurrentLimit(20)
+                                .withStatorCurrentLimitEnable(true);
+      
+      deployConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
                              .withNeutralMode(NeutralModeValue.Brake);
      }
   }

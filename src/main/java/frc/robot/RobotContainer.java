@@ -40,7 +40,7 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve();
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
-  private final Climber climber = new Climber();
+  private final Climber climber = new Climber(this::deployReady);
   private final Elevator elevator = new Elevator();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
@@ -51,18 +51,18 @@ public class RobotContainer {
 
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
-  private final OIEntry[] operatorSushiMap = new OIEntry[]{
+  private final OIEntry[] operatorSushiMap = new OIEntry[] {
     Button.onHold(sushi.place(), placeButton),
     Button.onHold(sushi.intake(), intakeButton)
   };
-  private final OIEntry[] operatorClimberMap = new OIEntry[]
-  {
+
+  private final OIEntry[] operatorClimberMap = new OIEntry[] {
     MultiButton.onPress(climber.deploy(), climberDeployButtonLeft, climberDeployButtonRight),
     Button.onPress(climber.getToClimbPos(), climberClimbButton),
     // AnyPOV.bindTo(() -> if(true){});
   };
-  private final OIEntry[] operatorWristMap = new OIEntry[]
-  {
+
+  private final OIEntry[] operatorWristMap = new OIEntry[] {
     MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.REST), restButtonID, setpointModeButton),
     MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L1), L1ButtonID, setpointModeButton),
     MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L2L3), L2L3ButtonID, setpointModeButton),

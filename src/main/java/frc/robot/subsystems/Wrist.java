@@ -96,6 +96,10 @@ public class Wrist extends SubsystemBase {
         return this.runOnce(() -> setPosition(setpoint.getAngle()));
     }
 
+    public Command manualInput(DoubleSupplier speed) {
+        return this.run(() -> setSpeed(speed.getAsDouble()));
+    }
+    
     public enum WristSetpoints {
         REST(Rotation2d.fromDegrees(0)),
         L1(Rotation2d.fromDegrees(35)),
@@ -113,8 +117,4 @@ public class Wrist extends SubsystemBase {
         }
     }
 
-    public Wrist manualInput(DoubleSupplier speed) {
-    setSpeed(speed.getAsDouble());
-    return this; // TODO: Verify correct axis mapping
-    }
 }
