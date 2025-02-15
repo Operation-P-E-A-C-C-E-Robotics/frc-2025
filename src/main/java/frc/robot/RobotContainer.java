@@ -32,10 +32,6 @@ import static frc.robot.Constants.Wrist.*;
 
 public class RobotContainer {
   /* OI CONSTANTS */
-  private final int translationAxis = 5; //forward/backward
-  private final int strafeAxis = 4;
-  private final int rotationAxis = 0;
-  private final int zeroButtonNo = 7;
 
   /* SUBSYSTEMS */
   private final Swerve driveTrain = new Swerve();
@@ -48,10 +44,10 @@ public class RobotContainer {
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
-  private final Joystick commandController = new Joystick(1);
-  private final Joystick driverController = new Joystick(0);
+  private final Joystick driverJoystick = new Joystick(0);
+  private final Joystick operatorJoystick = new Joystick(1);
 
-  private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
+  private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
   private final OIEntry[] operatorSushiMap = new OIEntry[] {
     Button.onHold(sushi.place(), placeButton),
@@ -82,28 +78,25 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    peaccyDrive.withTranslation(() -> -driverController.getRawAxis(translationAxis))
-               .withStrafe     (() -> -driverController.getRawAxis(strafeAxis))
-               .withRotation   (() -> -driverController.getRawAxis(rotationAxis))
-               .withHeading    (() -> (double) -driverController.getPOV())
-               .useHeading     (() -> driverController.getPOV() != -1)
-               .isFieldRelative(() -> driverController.getRawAxis(2) < 0.2) //left trigger
-               .isLockIn       (() -> driverController.getRawAxis(3) > 0.2) //right trigger
+    peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis))
+               .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis))
+               .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
+               .withHeading    (() -> (double) -driverJoystick.getPOV())
+               .useHeading     (() -> driverJoystick.getPOV() != -1)
+               .isFieldRelative(() -> driverJoystick.getRawAxis(2) < 0.2) //left trigger
+               .isLockIn       (() -> driverJoystick.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
-               .isOpenLoop     (() -> !driverController.getRawButton(6)); //right bumper
-    driveTrain.register(driverController);
+               .isOpenLoop     (() -> !driverJoystick.getRawButton(6)); //right bumper
+    driveTrain.register(driverJoystick);
 
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
 
-    wrist.manualInput(() -> driverController.getRawAxis(rotationAxis));
-    climber.manualInput(() -> driverController.getRawAxis(translationAxis));
-
-    new ButtonMap(commandController).map(operatorSushiMap);
-    new ButtonMap(commandController).map(operatorClimberMap);
-    new ButtonMap(commandController).map(operatorWristMap);
-    SmartDashboard.putBoolean("Setpoint Mode", commandController.getRawButton(setpointModeButton)); //TODO figure out if this will continue to update based on the button input after being declared
+    new ButtonMap(operatorJoystick).map(operatorSushiMap);
+    new ButtonMap(operatorJoystick).map(operatorClimberMap);
+    new ButtonMap(operatorJoystick).map(operatorWristMap);
+    SmartDashboard.putBoolean("Setpoint Mode", operatorJoystick.getRawButton(setpointModeButton)); //TODO figure out if this will continue to update based on the button input after being declared
   }
 
   public boolean deployReady()

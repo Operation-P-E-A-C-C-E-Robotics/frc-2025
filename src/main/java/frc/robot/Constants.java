@@ -31,8 +31,15 @@ import frc.lib.util.JoystickCurves;
 public final class Constants {
   public static final double period = 0.01; //loop time
 
-  public static final class InputIDS{
+  public static final class OI{
     //Driver
+    public static final int translationAxis = 5; //forward/backward
+    public static final int strafeAxis = 4;
+    public static final int rotationAxis = 0;
+    public static final int zeroOdometry = 7;
+
+    public static final int disableAutoRotation = 7;
+    public static final int toggleAutoRotation = 8;
     //Operator
     public static int sushiIntakeButton = 6;
   }
