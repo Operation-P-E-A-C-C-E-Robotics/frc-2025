@@ -14,7 +14,7 @@ public class Chute extends SubsystemBase {
 
     public static TalonSRX rightChuteMotor = new TalonSRX(rightMotorID); // Should be 28
     public static TalonSRX leftChuteMotor = new TalonSRX(leftMotorID);   // Should be 16
-    public static TalonSRX chuteDropMotor = new TalonSRX(90); // TODO
+    public static TalonSRX chuteDropMotor = new TalonSRX(6); // TODO
 
     private boolean hasDropped = false;
 

@@ -45,10 +45,10 @@ public final class Constants {
   }
 
   public static final class Elevator {
-    public static int elevatorMasterID  = 0;//CAN IDS
-    public static int elevatorFollowerID = 0;//CAN IDS
-    public static int upperLimitSwitchID = 0;//pwm port ID, labled DIO
-    public static int lowerLimitSwitchID = 0;//pwn Port ID, labled DIO
+    public static int elevatorMasterID  = 18;//CAN IDS
+    public static int elevatorFollowerID = 19;//CAN IDS
+    public static int upperLimitSwitchID = 3;//pwm port ID, labled DIO
+    public static int lowerLimitSwitchID = 4;//pwn Port ID, labled DIO
     public static double spoolCircumference = Units.inchesToMeters(2) * Math.PI;
 
 
@@ -89,11 +89,11 @@ public final class Constants {
   public static final class Sushi {
     public static final int sushiMainID = 90;
     public static final int frontBeamBreakID = 0;
-    public static final int backBeamBreakID = 0;
+    public static final int backBeamBreakID = 1;
     public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
     public static final double gearRatio = 10.0;         // Motor:Wheel
-    public static final int intakeButton = 90;        // m/s
-    public static final int placeButton = 90;    // m/s^2
+    public static final int intakeButton = 9;        // m/s
+    public static final int placeButton = 10;    // m/s^2
 
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
@@ -123,7 +123,7 @@ public final class Constants {
     public static final int L1ButtonID = 1;//TODO: Set this button to something
     public static final int L2L3ButtonID = 2; 
     public static final int L4ButtonID = 3;
-    public static final int setpointModeButton = 100; //TODO: Set this button to something
+    public static final int setpointModeButton = 7; //TODO: Set this button to something
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
@@ -159,10 +159,10 @@ public final class Constants {
 
  ///Chute
   public static final class Chute {
-    public static final int leftMotorID = 16; //TODO set motor can id
-    public static final int rightMotorID = 28;
-    public static final int intakeID = 0;//TODO
-    public static final int unjamID = 0;
+    public static final int leftMotorID = 14; //TODO set motor can id
+    public static final int rightMotorID = 15;
+    public static final int intakeID = 5;//TODO
+    public static final int unjamID = 11;
     public static final double intakeSpeed = 0.6; //For now
     public static final double unjamSpeed = -0.8;
 }
