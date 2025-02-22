@@ -55,9 +55,11 @@ public class Chute extends SubsystemBase {
         return hasDropped;
     }
 
-    public void drop() {
-        chuteDropMotor.set(ControlMode.PercentOutput, 0.4); // TODO: Figure out if this is a good speed to pull the pins
-        hasDropped = true;
+    public Command dropCommand() {
+        return this.run(() -> {
+            chuteDropMotor.set(ControlMode.PercentOutput, 0.4); // TODO: Figure out if this is a good speed to pull the pins
+            hasDropped = true;
+        });
     }
 
     public Command intake() {
@@ -66,10 +68,6 @@ public class Chute extends SubsystemBase {
 
     public Command unjam() {
         return this.runOnce(() -> setSpeed(unjamSpeed, unjamSpeed));
-    }
-
-    public Command dropCommand() {
-        return this.run(this::drop);
     }
 }
 
