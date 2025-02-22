@@ -97,7 +97,7 @@ public class Sushi extends SubsystemBase {
   }
 
   public Command place() {
-    return this.runOnce(() -> setSpeed(1));
+    return this.run(() -> setSpeed(1)).until(() -> !getFrontBeamBrake());
   }
 
   public Command intake() {

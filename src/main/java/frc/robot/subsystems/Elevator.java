@@ -50,7 +50,7 @@ public class Elevator extends SubsystemBase {
     );
 
     Reporter.report(
-      follower.setControl(new Follower(elevatorMasterID, false)),
+      follower.setControl(new Follower(elevatorMasterID, true)),
       "failed to configure elevator follow motor to follow master"
     );
 
@@ -133,7 +133,8 @@ public class Elevator extends SubsystemBase {
   public enum ElevatorSetpoints {
         REST(0),
         L1(0),
-        L2L3(0),
+        L2(0),
+        L3(0),
         L4(0);
 
         private double height;

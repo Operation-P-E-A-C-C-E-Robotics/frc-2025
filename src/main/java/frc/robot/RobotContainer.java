@@ -10,12 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutomationCommands;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Elevator.ElevatorSetpoints;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
+import frc.lib.util.ButtonMap.JoystickTrigger;
 import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.subsystems.Wrist.WristSetpoints;
@@ -41,6 +44,8 @@ public class RobotContainer {
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve();
 
+  public AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
+
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -49,18 +54,34 @@ public class RobotContainer {
 
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
-  private final OIEntry[] operatorSushiMap = new OIEntry[] {
-    Button.onHold(sushi.place(), placeButton),
-    Button.onHold(sushi.intake(), intakeButton)
+  private final OIEntry[] operatorsMap = new OIEntry[] {
+    Button.onHold(sushi.place(), 8),
+    Button.onHold(sushi.intake(), 7),
+    Button.onHold(chute.unjam(), 5),
+    Button.onPress(climber.getToClimbPos(), 6),
+
+    Button.onHold(automationCommands.l1ElevatorWrist(), 3),
+    Button.onHold(automationCommands.l2ElevatorWrist(), 2),
+    Button.onHold(automationCommands.l3ElevatorWrist(), 1),
+    Button.onHold(automationCommands.l4ElevatorWrist(), 4),
+
+    MultiButton.onPress(automationCommands.deployClimber(), 9, 10),
+
+    Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
+    Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
+
+    JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.05), 3, 0.15),
+    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.05), 1, 0.1),
   };
 
-  private final OIEntry[] operatorClimberMap = new OIEntry[] {
-    MultiButton.onPress(climber.deploy(), climberDeployButtonLeft, climberDeployButtonRight),
-    Button.onPress(climber.getToClimbPos(), climberClimbButton),
-    // AnyPOV.bindTo(() -> if(true){});
-  };
+  private final OIEntry[] driverMap = new OIEntry[] {
+    JoystickTrigger.onMove(driverJoystick, sushi.intake(), 2, 0.5),
+    JoystickTrigger.onMove(driverJoystick, automationCommands.placeAndRetract(), 3, 0.5),
 
-  private final OIEntry[] operatorWristMap = new OIEntry[] {
+    Button.onHold(automationCommands.l1ElevatorWrist(), 2),
+    Button.onHold(automationCommands.l2ElevatorWrist(), 1),
+    Button.onHold(automationCommands.l3ElevatorWrist(), 3),
+    Button.onHold(automationCommands.l4ElevatorWrist(), 4),
   };
 
   /* COMMANDS */
@@ -90,28 +111,23 @@ public class RobotContainer {
     climber.setDefaultCommand(climber.rest());
     wrist.setDefaultCommand(wrist.goToSetpoint(WristSetpoints.REST));
 
-    new ButtonMap(operatorJoystick).map(operatorSushiMap);
-    new ButtonMap(operatorJoystick).map(operatorClimberMap);
-    new ButtonMap(operatorJoystick).map(operatorWristMap);
+    new ButtonMap(operatorJoystick).map(operatorsMap);
+    new ButtonMap(driverJoystick).map(driverMap);
     SmartDashboard.putBoolean("Setpoint Mode", operatorJoystick.getRawButton(setpointModeButton)); //TODO figure out if this will continue to update based on the button input after being declared
   }
 
   public boolean deployReady()
   {
-      if(10 >= wrist.getWristPosition().getDegrees()) //TODO figure out what angle is "too far back"- 10 is the placeholder atm
-      {
+      if(10 >= wrist.getWristPosition().getDegrees()){
           return false;
       }
-      if(sushi.getRearBeamBrake())
-      {
+      if(sushi.getRearBeamBrake()){
           return false;
       }
-      if(elevator.getHeight() <= 0.1)
-      {
+      if(elevator.getHeight() <= 0.1){
           return false;
       }
-      else
-      {
+      else{
           return true;      //TODO Ask Shwahilie if returning ends the command early. If it does, this works perfectly fine.      
       }
   }

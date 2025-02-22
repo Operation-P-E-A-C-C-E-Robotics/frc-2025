@@ -93,8 +93,6 @@ public final class Constants {
     public static final int backBeamBreakID = 1;
     public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
     public static final double gearRatio = 10.0;         // Motor:Wheel
-    public static final int intakeButton = 9;        // m/s
-    public static final int placeButton = 10;    // m/s^2
 
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
