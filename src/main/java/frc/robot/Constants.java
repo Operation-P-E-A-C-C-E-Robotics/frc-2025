@@ -50,6 +50,9 @@ public final class Constants {
     public static int upperLimitSwitchID = 3;//pwm port ID, labled DIO
     public static int lowerLimitSwitchID = 4;//pwn Port ID, labled DIO
     public static double spoolCircumference = Units.inchesToMeters(2) * Math.PI;
+    public static double spoolRotationsPerMotorRotations = (1/4);
+
+    public static double maxExtensionWithoutIndexing = 0.1;
 
 
 
@@ -68,8 +71,6 @@ public final class Constants {
                             .withMotionMagicJerk(0)
                             .withMotionMagicExpo_kA(0)
                             .withMotionMagicExpo_kV(0);
-
-      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
 
       motorConfig.CurrentLimits.withStatorCurrentLimit(40)
                                 .withStatorCurrentLimitEnable(true);
@@ -124,6 +125,10 @@ public final class Constants {
     public static final int L2L3ButtonID = 2; 
     public static final int L4ButtonID = 3;
     public static final int setpointModeButton = 7; //TODO: Set this button to something
+
+    //TODO verify versa ratio for wrist!!!!!!!!!!!!!!!!!!!!!
+    public static final double wristRotationsPerMotorRotation = (16/200) * (1/4); //16:200 ratio on the 3d printed gears and 1:4 ratio on versaplanatery
+
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)

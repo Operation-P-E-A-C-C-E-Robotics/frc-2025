@@ -34,12 +34,12 @@ public class RobotContainer {
   /* OI CONSTANTS */
 
   /* SUBSYSTEMS */
-  private final Swerve driveTrain = new Swerve();
-  private final Elevator elevator = new Elevator();
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
+  private final Elevator elevator = new Elevator(sushi::getRearBeamBrake, () -> wrist.getWristPosition().getRotations() > 0.4);
   private final Chute chute = new Chute();
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
+  private final Swerve driveTrain = new Swerve();
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
@@ -61,10 +61,6 @@ public class RobotContainer {
   };
 
   private final OIEntry[] operatorWristMap = new OIEntry[] {
-    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.REST), restButtonID, setpointModeButton),
-    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L1), L1ButtonID, setpointModeButton),
-    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L2L3), L2L3ButtonID, setpointModeButton),
-    MultiButton.onPress(wrist.goToSetpoint(WristSetpoints.L4), L4ButtonID, setpointModeButton)
   };
 
   /* COMMANDS */
@@ -92,6 +88,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
+    wrist.setDefaultCommand(wrist.goToSetpoint(WristSetpoints.REST));
 
     new ButtonMap(operatorJoystick).map(operatorSushiMap);
     new ButtonMap(operatorJoystick).map(operatorClimberMap);

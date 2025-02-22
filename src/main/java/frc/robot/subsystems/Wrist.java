@@ -63,7 +63,7 @@ public class Wrist extends SubsystemBase {
      * @param angle the desired wrist angle as a Rotation2d
      */
     public void setPosition(Rotation2d angle) {
-        motionMagicControl.withPosition(angle.getDegrees());
+        motionMagicControl.withPosition(angle.getRotations() / wristRotationsPerMotorRotation);
         motor.setControl(motionMagicControl);
     }
 
@@ -77,7 +77,7 @@ public class Wrist extends SubsystemBase {
      * @return The current wrist position as a Rotation2d.
      */
     public Rotation2d getWristPosition() {
-        double rotorPosition = motor.getRotorPosition().getValueAsDouble();
+        double rotorPosition = motor.getRotorPosition().getValueAsDouble() * wristRotationsPerMotorRotation;
         return Rotation2d.fromRotations(rotorPosition);
     }
 

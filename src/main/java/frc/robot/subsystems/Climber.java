@@ -78,8 +78,8 @@ public class Climber extends SubsystemBase {
    */
   public void winchToPosition(double position) {
     if(getPosition() < position) {
-      climbWinch.set(autoClimbSpeed);
-      climbDeploy.set(1);
+      setWinchSpeed(autoClimbSpeed);
+      setDeploySpeed(1);
     } else {
       setWinchSpeed(0);
       setDeploySpeed(0);
