@@ -83,7 +83,7 @@ public class Sushi extends SubsystemBase {
    * It will be useful for detecting when placement of a coral is complete to automatically retract the elevator.
    */
   public boolean getFrontBeamBrake() {
-    return frontBeamBreak.get();
+    return true; //frontBeamBreak.get();
   }
 
   /**
@@ -93,7 +93,7 @@ public class Sushi extends SubsystemBase {
    * It allows us to guarantee that the coral will not collide with the elevator cross bars.
    */
   public boolean getRearBeamBrake() {
-    return rearBeamBreak.get();
+    return false; //rearBeamBreak.get();
   }
 
   public Command place() {
@@ -102,7 +102,7 @@ public class Sushi extends SubsystemBase {
 
   public Command intake() {
     return this.startEnd(
-      () -> setSpeed(0.5),  // Start intake at 50% speed
+      () -> setSpeed(1),  // Start intake at 50% speed
       () -> setSpeed(0)   // Stop when command ends             //Ask shawne if I can just call a command like a normal function
     ).until(this::getRearBeamBrake); // Stop when coral is detected
   }

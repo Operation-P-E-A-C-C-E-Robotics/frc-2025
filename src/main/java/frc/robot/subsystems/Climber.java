@@ -143,10 +143,11 @@ public class Climber extends SubsystemBase {
    */
   public Command manualInput(DoubleSupplier speedSupplier) {
     return this.run(() ->  {
+      if(!deployed) return;
       var speed = speedSupplier.getAsDouble();
       if(speed > 0 && !chuteDropped.getAsBoolean() && getPosition() > 0) speed = 0;
       setDeploySpeed(speed);
       setWinchSpeed(speed);
-    });
+    }).unless(() -> !deployed);
   }
 }

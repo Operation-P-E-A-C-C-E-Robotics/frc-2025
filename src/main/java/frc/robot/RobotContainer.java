@@ -25,11 +25,6 @@ import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
-
-import static frc.robot.Constants.Climber.climberClimbButton;
-import static frc.robot.Constants.Climber.climberDeployButtonLeft;
-import static frc.robot.Constants.Climber.climberDeployButtonRight;
-import static frc.robot.Constants.Sushi.*;
 import static frc.robot.Constants.Wrist.*;
 
 
@@ -39,7 +34,7 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();
-  private final Elevator elevator = new Elevator(sushi::getRearBeamBrake, () -> wrist.getWristPosition().getRotations() > 0.4);
+  private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);
   private final Chute chute = new Chute();
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve();
@@ -57,7 +52,10 @@ public class RobotContainer {
   private final OIEntry[] operatorsMap = new OIEntry[] {
     Button.onHold(sushi.place(), 8),
     Button.onHold(sushi.intake(), 7),
+    Button.onHold(chute.intake(), 7),
+    Button.onRelease(chute.rest(), 7),
     Button.onHold(chute.unjam(), 5),
+    Button.onRelease(chute.rest(), 5),
     Button.onPress(climber.getToClimbPos(), 6),
 
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
@@ -70,12 +68,14 @@ public class RobotContainer {
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
 
-    JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.05), 3, 0.15),
-    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.05), 1, 0.1),
+    JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*1), 3, 0.15),
+    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*1), 1, 0.1),
+    JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
   };
 
   private final OIEntry[] driverMap = new OIEntry[] {
-    JoystickTrigger.onMove(driverJoystick, sushi.intake(), 2, 0.5),
+    JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
+    JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
     JoystickTrigger.onMove(driverJoystick, automationCommands.placeAndRetract(), 3, 0.5),
 
     Button.onHold(automationCommands.l1ElevatorWrist(), 2),
@@ -110,6 +110,8 @@ public class RobotContainer {
     sushi.setDefaultCommand(sushi.index());
     climber.setDefaultCommand(climber.rest());
     wrist.setDefaultCommand(wrist.goToSetpoint(WristSetpoints.REST));
+    elevator.setDefaultCommand(elevator.goToSetpoint(ElevatorSetpoints.REST));
+    chute.setDefaultCommand(chute.rest());
 
     new ButtonMap(operatorJoystick).map(operatorsMap);
     new ButtonMap(driverJoystick).map(driverMap);

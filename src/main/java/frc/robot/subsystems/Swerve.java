@@ -215,14 +215,14 @@ public class Swerve extends SubsystemBase {
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
         var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
-        eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
-        if(eyes.hasUpdated()){
-            swerve.addVisionMeasurement(
-                eyes.getPose(),
-                eyes.getTimestamp(),
-                eyes.getStDev()
-            );
-        }
+        // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
+        // if(eyes.hasUpdated()){
+        //     swerve.addVisionMeasurement(
+        //         eyes.getPose(),
+        //         eyes.getTimestamp(),
+        //         eyes.getStDev()
+        //     );
+        // }
     }
 
     @Override

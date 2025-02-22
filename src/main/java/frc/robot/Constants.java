@@ -50,7 +50,7 @@ public final class Constants {
     public static int upperLimitSwitchID = 3;//pwm port ID, labled DIO
     public static int lowerLimitSwitchID = 4;//pwn Port ID, labled DIO
     public static double spoolCircumference = Units.inchesToMeters(2) * Math.PI;
-    public static double spoolRotationsPerMotorRotations = (1/4);
+    public static double spoolRotationsPerMotorRotations = (1.0/4.0);
 
     public static double maxExtensionWithoutIndexing = 0.1;
 
@@ -59,7 +59,7 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
       motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0)
+                        .withKP(0.8)
                         .withKI(0)
                         .withKD(0)
                         .withKS(0)
@@ -72,10 +72,10 @@ public final class Constants {
                             .withMotionMagicExpo_kA(0)
                             .withMotionMagicExpo_kV(0);
 
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+      motorConfig.CurrentLimits.withStatorCurrentLimit(20)
                                 .withStatorCurrentLimitEnable(true);
 
-      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+      motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)
                              .withNeutralMode(NeutralModeValue.Brake);
 
       // TODO enable once limit switches are on elevator. Could cause issues if not connected.
@@ -88,7 +88,7 @@ public final class Constants {
   }
     //Sushi
   public static final class Sushi {
-    public static final int sushiMainID = 90;
+    public static final int sushiMainID = 24;
     public static final int frontBeamBreakID = 0;
     public static final int backBeamBreakID = 1;
     public static final double wheelCircumference = Units.inchesToMeters(2) * Math.PI; // 10 cm diameter wheel
@@ -97,14 +97,14 @@ public final class Constants {
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
-      motorConfig.Slot0.withKP(0)
+      motorConfig.Slot0.withKP(0.8)
                         .withKI(0)
                         .withKD(0)
                         .withKS(0)
                         .withKV(0)
                         .withKA(0);
 
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+      motorConfig.CurrentLimits.withStatorCurrentLimit(20)
                                .withStatorCurrentLimitEnable(true);
 
       motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
@@ -113,9 +113,8 @@ public final class Constants {
   }
 
  ///WRIST
- public static final class Wrist
- {
-   public static final int mainMotorID = 0; //TODO set motor can id
+ public static final class Wrist {
+   public static final int mainMotorID = 22; //TODO set motor can id
    // public static final int spoolCircumference = 0; //TODO
 
     public static final int restButtonID = 0;
@@ -125,12 +124,12 @@ public final class Constants {
     public static final int setpointModeButton = 7; //TODO: Set this button to something
 
     //TODO verify versa ratio for wrist!!!!!!!!!!!!!!!!!!!!!
-    public static final double wristRotationsPerMotorRotation = (16/200) * (1/4); //16:200 ratio on the 3d printed gears and 1:4 ratio on versaplanatery
+    public static final double wristRotationsPerMotorRotation = (16.0/200.0) * (1.0/4.0); //16:200 ratio on the 3d printed gears and 1:4 ratio on versaplanatery
 
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                       .withKP(0)
+                       .withKP(0.8)
                        .withKI(0)
                        .withKD(0)
                        .withKS(0)
@@ -145,7 +144,7 @@ public final class Constants {
 
      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
 
-     motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+     motorConfig.CurrentLimits.withStatorCurrentLimit(20)
                                .withStatorCurrentLimitEnable(true);
      
      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
@@ -164,6 +163,7 @@ public final class Constants {
   public static final class Chute {
     public static final int leftMotorID = 14; //TODO set motor can id
     public static final int rightMotorID = 15;
+    public static final int deployMotorID = 16;
     public static final int intakeID = 5;//TODO
     public static final int unjamID = 11;
     public static final double intakeSpeed = 0.6; //For now
@@ -225,7 +225,7 @@ public final class Constants {
     public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); //TODO: tune with final robot
     public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0); //TODO: tune with final robot
 
-    public static final int pigeonCANId = 0;
+    public static final int pigeonCANId = 1;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
 
     /* HEADING CONTROLLER CONSTANTS */
@@ -282,13 +282,10 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberWinchMotorID = 90;
-    public static final int climberDeployMotorID = 90;
-    public static final int climberDeployButtonRight = 0; //TODO:
-    public static final int climberDeployButtonLeft = 0;
-    public static final int climberClimbButton = 0;
+    public static final int climberWinchMotorID = 20;
+    public static final int climberDeployMotorID = 21;
 
-    public static final double autoClimbSpeed = 0.5;
+    public static final double autoClimbSpeed = 0.1;
     public static final double autoClimbPosition = 0;
 
     public static TalonFXConfiguration winchConfig = new TalonFXConfiguration();

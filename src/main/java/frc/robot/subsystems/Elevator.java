@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
@@ -110,6 +111,9 @@ public class Elevator extends SubsystemBase {
     // periodically refresh all status signals from the talon, including
     // position, upper limit switch, and lower limit switch
     StatusSignal.refreshAll(position, upperLimit, lowerLimit);
+    SmartDashboard.putNumber("Elevator Height Meters", getHeight());
+    SmartDashboard.putBoolean("Elevator Upper Limit", getUpperLimitSwitch());
+    SmartDashboard.putBoolean("Elevator Lower Limit", getLowerLimitSwitch());    
   }
 
   /**
@@ -133,9 +137,9 @@ public class Elevator extends SubsystemBase {
   public enum ElevatorSetpoints {
         REST(0),
         L1(0),
-        L2(0),
-        L3(0),
-        L4(0);
+        L2(0.1),
+        L3(0.2),
+        L4(0.3);
 
         private double height;
 

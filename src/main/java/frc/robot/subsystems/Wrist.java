@@ -9,11 +9,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 import edu.wpi.first.wpilibj2.command.Command;
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static frc.robot.Constants.Wrist.*;
 
 import java.util.function.DoubleSupplier;
@@ -32,14 +33,14 @@ public class Wrist extends SubsystemBase {
         );
 
         positionSignal = motor.getPosition();
-        BaseStatusSignal.setUpdateFrequencyForAll(100,
-            positionSignal,
-            motor.getDutyCycle(),
-            motor.getVelocity(),
-            motor.getAcceleration(),
-            motor.getClosedLoopError(),
-            motor.getClosedLoopReference()
-        );
+        // BaseStatusSignal.setUpdateFrequencyForAll(100,
+        //     positionSignal,
+        //     motor.getDutyCycle(),
+        //     motor.getVelocity(),
+        //     motor.getAcceleration(),
+        //     motor.getClosedLoopError(),
+        //     motor.getClosedLoopReference()
+        // );
     }
 
     /**
@@ -77,7 +78,7 @@ public class Wrist extends SubsystemBase {
      * @return The current wrist position as a Rotation2d.
      */
     public Rotation2d getWristPosition() {
-        double rotorPosition = motor.getRotorPosition().getValueAsDouble() * wristRotationsPerMotorRotation;
+        double rotorPosition = positionSignal.getValueAsDouble() * wristRotationsPerMotorRotation;
         return Rotation2d.fromRotations(rotorPosition);
     }
 
@@ -93,17 +94,24 @@ public class Wrist extends SubsystemBase {
      * @return a command to move the wrist to the setpoint
      */
     public Command goToSetpoint(WristSetpoints setpoint) {
-        return this.runOnce(() -> setPosition(setpoint.getAngle()));
+        return this.run(() -> setPosition(setpoint.getAngle()));
     }
 
     public Command manualInput(DoubleSupplier speed) {
         return this.run(() -> setSpeed(speed.getAsDouble()));
     }
+
+    @Override
+    public void periodic() {
+        positionSignal.refresh();
+        SmartDashboard.putNumber("Wrist Position Degrees", getWristPosition().getDegrees());
+        SmartDashboard.putNumber("Wrist position wtf", motor.getPosition().getValueAsDouble());
+    }
     
     public enum WristSetpoints {
-        REST(Rotation2d.fromDegrees(0)),
-        L1(Rotation2d.fromDegrees(35)),
-        L2L3(Rotation2d.fromDegrees(75)),
+        REST(Rotation2d.fromDegrees(45)),
+        L1(Rotation2d.fromDegrees(0)),
+        L2L3(Rotation2d.fromDegrees(45)),
         L4(Rotation2d.fromDegrees(90));
 
         private Rotation2d angle;
