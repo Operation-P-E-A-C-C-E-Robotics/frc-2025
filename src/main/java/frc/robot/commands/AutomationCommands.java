@@ -35,11 +35,11 @@ public class AutomationCommands {
     }
 
     public Command l2ElevatorWrist() {
-        return elevator.goToSetpoint(ElevatorSetpoints.L2).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3));
+        return elevator.goToSetpoint(ElevatorSetpoints.L2).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
 
     public Command l3ElevatorWrist() {
-        return elevator.goToSetpoint(ElevatorSetpoints.L3).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3));
+        return elevator.goToSetpoint(ElevatorSetpoints.L3).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
 
     public Command l4ElevatorWrist() {
@@ -47,7 +47,7 @@ public class AutomationCommands {
             .alongWith(new RunCommand(() -> {}, wrist)
                 .until(() -> elevator.getHeight() > ElevatorSetpoints.L4.getHeight() - 0.05)
                 .withTimeout(3)  //A "Nothing" function is looped for 3 seconds so the elevator can get to the right point, and then it sets the wrist angle.
-            .andThen(wrist.goToSetpoint(WristSetpoints.L4)));
+            .andThen(wrist.goToSetpoint(WristSetpoints.L4))).until(() -> !sushi.getFrontBeamBrake());
     }
 
     public Command placeAndRetract() {
@@ -55,7 +55,7 @@ public class AutomationCommands {
     }
 
     public Command deployClimber() {
-        return chute.dropCommand().alongWith(climber.deploy());
+        return chute.dropCommand().alongWith(climber.deploy()).withTimeout(2);
     }
 
     public Command intakeUntilCoralObtained() {

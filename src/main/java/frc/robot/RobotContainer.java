@@ -37,19 +37,24 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);
   private final Chute chute = new Chute();
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
-  private final Swerve driveTrain = new Swerve();
+  private final Swerve driveTrain = new Swerve ();
 
   public AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
 
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
+  
+
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick operatorJoystick = new Joystick(1);
 
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
   private final OIEntry[] operatorsMap = new OIEntry[] {
+    //Copy-Paste controls in here
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    
     Button.onHold(sushi.place(), 8),
     Button.onHold(sushi.intake(), 7),
     Button.onHold(chute.intake(), 7),
@@ -63,7 +68,7 @@ public class RobotContainer {
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
 
-    MultiButton.onPress(automationCommands.deployClimber(), 9, 10),
+    MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
 
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
@@ -83,6 +88,9 @@ public class RobotContainer {
     Button.onHold(automationCommands.l3ElevatorWrist(), 3),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
   };
+
+  //-------------------------------------------------------------------------------------------------------------------------------------
+
 
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);

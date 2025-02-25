@@ -79,11 +79,11 @@ public final class Constants {
                              .withNeutralMode(NeutralModeValue.Brake);
 
       // TODO enable once limit switches are on elevator. Could cause issues if not connected.
-      // motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
       motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0;
 
-      // motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
-      // motorConfig.HardwareLimitSwitch.ForwardLimitEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
+      motorConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
      }
   }
     //Sushi
@@ -107,7 +107,7 @@ public final class Constants {
       motorConfig.CurrentLimits.withStatorCurrentLimit(20)
                                .withStatorCurrentLimitEnable(true);
 
-      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
+      motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)
                                .withNeutralMode(NeutralModeValue.Brake);
     }
   }
@@ -128,34 +128,35 @@ public final class Constants {
 
    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
    static {
-    motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                       .withKP(0.8)
+    motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
+                       .withKP(1.8)
                        .withKI(0)
                        .withKD(0)
                        .withKS(0)
-                       .withKV(0)
-                       .withKA(0);
+                       .withKV(0.16)
+                       .withKA(0.005)
+                       .withKG(0.2);
      
      motorConfig.MotionMagic.withMotionMagicAcceleration(0)
                            .withMotionMagicCruiseVelocity(0)
                            .withMotionMagicJerk(0)
-                           .withMotionMagicExpo_kA(0)
-                           .withMotionMagicExpo_kV(0);
+                           .withMotionMagicExpo_kA(0.08)
+                           .withMotionMagicExpo_kV(0.09);
 
      // motorConfig.Feedback.withSensorToMechanismRatio(1); TODO
 
-     motorConfig.CurrentLimits.withStatorCurrentLimit(20)
+     motorConfig.CurrentLimits.withStatorCurrentLimit(40)
                                .withStatorCurrentLimitEnable(true);
      
      motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive)
                             .withNeutralMode(NeutralModeValue.Brake);
 
       // TODO enable once limit switches are on wrist. Could cause issues if not connected.
-      // motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
       motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0;
 
-      // motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
-      // motorConfig.HardwareLimitSwitch.ForwardLimitEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
+      motorConfig.HardwareLimitSwitch.ForwardLimitEnable = true;
     }
  }
 

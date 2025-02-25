@@ -109,7 +109,7 @@ public class Wrist extends SubsystemBase {
     }
     
     public enum WristSetpoints {
-        REST(Rotation2d.fromDegrees(45)),
+        REST(Rotation2d.fromDegrees(27)),
         L1(Rotation2d.fromDegrees(0)),
         L2L3(Rotation2d.fromDegrees(45)),
         L4(Rotation2d.fromDegrees(90));

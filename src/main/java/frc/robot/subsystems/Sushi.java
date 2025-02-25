@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
@@ -24,6 +25,7 @@ public class Sushi extends SubsystemBase {
 
   private DigitalInput frontBeamBreak = new DigitalInput(frontBeamBreakID); // TODO: ask if shawne meant two *Sets* of beam blocks, << yes. "one beam brake sensor" = 1 transmitter + 1 reciever = one digital input
   private DigitalInput rearBeamBreak = new DigitalInput(backBeamBreakID); //or two *Induvidual* beam block sensors
+
 
   /**
    * The Sushi is the end effector of the robot responsible for handling coral.
@@ -83,7 +85,7 @@ public class Sushi extends SubsystemBase {
    * It will be useful for detecting when placement of a coral is complete to automatically retract the elevator.
    */
   public boolean getFrontBeamBrake() {
-    return true; //frontBeamBreak.get();
+    return !frontBeamBreak.get();
   }
 
   /**
@@ -93,7 +95,13 @@ public class Sushi extends SubsystemBase {
    * It allows us to guarantee that the coral will not collide with the elevator cross bars.
    */
   public boolean getRearBeamBrake() {
-    return false; //rearBeamBreak.get();
+    return !rearBeamBreak.get();
+  }
+
+  @Override
+  public void periodic(){
+    SmartDashboard.putBoolean("Front Beam Brake", getFrontBeamBrake());
+    SmartDashboard.putBoolean("Rear Beam Brake", getRearBeamBrake());
   }
 
   public Command place() {
@@ -104,12 +112,12 @@ public class Sushi extends SubsystemBase {
     return this.startEnd(
       () -> setSpeed(1),  // Start intake at 50% speed
       () -> setSpeed(0)   // Stop when command ends             //Ask shawne if I can just call a command like a normal function
-    ).until(this::getRearBeamBrake); // Stop when coral is detected
+    ).until(this::getRearBeamBrake).unless(this::getFrontBeamBrake); // Stop when coral is detected
   }
   
   public Command index() {
     return this.run(
-      () -> setSpeed(getRearBeamBrake() ? 0.1 : 0)
+      () -> setSpeed(getRearBeamBrake() ? 1 : 0)
     );
   }
 

@@ -61,7 +61,9 @@ public class Elevator extends SubsystemBase {
       master.getVelocity(),
       master.getAcceleration(),
       master.getClosedLoopError(),
-      master.getClosedLoopReference()
+      master.getClosedLoopReference(),
+      upperLimit,
+      lowerLimit
     );
   }
 
@@ -99,7 +101,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Command goToSetpoint(ElevatorSetpoints setpoint) {
-      return this.runOnce(() -> setHeight(setpoint.getHeight()));
+      return this.run(() -> setHeight(setpoint.getHeight()));
   }
 
   public Command manualInput(DoubleSupplier speed) {
