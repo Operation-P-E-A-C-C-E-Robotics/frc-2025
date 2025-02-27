@@ -61,14 +61,14 @@ public class RobotContainer {
     Button.onRelease(chute.rest(), 7),
     Button.onHold(chute.unjam(), 5),
     Button.onRelease(chute.rest(), 5),
-    Button.onPress(climber.getToClimbPos(), 6),
+    // Button.onPress(climber.getToClimbPos(), 6),
 
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
 
-    MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
+    // MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
 
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),

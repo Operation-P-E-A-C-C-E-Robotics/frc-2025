@@ -31,7 +31,7 @@ public class Elevator extends SubsystemBase {
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
   private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
-  private final StatusSignal<Angle> position = master.getPosition();
+  private final StatusSignal<Angle> position;
   private final StatusSignal<ForwardLimitValue> upperLimit = master.getForwardLimit();
   private final StatusSignal<ReverseLimitValue> lowerLimit = master.getReverseLimit();
   private final BooleanSupplier coralIndexed, wristExtended;
@@ -39,6 +39,8 @@ public class Elevator extends SubsystemBase {
   public Elevator(BooleanSupplier coralIndexed, BooleanSupplier wristExtended) {
     this.coralIndexed = coralIndexed;
     this.wristExtended = wristExtended;
+
+    position = master.getPosition();
 
     Reporter.report(
       master.getConfigurator().apply(motorConfig),
@@ -89,7 +91,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public double getHeight() {
-    return heightFromMotorRotations(position.getValueAsDouble());
+    return heightFromMotorRotations(position.getValue().baseUnitMagnitude());
   }
 
   public boolean getUpperLimitSwitch() {
@@ -133,15 +135,15 @@ public class Elevator extends SubsystemBase {
    * @return the height corresponding to the given spool rotations
    */
   private double heightFromMotorRotations(double rotations) {
-    return (rotations * spoolCircumference) * spoolRotationsPerMotorRotations;
+    return (rotations * spoolRotationsPerMotorRotations) * spoolCircumference;
   }
 
   public enum ElevatorSetpoints {
-        REST(0),
-        L1(0),
-        L2(0.1),
+        REST(0.2),
+        L1(0.2),
+        L2(0.2),
         L3(0.2),
-        L4(0.3);
+        L4(0.2);
 
         private double height;
 

@@ -49,7 +49,7 @@ public final class Constants {
     public static int elevatorFollowerID = 19;//CAN IDS
     public static int upperLimitSwitchID = 3;//pwm port ID, labled DIO
     public static int lowerLimitSwitchID = 4;//pwn Port ID, labled DIO
-    public static double spoolCircumference = Units.inchesToMeters(2) * Math.PI;
+    public static double spoolCircumference = Units.inchesToMeters(2.0) * Math.PI;
     public static double spoolRotationsPerMotorRotations = (1.0/4.0);
 
     public static double maxExtensionWithoutIndexing = 0.1;
@@ -59,27 +59,28 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
       motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                        .withKP(0.8)
+                        .withKP(1.5)
                         .withKI(0)
                         .withKD(0)
                         .withKS(0)
-                        .withKV(0)
-                        .withKA(0);
+                        .withKV(0.15)
+                        .withKA(0.005)
+                        .withKG(0.3);
 
       motorConfig.MotionMagic.withMotionMagicAcceleration(0)
                             .withMotionMagicCruiseVelocity(0)
                             .withMotionMagicJerk(0)
-                            .withMotionMagicExpo_kA(0)
-                            .withMotionMagicExpo_kV(0);
+                            .withMotionMagicExpo_kA(0.12)
+                            .withMotionMagicExpo_kV(0.08);
 
-      motorConfig.CurrentLimits.withStatorCurrentLimit(20)
+      motorConfig.CurrentLimits.withStatorCurrentLimit(60)
                                 .withStatorCurrentLimitEnable(true);
 
       motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)
                              .withNeutralMode(NeutralModeValue.Brake);
 
       // TODO enable once limit switches are on elevator. Could cause issues if not connected.
-      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+      motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = false;
       motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0;
 
       motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
