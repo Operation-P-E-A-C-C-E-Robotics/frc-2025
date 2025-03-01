@@ -55,11 +55,11 @@ public class RobotContainer {
     //Copy-Paste controls in here
     //----------------------------------------------------------------------------------------------------------------------------------------
     
-    Button.onHold(sushi.place(), 8),
+    Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
     Button.onHold(sushi.intake(), 7),
     Button.onHold(chute.intake(), 7),
     Button.onRelease(chute.rest(), 7),
-    Button.onHold(chute.unjam(), 5),
+    Button.onHold(chute.unjam().alongWith(sushi.panic()), 5),
     Button.onRelease(chute.rest(), 5),
     // Button.onPress(climber.getToClimbPos(), 6),
 
@@ -81,7 +81,7 @@ public class RobotContainer {
   private final OIEntry[] driverMap = new OIEntry[] {
     JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
     JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
-    JoystickTrigger.onMove(driverJoystick, automationCommands.placeAndRetract(), 3, 0.5),
+    JoystickTrigger.onMove(driverJoystick, sushi.place(() -> elevator.getHeight() < 1.0), 3, 0.5),
 
     Button.onHold(automationCommands.l1ElevatorWrist(), 2),
     Button.onHold(automationCommands.l2ElevatorWrist(), 1),

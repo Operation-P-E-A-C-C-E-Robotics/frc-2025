@@ -31,6 +31,8 @@ public class Elevator extends SubsystemBase {
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
   private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
+  private double lastHeight = 0;
+
   private final StatusSignal<Angle> position;
   private final StatusSignal<ForwardLimitValue> upperLimit = master.getForwardLimit();
   private final StatusSignal<ReverseLimitValue> lowerLimit = master.getReverseLimit();
@@ -75,9 +77,12 @@ public class Elevator extends SubsystemBase {
    */
   public void setHeight(double height) {
     if(!coralIndexed.getAsBoolean() && height > maxExtensionWithoutIndexing) height = maxExtensionWithoutIndexing;
-    if(wristExtended.getAsBoolean() && height < this.getHeight()) return;
+    if(wristExtended.getAsBoolean() && height < lastHeight) return;
+
+    // motionMagic.withSlot(height >= lastHeight ? 0 : 1);
     motionMagic.withPosition(motorRotationsFromHeight(height));
     master.setControl(motionMagic);
+    lastHeight = height;
   }
 
   /**
@@ -87,7 +92,7 @@ public class Elevator extends SubsystemBase {
   public void setSpeed(double speed) {
     if(!coralIndexed.getAsBoolean() && getHeight() > maxExtensionWithoutIndexing && speed > 0) speed = 0;
     if(wristExtended.getAsBoolean() && speed < 0) speed = 0;
-    master.setControl(dutyCycle.withOutput(speed));
+    master.setControl(dutyCycle.withOutput(speed).withOverrideBrakeDurNeutral(true));
   }
 
   public double getHeight() {
@@ -139,11 +144,11 @@ public class Elevator extends SubsystemBase {
   }
 
   public enum ElevatorSetpoints {
-        REST(0.2),
-        L1(0.2),
-        L2(0.2),
-        L3(0.2),
-        L4(0.2);
+        REST(0.0),
+        L1(0.13),
+        L2(0.35),
+        L3(0.75),
+        L4(1);
 
         private double height;
 

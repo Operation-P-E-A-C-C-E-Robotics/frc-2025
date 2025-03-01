@@ -17,6 +17,8 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Sushi.*;
 
+import java.util.function.BooleanSupplier;
+
 public class Sushi extends SubsystemBase {
 
   private final TalonFX tariyaki = new TalonFX(sushiMainID);
@@ -104,20 +106,27 @@ public class Sushi extends SubsystemBase {
     SmartDashboard.putBoolean("Rear Beam Brake", getRearBeamBrake());
   }
 
-  public Command place() {
-    return this.run(() -> setSpeed(1)).until(() -> !getFrontBeamBrake());
+  public Command place(BooleanSupplier isSlow) {
+    return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.7:1)).until(() -> !getFrontBeamBrake());
   }
+
 
   public Command intake() {
     return this.startEnd(
-      () -> setSpeed(1),  // Start intake at 50% speed
+      () -> setSpeed(0.5),  // Start intake at 50% speed
       () -> setSpeed(0)   // Stop when command ends             //Ask shawne if I can just call a command like a normal function
-    ).until(this::getRearBeamBrake).unless(this::getFrontBeamBrake); // Stop when coral is detected
+    ).until(this::getFrontBeamBrake).unless(this::getFrontBeamBrake); // Stop when coral is detected
   }
   
   public Command index() {
     return this.run(
-      () -> setSpeed(getRearBeamBrake() ? 1 : 0)
+      () -> setSpeed(getRearBeamBrake() ? 0.1 : 0)
+    );
+  }
+
+  public Command panic() {
+    return this.run(
+      () -> setSpeed(-0.3)
     );
   }
 

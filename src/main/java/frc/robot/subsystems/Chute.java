@@ -20,10 +20,10 @@ public class Chute extends SubsystemBase {
 
     public Chute() {
         rightChuteMotor.setInverted(false);
-        rightChuteMotor.configPeakCurrentLimit(10);
+        rightChuteMotor.configPeakCurrentLimit(40);
 
         leftChuteMotor.setInverted(true);
-        leftChuteMotor.configPeakCurrentLimit(10);
+        leftChuteMotor.configPeakCurrentLimit(40);
 
         chuteDropMotor.setInverted(false);
         chuteDropMotor.configPeakCurrentLimit(5);
@@ -70,7 +70,7 @@ public class Chute extends SubsystemBase {
     }
 
     public Command intake() {
-        return this.run(() -> setSpeed(intakeSpeed, intakeSpeed));
+        return this.run(() -> setSpeed(1, 1));
     }
 
     public Command unjam() {

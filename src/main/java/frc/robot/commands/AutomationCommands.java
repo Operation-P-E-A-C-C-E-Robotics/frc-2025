@@ -50,9 +50,9 @@ public class AutomationCommands {
             .andThen(wrist.goToSetpoint(WristSetpoints.L4))).until(() -> !sushi.getFrontBeamBrake());
     }
 
-    public Command placeAndRetract() {
-        return sushi.place().andThen(new WaitCommand(0.4)).andThen(elevator.goToSetpoint(ElevatorSetpoints.REST).alongWith(wrist.goToSetpoint(WristSetpoints.REST)));
-    }
+    // public Command placeAndRetract() {
+    //     return sushi.place(() -> false).andThen(new WaitCommand(0.4)).andThen(elevator.goToSetpoint(ElevatorSetpoints.REST).alongWith(wrist.goToSetpoint(WristSetpoints.REST)));
+    // }
 
     public Command deployClimber() {
         return chute.dropCommand().alongWith(climber.deploy()).withTimeout(2);

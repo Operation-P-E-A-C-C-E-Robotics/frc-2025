@@ -67,17 +67,26 @@ public final class Constants {
                         .withKA(0.005)
                         .withKG(0.3);
 
+      motorConfig.Slot1.withGravityType(GravityTypeValue.Elevator_Static)
+                        .withKP(0.5)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(0)
+                        .withKV(0.5)
+                        .withKA(0.0)
+                        .withKG(0.3);
+
       motorConfig.MotionMagic.withMotionMagicAcceleration(0)
                             .withMotionMagicCruiseVelocity(0)
                             .withMotionMagicJerk(0)
-                            .withMotionMagicExpo_kA(0.12)
-                            .withMotionMagicExpo_kV(0.08);
+                            .withMotionMagicExpo_kA(0.28)
+                            .withMotionMagicExpo_kV(0.2);
 
       motorConfig.CurrentLimits.withStatorCurrentLimit(60)
                                 .withStatorCurrentLimitEnable(true);
 
       motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)
-                             .withNeutralMode(NeutralModeValue.Brake);
+                             .withNeutralMode(NeutralModeValue.Coast);
 
       // TODO enable once limit switches are on elevator. Could cause issues if not connected.
       motorConfig.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = false;
@@ -85,6 +94,9 @@ public final class Constants {
 
       motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
       motorConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
+
+      motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 35;
+      motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
      }
   }
     //Sushi
@@ -105,7 +117,7 @@ public final class Constants {
                         .withKV(0)
                         .withKA(0);
 
-      motorConfig.CurrentLimits.withStatorCurrentLimit(20)
+      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
                                .withStatorCurrentLimitEnable(true);
 
       motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)
@@ -168,8 +180,6 @@ public final class Constants {
     public static final int deployMotorID = 16;
     public static final int intakeID = 5;//TODO
     public static final int unjamID = 11;
-    public static final double intakeSpeed = 0.6; //For now
-    public static final double unjamSpeed = -0.8;
 }
 
   public static final class Swerve {
