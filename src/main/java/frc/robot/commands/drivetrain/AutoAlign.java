@@ -58,10 +58,10 @@ public class AutoAlign extends Command{
 
     @Override
     public void execute() {
-        
+
         //regenerate trajectory if distance between trajectory end point and target is greater than a threshold
         if(shouldRegenTrajectory()) generateTrajectory();
-        
+
         Translation2d translationError = getErrorTranslation();
         //if the robot is far away from the target, use the motion profiling to align
         if(shouldUseTrajectory()) {

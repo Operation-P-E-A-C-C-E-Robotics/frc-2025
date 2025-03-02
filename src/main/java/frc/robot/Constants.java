@@ -54,6 +54,8 @@ public final class Constants {
 
     public static double maxExtensionWithoutIndexing = 0.1;
 
+    public static double setpointTolerance = 0.05;
+
 
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();

@@ -37,7 +37,7 @@ public class Elevator extends SubsystemBase {
   private final StatusSignal<ForwardLimitValue> upperLimit = master.getForwardLimit();
   private final StatusSignal<ReverseLimitValue> lowerLimit = master.getReverseLimit();
   private final BooleanSupplier coralIndexed, wristExtended;
-      
+
   public Elevator(BooleanSupplier coralIndexed, BooleanSupplier wristExtended) {
     this.coralIndexed = coralIndexed;
     this.wristExtended = wristExtended;
@@ -76,7 +76,12 @@ public class Elevator extends SubsystemBase {
    * @param height the desired height of the elevator in inches
    */
   public void setHeight(double height) {
-    if(!coralIndexed.getAsBoolean() && height > maxExtensionWithoutIndexing) height = maxExtensionWithoutIndexing;
+    // if(!coralIndexed.getAsBoolean() && height > maxExtensionWithoutIndexing) height = maxExtensionWithoutIndexing;
+    //don't allow the elevator to move if the coral isn't indexed, unless we're aiming for L4 and the elevator is already high enough
+    if(!coralIndexed.getAsBoolean() && !(height == ElevatorSetpoints.L4.getHeight() && getHeight() > ElevatorSetpoints.L4.getHeight() - (2 * setpointTolerance))){
+      setSpeed(0);
+      return;
+    }
     if(wristExtended.getAsBoolean() && height < lastHeight) return;
 
     // motionMagic.withSlot(height >= lastHeight ? 0 : 1);

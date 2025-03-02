@@ -46,18 +46,18 @@ public class Swerve extends SubsystemBase {
 
     public Swerve() {
         swerve = SwerveDescription.generateDrivetrain(
-            dimensions, 
-            frontLeftIDs, 
-            frontRightIDs, 
-            rearLeftIDs, 
-            rearRightIDs, 
-            gearing, 
-            offsets, 
-            inversion, 
-            physics, 
-            driveGains, 
-            angleGains, 
-            pigeonCANId, 
+            dimensions,
+            frontLeftIDs,
+            frontRightIDs,
+            rearLeftIDs,
+            rearRightIDs,
+            gearing,
+            offsets,
+            inversion,
+            physics,
+            driveGains,
+            angleGains,
+            pigeonCANId,
             invertSteerMotors
         );
 
