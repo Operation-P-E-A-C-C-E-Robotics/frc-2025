@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -45,9 +45,9 @@ public class AutomationCommands {
     public Command l4ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L4)
             .alongWith(new RunCommand(() -> {}, wrist)
-                .until(() -> elevator.getHeight() > ElevatorSetpoints.L4.getHeight() - 0.05)
-                .withTimeout(3)  //A "Nothing" function is looped for 3 seconds so the elevator can get to the right point, and then it sets the wrist angle.
-            .andThen(wrist.goToSetpoint(WristSetpoints.L4))).until(() -> !sushi.getFrontBeamBrake());
+                .until(() -> elevator.getHeight() > ElevatorSetpoints.L4.getHeight() - Constants.Elevator.setpointTolerance)
+                .withTimeout(7)  //A "Nothing" function is looped so the elevator can get to the right point before adjusting the wrist angle
+            .andThen(wrist.goToSetpoint(WristSetpoints.L4).alongWith(sushi.shuffleBack(() -> elevator.getHeight() < ElevatorSetpoints.L4.getHeight() - Constants.Elevator.setpointTolerance)))).until(() -> !sushi.getFrontBeamBrake());
     }
 
     // public Command placeAndRetract() {

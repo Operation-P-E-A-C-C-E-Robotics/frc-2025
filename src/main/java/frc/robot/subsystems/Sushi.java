@@ -37,11 +37,6 @@ public class Sushi extends SubsystemBase {
    * It also has two beam brake sensors to allow automatic indexing of coral
    * One is positioned at the front to assist with gamepiece detection with placing,
    * the other is in the rear to ensure the coral clears the elevator when indexed.
-   * 
-   * 
-   * 
-   * 
-   * Climber (I possibly meant climberdeploy?) bottom function and Chute rest function need to be changed to actual commands
    */
   public Sushi() {
     Reporter.report(
@@ -117,17 +112,35 @@ public class Sushi extends SubsystemBase {
   }
 
 
+  /**
+   * intake a gamepiece from the chute. only runs if there isn't already a gamepiece in the sushi.
+   * @return
+   */
   public Command intake() {
     return this.startEnd(
       () -> setSpeed(0.5),  // Start intake at 50% speed
       () -> setSpeed(0)   // Stop when command ends             //Ask shawne if I can just call a command like a normal function
-    ).until(this::getFrontBeamBrake).unless(this::getFrontBeamBrake); // Stop when coral is detected
+    ).until(this::getRearBeamBrake).unless(this::getFrontBeamBrake); // Stop when coral is detected
   }
-  
+
+  /**
+   * Default command. Indexes any gamepiece in the end effector.
+   * @return
+   */
   public Command index() {
     return this.run(
       () -> setSpeed(getRearBeamBrake() ? 0.1 : 0)
     );
+  }
+
+  /**
+   * shuffle the gamepiece back for L4 scoring
+   * Will only run if the elevator is up as reported by the elevatorDown supplier
+   */
+  public Command shuffleBack(BooleanSupplier elevatorDown) {
+    return this.run(
+      () -> setSpeed(getFrontBeamBrake() ? -0.1 : 0)
+    ).until(elevatorDown);
   }
 
   public Command panic() {

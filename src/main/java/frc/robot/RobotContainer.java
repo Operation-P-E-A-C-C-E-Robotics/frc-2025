@@ -19,13 +19,11 @@ import frc.robot.subsystems.Elevator.ElevatorSetpoints;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.JoystickTrigger;
-import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
-import static frc.robot.Constants.Wrist.*;
 
 
 public class RobotContainer {
@@ -41,20 +39,13 @@ public class RobotContainer {
 
   public AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
 
-  // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
-
   /* OI DEFINITIONS */
-  
-
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick operatorJoystick = new Joystick(1);
 
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
   private final OIEntry[] operatorsMap = new OIEntry[] {
-    //Copy-Paste controls in here
-    //----------------------------------------------------------------------------------------------------------------------------------------
-    
     Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
     Button.onHold(sushi.intake(), 7),
     Button.onHold(chute.intake(), 7),
@@ -123,7 +114,6 @@ public class RobotContainer {
 
     new ButtonMap(operatorJoystick).map(operatorsMap);
     new ButtonMap(driverJoystick).map(driverMap);
-    SmartDashboard.putBoolean("Setpoint Mode", operatorJoystick.getRawButton(setpointModeButton)); //TODO figure out if this will continue to update based on the button input after being declared
   }
 
   public boolean deployReady()
