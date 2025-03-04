@@ -33,9 +33,9 @@ public final class Constants {
 
   public static final class OI{
     //Driver
-    public static final int translationAxis = 5; //forward/backward
-    public static final int strafeAxis = 4;
-    public static final int rotationAxis = 0;
+    public static final int translationAxis = 1; //forward/backward
+    public static final int strafeAxis = 0;
+    public static final int rotationAxis = 4;
     public static final int zeroOdometry = 7;
 
     public static final int disableAutoRotation = 7;
@@ -95,7 +95,7 @@ public final class Constants {
       motorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
       motorConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
 
-      motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 35;
+      motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 32.5;
       motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
      }
   }
@@ -189,7 +189,7 @@ public final class Constants {
     public static final double teleopAngularMultiplier = 7.0;
 
     //acceleration limits
-    public static final double teleopLinearSpeedLimit = 5.0;
+    public static final double teleopLinearSpeedLimit = 2.0;
 	  public static final double teleopLowBatteryLinearSpeedLimit = 2; //more acceleration limit when battery is low
     public static final double teleopLinearAngleLimit = 2.0;
     public static final double teleopAngularRateLimit = 3.0;

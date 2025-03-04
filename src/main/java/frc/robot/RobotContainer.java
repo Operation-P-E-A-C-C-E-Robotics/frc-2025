@@ -103,8 +103,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis))
-               .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis))
+    peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7)
+               .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7)
                .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
                .withHeading    (() -> (double) -driverJoystick.getPOV())
                .useHeading     (() -> driverJoystick.getPOV() != -1)
