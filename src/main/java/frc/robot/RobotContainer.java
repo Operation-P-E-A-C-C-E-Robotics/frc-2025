@@ -27,11 +27,6 @@ import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 
-import java.util.ArrayList;
-
-import com.ctre.phoenix6.Orchestra;
-import com.ctre.phoenix6.hardware.TalonFX;
-
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -93,7 +88,7 @@ public class RobotContainer {
   
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
-  private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
+  // private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -106,7 +101,7 @@ public class RobotContainer {
     peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7)
                .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7)
                .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
-               .withHeading    (() -> autoAlign.getTargetDrivetrainAngle().getDegrees())
+              //  .withHeading    (() -> autoAlign.getTargetDrivetrainAngle().getDegrees())
                .useHeading     (() -> driverJoystick.getPOV() != -1)
                .isFieldRelative(() -> driverJoystick.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverJoystick.getRawAxis(3) > 0.2) //right trigger

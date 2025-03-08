@@ -45,9 +45,11 @@ public class AutomationCommands {
     public Command l4ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L4)
             .alongWith(new RunCommand(() -> {}, wrist)
-                .until(() -> elevator.getHeight() > ElevatorSetpoints.L4.getHeight() - Constants.Elevator.setpointTolerance)
-                .withTimeout(7)  //A "Nothing" function is looped so the elevator can get to the right point before adjusting the wrist angle
-            .andThen(wrist.goToSetpoint(WristSetpoints.L4).alongWith(sushi.shuffleBack(() -> elevator.getHeight() < ElevatorSetpoints.L4.getHeight() - Constants.Elevator.setpointTolerance)))).until(() -> !sushi.getFrontBeamBrake());
+                .until(() -> elevator.getHeight() > 7.9 - Constants.Elevator.setpointTolerance)
+                .withTimeout(5)  //A "Nothing" function is looped so the elevator can get to the right point before adjusting the wrist angle
+            .andThen(
+                wrist.goToSetpoint(WristSetpoints.L4)
+                .alongWith(sushi.shuffleBack(() -> elevator.getHeight() < 7.9 - Constants.Elevator.setpointTolerance))));//.until(() -> !(sushi.getFrontBeamBrake() || sushi.getRearBeamBrake()));
     }
 
     // public Command placeAndRetract() {
