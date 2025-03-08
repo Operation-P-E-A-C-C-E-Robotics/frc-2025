@@ -23,7 +23,7 @@ import java.util.function.BooleanSupplier;
 
 public class Sushi extends SubsystemBase {
 
-  private final TalonFX tariyaki = new TalonFX(sushiMainID);
+  public final TalonFX tariyaki = new TalonFX(sushiMainID);
   private final StatusSignal<Angle> positionSignal;
   private final PositionVoltage positionVoltage = new PositionVoltage(0);
 

@@ -6,6 +6,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,17 +26,23 @@ import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 
+import java.util.ArrayList;
+
+import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 
 public class RobotContainer {
   /* OI CONSTANTS */
 
   /* SUBSYSTEMS */
   private final Sushi sushi = new Sushi();
-  private final Wrist wrist = new Wrist();
-  private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);
+  private final Wrist wrist = new Wrist();                                                                                                                      
+  private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);                                                                               //private String song = "output.chrp"; private static Sushi musicalSushi = new Sushi(); ArrayList<TalonFX> instruments = new ArrayList<TalonFX>(); for(int i = 0; i < 0; i++) {instruments.add(new TalonFX(0));} private Orchestra music = new Orchestra();
   private final Chute chute = new Chute();
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
+
 
   public AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
 
