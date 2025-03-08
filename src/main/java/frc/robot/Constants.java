@@ -329,7 +329,7 @@ public final class Constants {
   public static final class Cameras {
     public static final String limelight = "limelight";
 
-    public static final String examplePhotonvisionName = "photonvision";
+    public static final String examplePhotonvisionName = "Arducam_OV9281_USB_Camera (1)";
 
     public static final double LIMELIGHT_FOCAL_LENGTH = (1*83)/0.32; //as calculated by me: (distance * pixels) / size
   }

@@ -3,7 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
+import frc.robot.commands.drivetrain.AutoAlign;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -14,20 +16,20 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 
 public class AutomationCommands {
-    private final Swerve swerve;
     private final Elevator elevator;
     private final Wrist wrist;
     private final Sushi sushi;
     private final Climber climber;
     private final Chute chute;
+    private final AutoAlign autoAlign;
 
-    public AutomationCommands(Swerve swerve, Elevator elevator, Wrist wrist, Sushi sushi, Climber climber, Chute chute) {
-        this.swerve = swerve;
+    public AutomationCommands(Swerve swerve, Elevator elevator, Wrist wrist, Sushi sushi, Climber climber, Chute chute, AutoAlign autoAlign) {
         this.elevator = elevator;
         this.wrist = wrist;
         this.sushi = sushi;
         this.climber = climber;
         this.chute = chute;
+        this.autoAlign = autoAlign;
     }
 
     public Command l1ElevatorWrist() {
@@ -50,6 +52,27 @@ public class AutomationCommands {
             .andThen(
                 wrist.goToSetpoint(WristSetpoints.L4)
                 .alongWith(sushi.shuffleBack(() -> elevator.getHeight() < 7.9 - Constants.Elevator.setpointTolerance))));//.until(() -> !(sushi.getFrontBeamBrake() || sushi.getRearBeamBrake()));
+    }
+
+    public Command l2AutoAlign() {
+        return autoAlign.alongWith(
+            new WaitUntilCommand(autoAlign::aligning)
+            .andThen(l2ElevatorWrist())
+        );
+    }
+
+    public Command l3AutoAlign() {
+        return autoAlign.alongWith(
+            new WaitUntilCommand(autoAlign::aligning)
+            .andThen(l3ElevatorWrist())
+        );
+    }
+
+    public Command l4AutoAlign() {
+        return autoAlign.alongWith(
+            new WaitUntilCommand(autoAlign::aligning)
+            .andThen(l4ElevatorWrist())
+        );
     }
 
     // public Command placeAndRetract() {

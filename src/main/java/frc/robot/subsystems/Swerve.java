@@ -9,9 +9,12 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -42,7 +45,11 @@ public class Swerve extends SubsystemBase {
     // private LimelightHelper limelight;
 
     private static PeaccyVision eyes = new PeaccyVision(
-        new ApriltagCamera.ApriltagLimelight(Constants.Cameras.limelight, 0.1)
+        // new ApriltagCamera.ApriltagLimelight(Constants.Cameras.limelight, 0.1),
+        new ApriltagCamera.ApriltagPhotonvision(
+            Constants.Cameras.examplePhotonvisionName, 
+            new Transform3d(0,0,0, new Rotation3d(0,0,0)), 
+            AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField), 0.001)
     );
 
     public Swerve() {
@@ -220,14 +227,14 @@ public class Swerve extends SubsystemBase {
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
         var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
-        // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
-        // if(eyes.hasUpdated()){
-        //     swerve.addVisionMeasurement(
-        //         eyes.getPose(),
-        //         eyes.getTimestamp(),
-        //         eyes.getStDev()
-        //     );
-        // }
+        eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
+        if(eyes.hasUpdated()){
+            swerve.addVisionMeasurement(
+                eyes.getPose(),
+                eyes.getTimestamp(),
+                eyes.getStDev()
+            );
+        }
     }
 
     @Override

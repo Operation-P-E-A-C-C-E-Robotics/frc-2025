@@ -74,10 +74,19 @@ public class AutoAlign extends Command{
         }
     }
 
-    public Rotation2d getTargetDrivetrainAngle() {
+    public Rotation2d getTargetDrivetrainAngleToPlace() {
         var robotPose = swerve.getPose();
         var angleFromReef = reefCenter.minus(robotPose.getTranslation()).getAngle().getDegrees();
         return Rotation2d.fromDegrees(Math.round(angleFromReef/60)*60);
+    }
+
+    public Rotation2d getTargetDrivetrainAngleToIntake() {
+        var robotPose = swerve.getPose();
+        return robotPose.getY() < 4 ? Rotation2d.fromDegrees(55) : Rotation2d.fromDegrees(-55);
+    }
+
+    public boolean aligning() {
+        return pathfindingCommand != null;
     }
 
     /**

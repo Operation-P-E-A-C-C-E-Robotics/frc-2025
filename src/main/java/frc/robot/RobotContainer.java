@@ -40,7 +40,6 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve ();
 
 
-  private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
   
   /* OI DEFINITIONS */
   private final Joystick driverJoystick = new Joystick(0);
@@ -48,6 +47,13 @@ public class RobotContainer {
   
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
   
+  
+  /* COMMANDS */
+  private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
+  private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
+  private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute, autoAlign);
+
+
   private final OIEntry[] operatorsMap = new OIEntry[] {
     Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
     Button.onHold(sushi.intake(), 7),
@@ -56,7 +62,7 @@ public class RobotContainer {
     Button.onHold(chute.unjam().alongWith(sushi.panic()), 5),
     Button.onRelease(chute.rest(), 5),
     // Button.onPress(climber.getToClimbPos(), 6),
-
+    
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
@@ -82,14 +88,10 @@ public class RobotContainer {
     Button.onHold(automationCommands.l3ElevatorWrist(), 3),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
   };
-
+  
   //-------------------------------------------------------------------------------------------------------------------------------------
   
   
-  /* COMMANDS */
-  private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
-  // private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
-
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   public RobotContainer() {
@@ -101,7 +103,7 @@ public class RobotContainer {
     peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7)
                .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7)
                .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
-              //  .withHeading    (() -> autoAlign.getTargetDrivetrainAngle().getDegrees())
+               .withHeading    (() -> (driverJoystick.getRawAxis(2) > 0.5 ? autoAlign.getTargetDrivetrainAngleToIntake() : autoAlign.getTargetDrivetrainAngleToPlace()).getDegrees())
                .useHeading     (() -> driverJoystick.getPOV() != -1)
                .isFieldRelative(() -> driverJoystick.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverJoystick.getRawAxis(3) > 0.2) //right trigger

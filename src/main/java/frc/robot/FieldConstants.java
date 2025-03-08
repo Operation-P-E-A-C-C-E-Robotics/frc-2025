@@ -71,9 +71,9 @@ public class FieldConstants {
     public static final List<Map<ReefLevel, Pose3d>> branchPositions =
         new ArrayList<>(); // Starting at the right branch facing the driver station in clockwise
 
-    static {
-      // Initialize faces
+      static {
       var aprilTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+      // Initialize faces
       centerFaces[0] = aprilTagLayout.getTagPose(18).get().toPose2d();
       centerFaces[1] = aprilTagLayout.getTagPose(19).get().toPose2d();
       centerFaces[2] = aprilTagLayout.getTagPose(20).get().toPose2d();

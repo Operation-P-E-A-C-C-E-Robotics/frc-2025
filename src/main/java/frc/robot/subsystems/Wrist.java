@@ -108,8 +108,9 @@ public class Wrist extends SubsystemBase {
         SmartDashboard.putNumber("Wrist position wtf", motor.getPosition().getValueAsDouble());
     }
 
+    //setpoints always at bottom of subsytem
     public enum WristSetpoints {
-        REST(Rotation2d.fromDegrees(19)),
+        REST(Rotation2d.fromDegrees(12)),
         L1(Rotation2d.fromDegrees(0)),
         L2L3(Rotation2d.fromDegrees(25)),
         L4(Rotation2d.fromDegrees(70));
