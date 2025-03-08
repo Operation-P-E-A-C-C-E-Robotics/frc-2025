@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.007250000000001,
-        "y": 5.16575
+        "x": 2.7885000000053646,
+        "y": 6.862249999995393
       },
       "prevControl": {
-        "x": 3.880500000001166,
-        "y": 6.979249999994161
+        "x": 2.4472500000161754,
+        "y": 7.018249999994276
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,15 +39,9 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "l1ElevatorWrist()"
+          "name": "L2"
         }
       }
-    },
-    {
-      "name": "L2",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {
