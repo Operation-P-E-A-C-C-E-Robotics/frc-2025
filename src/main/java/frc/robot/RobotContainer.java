@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutomationCommands;
+import frc.robot.commands.drivetrain.AutoAlign;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Sushi;
 import frc.robot.subsystems.Swerve;
@@ -44,14 +45,14 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve ();
 
 
-  public AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
-
+  private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute);
+  
   /* OI DEFINITIONS */
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick operatorJoystick = new Joystick(1);
-
+  
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
-
+  
   private final OIEntry[] operatorsMap = new OIEntry[] {
     Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
     Button.onHold(sushi.intake(), 7),
@@ -65,22 +66,22 @@ public class RobotContainer {
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
-
+    
     // MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
-
+    
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
-
+    
     JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*1), 3, 0.15),
     JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*1), 1, 0.1),
     JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
   };
-
+  
   private final OIEntry[] driverMap = new OIEntry[] {
     JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
     JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
     JoystickTrigger.onMove(driverJoystick, sushi.place(() -> elevator.getHeight() < 1.0), 3, 0.5),
-
+    
     Button.onHold(automationCommands.l1ElevatorWrist(), 2),
     Button.onHold(automationCommands.l2ElevatorWrist(), 1),
     Button.onHold(automationCommands.l3ElevatorWrist(), 3),
@@ -88,10 +89,11 @@ public class RobotContainer {
   };
 
   //-------------------------------------------------------------------------------------------------------------------------------------
-
-
+  
+  
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
+  private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -104,7 +106,7 @@ public class RobotContainer {
     peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7)
                .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7)
                .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
-               .withHeading    (() -> (double) -driverJoystick.getPOV())
+               .withHeading    (() -> autoAlign.getTargetDrivetrainAngle().getDegrees())
                .useHeading     (() -> driverJoystick.getPOV() != -1)
                .isFieldRelative(() -> driverJoystick.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverJoystick.getRawAxis(3) > 0.2) //right trigger
