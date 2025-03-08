@@ -8,7 +8,9 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.util.Reporter;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -103,6 +105,10 @@ public class Sushi extends SubsystemBase {
 
   public Command place(BooleanSupplier isSlow) {
     return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.7:1)).until(() -> !getFrontBeamBrake());
+  }
+
+  public Command shuffleBack() {
+    return this.run(() -> setSpeed(-0.1)).withTimeout(0.5).andThen(new RunCommand(() -> {}, this));
   }
 
 

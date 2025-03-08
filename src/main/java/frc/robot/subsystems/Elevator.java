@@ -153,7 +153,7 @@ public class Elevator extends SubsystemBase {
         L1(0.13),
         L2(0.35),
         L3(0.75),
-        L4(1);
+        L4(1.3);
 
         private double height;
 
