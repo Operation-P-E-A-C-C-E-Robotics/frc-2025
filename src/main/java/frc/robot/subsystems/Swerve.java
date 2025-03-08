@@ -28,6 +28,7 @@ import frc.lib.util.AllianceFlipUtil;
 import frc.lib.vision.ApriltagCamera;
 import frc.lib.vision.PeaccyVision;
 import frc.robot.Constants;
+import frc.robot.FieldConstants;
 
 import static frc.robot.Constants.Swerve.*;
 
@@ -87,15 +88,15 @@ public class Swerve extends SubsystemBase {
                 ),
                 config, // The robot configuration
                 () -> {
-                // Boolean supplier that controls when the path will be mirrored for the red alliance
-                // This will flip the path being followed to the red side of the field.
-                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
+                    // var alliance = DriverStation.getAlliance();
+                    // if (alliance.isPresent()) {
+                    //     return alliance.get() == DriverStation.Alliance.Red;
+                    // }
+                    return false;
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -136,6 +137,10 @@ public class Swerve extends SubsystemBase {
     public Pose2d getPose () {
         var pose = swerve.getState().Pose;
         if (pose == null) return new Pose2d();
+        if(AllianceFlipUtil.shouldFlip()) {
+            var redAllianceOrigin = new Pose2d(FieldConstants.fieldLength, FieldConstants.fieldWidth, Rotation2d.fromDegrees(180));
+            pose = pose.relativeTo(redAllianceOrigin);
+        }
         return pose;
     }
 
@@ -146,7 +151,7 @@ public class Swerve extends SubsystemBase {
     public ChassisSpeeds getChassisSpeeds() {
         return swerve.getChassisSpeeds();
     }
-    
+
     /**
      * sometimes, the missile forgets where it is, and it's not even where it's been.
      */
