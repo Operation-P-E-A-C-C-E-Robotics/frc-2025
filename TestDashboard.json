@@ -421,221 +421,7 @@
       }
     },
     {
-      "title": "DriveTraid Tuner",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 64.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "15,0": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///Drivetrain Tuner/Data/Drive Motor Errors",
-              "_title": "/Drivetrain Tuner/Data/Drive Motor Errors",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
-            }
-          },
-          "15,4": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///Drivetrain Tuner/Data/Angle Motor Errors",
-              "_title": "/Drivetrain Tuner/Data/Angle Motor Errors",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
-            }
-          },
-          "12,1": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Reset Max Velocities",
-              "_title": "/Drivetrain Tuner/Control/Reset Max Velocities",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,2": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Update Angle Gains",
-              "_title": "/Drivetrain Tuner/Control/Update Angle Gains",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,3": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Update Drive Gains",
-              "_title": "/Drivetrain Tuner/Control/Update Drive Gains",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,4": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Update Limits, Deadbands, Curves",
-              "_title": "/Drivetrain Tuner/Control/Update Limits, Deadbands, Curves",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,5": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Update Peaccy Request",
-              "_title": "/Drivetrain Tuner/Control/Update Peaccy Request",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,6": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Use Soft Hold Heading",
-              "_title": "/Drivetrain Tuner/Control/Use Soft Hold Heading",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,7": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///Drivetrain Tuner/Control/Zero Odometry",
-              "_title": "/Drivetrain Tuner/Control/Zero Odometry",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,3": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///Drivetrain Tuner/Data",
-              "_title": "/Drivetrain Tuner/Data",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///Drivetrain Tuner/Gains/Drive kA",
-              "_title": "/Drivetrain Tuner/Gains/Drive kA",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///Drivetrain Tuner/Gains/Drive kP",
-              "_title": "/Drivetrain Tuner/Gains/Drive kP",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///Drivetrain Tuner/Gains/Drive kV",
-              "_title": "/Drivetrain Tuner/Gains/Drive kV",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,3": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///Drivetrain Tuner/Data/Angle Motor Errors",
-              "_title": "/Drivetrain Tuner/Data/Angle Motor Errors",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Tab 4",
+      "title": "Debugging",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
@@ -758,43 +544,20 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "7,0": {
+          "0,0": {
             "size": [
-              2,
-              1
+              8,
+              5
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Elevator Height Meters",
-              "_title": "/SmartDashboard/Elevator Height Meters",
+              "_type": "Field",
+              "_source0": "network_table:///SmartDashboard/Field",
+              "_title": "/SmartDashboard/Field",
               "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,2": {
-            "size": [
-              4,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Wrist Position Degrees",
-              "_title": "/SmartDashboard/Wrist Position Degrees",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,3": {
-            "size": [
-              4,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Wrist position wtf",
-              "_title": "/SmartDashboard/Wrist position wtf",
-              "_glyph": 148,
-              "_showGlyph": false
+              "_showGlyph": false,
+              "Game/Game": "k2024Crescendo",
+              "Visuals/Robot Icon Size": 50.0,
+              "Visuals/Show Outside Circles": false
             }
           }
         }
