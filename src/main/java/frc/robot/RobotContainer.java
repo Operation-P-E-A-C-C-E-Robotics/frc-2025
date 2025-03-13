@@ -27,6 +27,8 @@ import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
+import frc.lib.util.ButtonMap.MultiButton;
+import frc.robot.subsystems.Climber;
 
 
 public class RobotContainer {
@@ -37,9 +39,8 @@ public class RobotContainer {
   private final Wrist wrist = new Wrist();                                                                                                                      
   private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);                                                                               //private String song = "output.chrp"; private static Sushi musicalSushi = new Sushi(); ArrayList<TalonFX> instruments = new ArrayList<TalonFX>(); for(int i = 0; i < 0; i++) {instruments.add(new TalonFX(0));} private Orchestra music = new Orchestra();
   private final Chute chute = new Chute();
-  // private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
+  private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
-
 
   
   /* OI DEFINITIONS */
@@ -62,21 +63,20 @@ public class RobotContainer {
     Button.onRelease(chute.rest(), 7),
     Button.onHold(chute.unjam().alongWith(sushi.panic()), 5),
     Button.onRelease(chute.rest(), 5),
-    // Button.onPress(climber.getToClimbPos(), 6),
     
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
     
-    // MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
+    MultiButton.onHold(climber.deploy(), 9, 10),
     
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
     
     JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.3), 3, 0.15),
     JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.3), 1, 0.1),
-    // JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
+    JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
   };
   
   private final OIEntry[] driverMap = new OIEntry[] {

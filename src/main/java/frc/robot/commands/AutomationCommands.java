@@ -81,9 +81,7 @@ public class AutomationCommands {
     //     return sushi.place(() -> false).andThen(new WaitCommand(0.4)).andThen(elevator.goToSetpoint(ElevatorSetpoints.REST).alongWith(wrist.goToSetpoint(WristSetpoints.REST)));
     // }
 
-    // public Command deployClimber() {
-    //     return chute.dropCommand().alongWith(climber.deploy()).withTimeout(2);
-    // }
+    // public Co 
 
     public Command intakeUntilCoralObtained() {
         return new ParallelRaceGroup(chute.intake(), sushi.intake());
