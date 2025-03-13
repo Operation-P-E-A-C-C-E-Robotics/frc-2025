@@ -5,11 +5,12 @@
 package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutomationCommands;
 import frc.robot.commands.drivetrain.AutoAlign;
@@ -36,7 +37,7 @@ public class RobotContainer {
   private final Wrist wrist = new Wrist();                                                                                                                      
   private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);                                                                               //private String song = "output.chrp"; private static Sushi musicalSushi = new Sushi(); ArrayList<TalonFX> instruments = new ArrayList<TalonFX>(); for(int i = 0; i < 0; i++) {instruments.add(new TalonFX(0));} private Orchestra music = new Orchestra();
   private final Chute chute = new Chute();
-  private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
+  // private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
 
 
@@ -51,7 +52,7 @@ public class RobotContainer {
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
-  private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, climber, chute, autoAlign);
+  private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, chute, autoAlign);
 
 
   private final OIEntry[] operatorsMap = new OIEntry[] {
@@ -73,9 +74,9 @@ public class RobotContainer {
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
     
-    JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*1), 3, 0.15),
-    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*1), 1, 0.1),
-    JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
+    JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.3), 3, 0.15),
+    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.3), 1, 0.1),
+    // JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
   };
   
   private final OIEntry[] driverMap = new OIEntry[] {
@@ -100,11 +101,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    peaccyDrive.withTranslation(() -> -driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7)
-               .withStrafe     (() -> -driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7)
+    peaccyDrive.withTranslation(() -> (-driverJoystick.getRawAxis(Constants.OI.translationAxis) * 0.7) / (Math.max(elevator.getHeight()/4,1)))
+               .withStrafe     (() -> (-driverJoystick.getRawAxis(Constants.OI.strafeAxis) * 0.7) / (Math.max(elevator.getHeight()/4,1)))
                .withRotation   (() -> -driverJoystick.getRawAxis(Constants.OI.rotationAxis))
-               .withHeading    (() -> (driverJoystick.getRawAxis(2) > 0.5 ? autoAlign.getTargetDrivetrainAngleToIntake() : autoAlign.getTargetDrivetrainAngleToPlace()).getDegrees())
-               .useHeading     (() -> driverJoystick.getPOV() != -1)
+               .withHeading    (() -> Math.round(driveTrain.getPose().getRotation().getDegrees()/60)*60)
+               .useHeading     (() -> driverJoystick.getRawButton(1) || driverJoystick.getRawButton(2) || driverJoystick.getRawButton(3) || driverJoystick.getRawButton(4))
                .isFieldRelative(() -> driverJoystick.getRawAxis(2) < 0.2) //left trigger
                .isLockIn       (() -> driverJoystick.getRawAxis(3) > 0.2) //right trigger
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
@@ -113,7 +114,7 @@ public class RobotContainer {
 
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
-    climber.setDefaultCommand(climber.rest());
+    // climber.setDefaultCommand(climber.rest());
     wrist.setDefaultCommand(wrist.goToSetpoint(WristSetpoints.REST));
     elevator.setDefaultCommand(elevator.goToSetpoint(ElevatorSetpoints.REST));
     chute.setDefaultCommand(chute.rest());
@@ -140,8 +141,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     try {
-      PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-      return AutoBuilder.resetOdom(path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(path)); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      PathPlannerPath path = PathPlannerPath.fromPathFile("Drive To Reef");
+      return AutoBuilder.resetOdom(path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
     } catch (Exception e) {
       e.printStackTrace();
     }

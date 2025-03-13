@@ -187,7 +187,7 @@ public final class Constants {
   public static final class Swerve {
     /* TELEOP */
     //speeds in m/s (probably)
-    public static final double teleopLinearMultiplier = 7.0;
+    public static final double teleopLinearMultiplier = 5.0;
     public static final double teleopAngularMultiplier = 7.0;
 
     //acceleration limits
@@ -197,7 +197,7 @@ public final class Constants {
     public static final double teleopAngularRateLimit = 3.0;
 
     //deadband
-    public static final double teleopLinearSpeedDeadband = 0.15;
+    public static final double teleopLinearSpeedDeadband = 0.01;
     public static final double teleopAngularVelocityDeadband = 0.2;
     public static final double teleopDeadbandDebounceTime = 0.1;
 
@@ -221,7 +221,7 @@ public final class Constants {
     public static final CANIDs rearLeftIDs =    new CANIDs(4,  2,   3); //module 0
     public static final CANIDs rearRightIDs =   new CANIDs(13,   11,    12); //module 3
 
-    public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
+    public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (4/2), 0);
 
     public static final EncoderOffsets offsets = new EncoderOffsets(
       0.042725, //Front left, module 1
@@ -236,14 +236,14 @@ public final class Constants {
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 40 : 800, 7);
     public static final double steerMotorCurrentLimit = Robot.isReal() ? 20 : 120; //TODO: turn this up
 
-    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.1, 0); //TODO: tune with final robot
+    public static final PidGains driveGains = new PidGains(0.2, 0, 0, 0.09, 0); //TODO: tune with final robot
     public static final PidGains angleGains = new PidGains(40, 0, 0, 0, 0); //TODO: tune with final robot
 
     public static final int pigeonCANId = 1;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
 
     /* HEADING CONTROLLER CONSTANTS */
-    public static final double autoHeadingKP = 400;
+    public static final double autoHeadingKP = 700;
     public static final double lockHeadingKP = 1000;
     public static final double autoHeadingKI = 0.0; //DOES NOTHING LOL
     public static final double autoHeadingKD = 0.0; //ALSO DOES NOTHING LOL
@@ -282,7 +282,7 @@ public final class Constants {
     );
 
     public static final RobotConfig defaultPathplannerConfig = new RobotConfig(
-      Units.lbsToKilograms(75), //robot weight
+      Units.lbsToKilograms(120), //robot weight
       6.883, //robot MOI
       new ModuleConfig(
         Units.inchesToMeters(2), //wheel radius //TODO: fudge factor

@@ -21,15 +21,13 @@ public class AutomationCommands {
     private final Elevator elevator;
     private final Wrist wrist;
     private final Sushi sushi;
-    private final Climber climber;
     private final Chute chute;
     private final AutoAlign autoAlign;
 
-    public AutomationCommands(Swerve swerve, Elevator elevator, Wrist wrist, Sushi sushi, Climber climber, Chute chute, AutoAlign autoAlign) {
+    public AutomationCommands(Swerve swerve, Elevator elevator, Wrist wrist, Sushi sushi, Chute chute, AutoAlign autoAlign) {
         this.elevator = elevator;
         this.wrist = wrist;
         this.sushi = sushi;
-        this.climber = climber;
         this.chute = chute;
         this.autoAlign = autoAlign;
         NamedCommands.registerCommand("L2", l2ElevatorWrist());
@@ -83,9 +81,9 @@ public class AutomationCommands {
     //     return sushi.place(() -> false).andThen(new WaitCommand(0.4)).andThen(elevator.goToSetpoint(ElevatorSetpoints.REST).alongWith(wrist.goToSetpoint(WristSetpoints.REST)));
     // }
 
-    public Command deployClimber() {
-        return chute.dropCommand().alongWith(climber.deploy()).withTimeout(2);
-    }
+    // public Command deployClimber() {
+    //     return chute.dropCommand().alongWith(climber.deploy()).withTimeout(2);
+    // }
 
     public Command intakeUntilCoralObtained() {
         return new ParallelRaceGroup(chute.intake(), sushi.intake());

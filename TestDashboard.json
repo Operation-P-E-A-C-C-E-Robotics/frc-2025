@@ -11,29 +11,13 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "1,1": {
-            "size": [
-              10,
-              6
-            ],
-            "content": {
-              "_type": "Field",
-              "_source0": "network_table:///SmartDashboard/Field",
-              "_title": "/SmartDashboard/Field",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Game/Game": "k2024Crescendo",
-              "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
-            }
-          },
           "0,0": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Alerts",
+              "_type": "Network Table Tree",
               "_source0": "network_table:///SmartDashboard/Alerts",
               "_title": "/SmartDashboard/Alerts",
               "_glyph": 148,
@@ -46,14 +30,14 @@
               1
             ],
             "content": {
-              "_type": "ComboBox Chooser",
+              "_type": "Network Table Tree",
               "_source0": "network_table:///SmartDashboard/POSE SEED",
               "_title": "/SmartDashboard/POSE SEED",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "11,0": {
+          "2,0": {
             "size": [
               2,
               2
@@ -68,55 +52,15 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "2,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/AUTO MODE",
-              "_title": "/SmartDashboard/AUTO MODE",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "13,0": {
-            "size": [
-              5,
-              5
-            ],
-            "content": {
-              "_type": "PDP",
-              "_source0": "network_table:///SmartDashboard/PDP",
-              "_title": "/SmartDashboard/PDP",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Visuals/Show voltage and current values": true
-            }
-          },
-          "3,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Linear Curve",
-              "_title": "/SmartDashboard/Linear Curve",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "4,0": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Angular Curve",
-              "_title": "/SmartDashboard/Angular Curve",
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/Field",
+              "_title": "/SmartDashboard/Field",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -127,9 +71,9 @@
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Using DriveTrainTuner",
-              "_title": "/SmartDashboard/Using DriveTrainTuner",
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/AUTO MODE",
+              "_title": "/SmartDashboard/AUTO MODE",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -140,228 +84,14 @@
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/target linear velocity",
-              "_title": "/SmartDashboard/target linear velocity",
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/PDP",
+              "_title": "/SmartDashboard/PDP",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
           "7,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Measured Linear Velocity",
-              "_title": "/SmartDashboard/Measured Linear Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Requested X Velocity",
-              "_title": "/SmartDashboard/Requested X Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Requested Y Velocity",
-              "_title": "/SmartDashboard/Requested Y Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "/SmartDashboard/limelight_Interface",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "18,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "/SmartDashboard/limelight_Stream",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "/SmartDashboard/limelight_PipelineName",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "18,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/vision pose",
-              "_title": "/SmartDashboard/vision pose",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/num tags",
-              "_title": "/SmartDashboard/num tags",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Odometry Error",
-              "_title": "/SmartDashboard/Odometry Error",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "12,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/stdev",
-              "_title": "/SmartDashboard/stdev",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,3": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Setpoint Mode",
-              "_title": "/SmartDashboard/Setpoint Mode",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "18,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Wrist Position Degrees",
-              "_title": "/SmartDashboard/Wrist Position Degrees",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Elevator Height Meters",
-              "_title": "/SmartDashboard/Elevator Height Meters",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,5": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Elevator Upper Limit",
-              "_title": "/SmartDashboard/Elevator Upper Limit",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "13,5": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Elevator Lower Limit",
-              "_title": "/SmartDashboard/Elevator Lower Limit",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "18,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Wrist position wtf",
-              "_title": "/SmartDashboard/Wrist position wtf",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "15,5": {
             "size": [
               2,
               2
@@ -376,7 +106,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "17,5": {
+          "9,0": {
             "size": [
               2,
               2
@@ -391,17 +121,73 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,4": {
+          "11,0": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Elevator Pos",
-              "_title": "/SmartDashboard/Elevator Pos",
+              "_source0": "network_table:///SmartDashboard/Wrist Position Degrees",
+              "_title": "/SmartDashboard/Wrist Position Degrees",
               "_glyph": 148,
               "_showGlyph": false
+            }
+          },
+          "12,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Wrist position wtf",
+              "_title": "/SmartDashboard/Wrist position wtf",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "13,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Elevator Height Meters",
+              "_title": "/SmartDashboard/Elevator Height Meters",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "14,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Elevator Upper Limit",
+              "_title": "/SmartDashboard/Elevator Upper Limit",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "16,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Elevator Lower Limit",
+              "_title": "/SmartDashboard/Elevator Lower Limit",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }
@@ -534,37 +320,7 @@
       }
     },
     {
-      "title": "Tab 5",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 64.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "0,0": {
-            "size": [
-              8,
-              5
-            ],
-            "content": {
-              "_type": "Field",
-              "_source0": "network_table:///SmartDashboard/Field",
-              "_title": "/SmartDashboard/Field",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Game/Game": "k2024Crescendo",
-              "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Tab 6",
+      "title": "Tab 4",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {

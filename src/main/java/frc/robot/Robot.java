@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -22,11 +26,14 @@ public class Robot extends TimedRobot {
 
   private PowerDistribution pdp = new PowerDistribution(ControlSystem.PDPCanId, ControlSystem.PDPModuleType);
   private Timer scheduleTimer = new Timer();
+  private UsbCamera camera;
 
   public Robot() {
     super(Constants.period);
     CommandScheduler.getInstance().setPeriod(Constants.period);
     SmartDashboard.updateValues();
+    camera = CameraServer.startAutomaticCapture(0);
+    camera.setVideoMode(PixelFormat.kYUYV, 320, 240, 20);
   }
 
   @Override
@@ -42,6 +49,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("PDP", pdp);
     System.out.println("Robot Initialized");
     System.out.println("yay the software didn't crash yet");
+
+
   }
 
   @Override

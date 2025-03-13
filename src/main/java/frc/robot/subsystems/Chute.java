@@ -64,7 +64,7 @@ public class Chute extends SubsystemBase {
 
     public Command rest() {
         return this.run(() -> {
-            setSpeed(0, 0);
+            setSpeed(0.3, 0.3);
             chuteDropMotor.set(ControlMode.PercentOutput,0);
         });
     }
