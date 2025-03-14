@@ -29,7 +29,7 @@ import frc.lib.swerve.SwerveDescription.PidGains;
 import frc.lib.util.JoystickCurves;
 
 public final class Constants {
-  public static final double period = 0.01; //loop time
+  public static final double period = 0.02; //loop time
 
   public static final class OI{
     //Driver

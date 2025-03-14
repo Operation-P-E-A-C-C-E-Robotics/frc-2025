@@ -55,6 +55,7 @@ public class RobotContainer {
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
   private final AutomationCommands automationCommands = new AutomationCommands(driveTrain, elevator, wrist, sushi, chute, autoAlign);
 
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private final OIEntry[] operatorsMap = new OIEntry[] {
     Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
@@ -70,13 +71,14 @@ public class RobotContainer {
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
     
     MultiButton.onHold(climber.deploy(), 9, 10),
+    MultiButton.onHold(chute.dropCommand(), 9, 10),
     
     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
     
     JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.3), 3, 0.15),
-    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.3), 1, 0.1),
-    JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
+    JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.3), 1, 0.15),
+    JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.5), 0, 0.2),
   };
   
   private final OIEntry[] driverMap = new OIEntry[] {
@@ -91,13 +93,24 @@ public class RobotContainer {
   };
   
   //-------------------------------------------------------------------------------------------------------------------------------------
-  
-  
-  private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   public RobotContainer() {
     configureBindings();
+    try {
+      PathPlannerPath l1Path = PathPlannerPath.fromPathFile("Drive To Reef");
+      PathPlannerPath driveOffLinePath = PathPlannerPath.fromPathFile("Drive Off Line");
+      Command l1CoralAuto = AutoBuilder.resetOdom(l1Path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command driveOffLineAuto = AutoBuilder.resetOdom(driveOffLinePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(driveOffLinePath).raceWith(sushi.index()));
+    
+      autoChooser.addOption("DO NOTHING", null);
+      autoChooser.setDefaultOption("Drive Off Line", driveOffLineAuto);
+      autoChooser.addOption("L1 Coral", l1CoralAuto);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
     SmartDashboard.putData("AUTO MODE", autoChooser);
+
   }
 
   private void configureBindings() {
@@ -114,7 +127,7 @@ public class RobotContainer {
 
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
-    // climber.setDefaultCommand(climber.rest());
+    climber.setDefaultCommand(climber.rest());
     wrist.setDefaultCommand(wrist.goToSetpoint(WristSetpoints.REST));
     elevator.setDefaultCommand(elevator.goToSetpoint(ElevatorSetpoints.REST));
     chute.setDefaultCommand(chute.rest());
@@ -140,12 +153,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    try {
-      PathPlannerPath path = PathPlannerPath.fromPathFile("Drive To Reef");
-      return AutoBuilder.resetOdom(path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+    return autoChooser.getSelected();
   }
 }

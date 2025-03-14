@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
 
-  private PowerDistribution pdp = new PowerDistribution(ControlSystem.PDPCanId, ControlSystem.PDPModuleType);
+  // private PowerDistribution pdp = new PowerDistribution(ControlSystem.PDPCanId, ControlSystem.PDPModuleType);
   private Timer scheduleTimer = new Timer();
   private UsbCamera camera;
 
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
 
     //log current draw
-    SmartDashboard.putData("PDP", pdp);
+    // SmartDashboard.putData("PDP", pdp);
     System.out.println("Robot Initialized");
     System.out.println("yay the software didn't crash yet");
 
@@ -85,10 +85,6 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command
     autonomousCommand = robotContainer.getAutonomousCommand();
     if (autonomousCommand != null) {
-      for(int i = 0; i < 300; i++)
-      {
-        System.out.println("!!!!!!ACOM SUCCESSFULLY GOTTEN!!!!!!!!");
-      }
       autonomousCommand.schedule();
     }
   }
