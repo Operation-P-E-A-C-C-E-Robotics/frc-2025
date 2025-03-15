@@ -30,8 +30,9 @@ public class AutomationCommands {
         this.sushi = sushi;
         this.chute = chute;
         this.autoAlign = autoAlign;
-        NamedCommands.registerCommand("L2", l2ElevatorWrist());
-        NamedCommands.registerCommand("L4", l4ElevatorWrist());
+        NamedCommands.registerCommand("L1", l1ElevatorWrist().alongWith(elevator.goToSetpoint(ElevatorSetpoints.L1)));
+        NamedCommands.registerCommand("L2", l2ElevatorWrist().alongWith(elevator.goToSetpoint(ElevatorSetpoints.L2)));
+        NamedCommands.registerCommand("L4", l4ElevatorWrist().alongWith(elevator.goToSetpoint(ElevatorSetpoints.L4)));
     }
 
     public Command l1ElevatorWrist() {

@@ -393,26 +393,30 @@
               "imageHeight": 0
             }
           },
-          "3,1": {
+          "5,1": {
             "size": [
-              4,
-              4
+              2,
+              1
             ],
             "content": {
-              "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Field/Robot",
-              "_title": "/SmartDashboard/Field/Robot",
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/AUTO MODE",
+              "_title": "/SmartDashboard/AUTO MODE",
               "_glyph": 148,
-              "_showGlyph": false,
-              "Graph/Visible time": 30.0,
-              "Graph/X-axis auto scrolling": true,
-              "Y-axis/Automatic bounds": true,
-              "Y-axis/Upper bound": 1.0,
-              "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data//SmartDashboard/Field/Robot[0]": true,
-              "Visible data//SmartDashboard/Field/Robot[1]": true,
-              "Visible data//SmartDashboard/Field/Robot[2]": true
+              "_showGlyph": false
+            }
+          },
+          "5,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///CameraPublisher/USB Camera 0",
+              "_title": "/CameraPublisher/USB Camera 0",
+              "_glyph": 148,
+              "_showGlyph": false
             }
           }
         }
