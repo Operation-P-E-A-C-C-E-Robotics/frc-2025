@@ -10,14 +10,12 @@ import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.telemetry.ControlSystemTelemetry;
-import frc.robot.Constants.ControlSystem;
 
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
@@ -74,6 +72,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    
     for(int i = 0; i < 50; i++)
     {
       System.out.println("AUTO INIT FUNCTION STARTED");

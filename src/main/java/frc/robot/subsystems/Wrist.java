@@ -113,7 +113,7 @@ public class Wrist extends SubsystemBase {
         REST(Rotation2d.fromDegrees(12)),
         L1(Rotation2d.fromDegrees(0)),
         L2L3(Rotation2d.fromDegrees(25)),
-        L4(Rotation2d.fromDegrees(40));
+        L4(Rotation2d.fromDegrees(55));
 
         private Rotation2d angle;
 

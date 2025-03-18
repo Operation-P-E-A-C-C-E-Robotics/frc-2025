@@ -104,7 +104,7 @@ public class Sushi extends SubsystemBase {
   }
 
   public Command place(BooleanSupplier isSlow) {
-    return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.7:1)).until(() -> !(getFrontBeamBrake() || getRearBeamBrake()));
+    return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.3:0.8)).until(() -> !(getFrontBeamBrake() || getRearBeamBrake()));
   }
 
   public Command shuffleBack() {

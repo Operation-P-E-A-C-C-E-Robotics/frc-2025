@@ -393,20 +393,7 @@
               "imageHeight": 0
             }
           },
-          "5,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/AUTO MODE",
-              "_title": "/SmartDashboard/AUTO MODE",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,3": {
+          "4,2": {
             "size": [
               1,
               1
@@ -415,6 +402,19 @@
               "_type": "Network Table Tree",
               "_source0": "network_table:///CameraPublisher/USB Camera 0",
               "_title": "/CameraPublisher/USB Camera 0",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/AUTO MODE",
+              "_title": "/SmartDashboard/AUTO MODE",
               "_glyph": 148,
               "_showGlyph": false
             }

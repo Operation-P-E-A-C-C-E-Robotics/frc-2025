@@ -144,10 +144,10 @@ public class Swerve extends SubsystemBase {
     public Pose2d getPose () {
         var pose = swerve.getState().Pose;
         if (pose == null) return new Pose2d();
-        if(AllianceFlipUtil.shouldFlip()) {
-            var redAllianceOrigin = new Pose2d(FieldConstants.fieldLength, FieldConstants.fieldWidth, Rotation2d.fromDegrees(180));
-            pose = pose.relativeTo(redAllianceOrigin);
-        }
+        // if(AllianceFlipUtil.shouldFlip()) {
+        //     var redAllianceOrigin = new Pose2d(FieldConstants.fieldLength, FieldConstants.fieldWidth, Rotation2d.fromDegrees(180));
+        //     pose = pose.relativeTo(redAllianceOrigin);
+        // }
         return pose;
     }
 

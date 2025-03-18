@@ -58,7 +58,7 @@ public class RobotContainer {
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private final OIEntry[] operatorsMap = new OIEntry[] {
-    Button.onHold(sushi.place(() -> elevator.getHeight() < 1.5), 8),
+    Button.onHold(sushi.place(() -> (elevator.getHeight() < 5.0) && (elevator.getHeight() > 1.5)), 8),
     Button.onHold(sushi.intake(), 7),
     Button.onHold(chute.intake(), 7),
     Button.onRelease(chute.rest(), 7),
@@ -84,7 +84,7 @@ public class RobotContainer {
   private final OIEntry[] driverMap = new OIEntry[] {
     JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
     JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
-    JoystickTrigger.onMove(driverJoystick, sushi.place(() -> elevator.getHeight() < 1.0), 3, 0.5),
+    JoystickTrigger.onMove(driverJoystick, sushi.place(() -> (elevator.getHeight() < 5.0) && (elevator.getHeight() > 1.5)), 3, .5),
     
     Button.onHold(automationCommands.l1ElevatorWrist(), 2),
     Button.onHold(automationCommands.l2ElevatorWrist(), 1),
@@ -98,13 +98,19 @@ public class RobotContainer {
     configureBindings();
     try {
       PathPlannerPath l1Path = PathPlannerPath.fromPathFile("Drive To Reef");
+      PathPlannerPath l1OppositePath = PathPlannerPath.fromPathFile("Drive To Reef Opposite Side");
+      PathPlannerPath l1Center = PathPlannerPath.fromPathFile("Drive To Reef Center");
       PathPlannerPath driveOffLinePath = PathPlannerPath.fromPathFile("Drive Off Line");
-      Command l1CoralAuto = AutoBuilder.resetOdom(l1Path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1AllianceSideAuto = AutoBuilder.resetOdom(l1Path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1OppositeSideAuto = AutoBuilder.resetOdom(l1OppositePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1CenterAuto = AutoBuilder.resetOdom(l1Center.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
       Command driveOffLineAuto = AutoBuilder.resetOdom(driveOffLinePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(driveOffLinePath).raceWith(sushi.index()));
     
       autoChooser.addOption("DO NOTHING", null);
       autoChooser.setDefaultOption("Drive Off Line", driveOffLineAuto);
-      autoChooser.addOption("L1 Coral", l1CoralAuto);
+      autoChooser.addOption("L1 Coral", l1AllianceSideAuto);
+      autoChooser.addOption("L1 Opposite Coral", l1OppositeSideAuto);
+      autoChooser.addOption("L1 Center Coral", l1CenterAuto);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -124,6 +130,7 @@ public class RobotContainer {
                .isZeroOdometry (() -> zeroButton.getAsBoolean())
                .isOpenLoop     (() -> !driverJoystick.getRawButton(6)); //right bumper
     driveTrain.register(driverJoystick);
+    
 
     driveTrain.setDefaultCommand(peaccyDrive);
     sushi.setDefaultCommand(sushi.index());
