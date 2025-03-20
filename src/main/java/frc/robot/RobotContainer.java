@@ -3,9 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +35,7 @@ import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.lib.util.ButtonMap.MultiButton;
-
+import org.photonvision.PhotonCamera.*;
 
 
 public class RobotContainer {
@@ -42,7 +49,8 @@ public class RobotContainer {
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
 
-  
+  private final PhotonCamera cam = new PhotonCamera("testCamera");
+
   /* OI DEFINITIONS */
   private final Joystick driverJoystick = new Joystick(0);
   private final Joystick operatorJoystick = new Joystick(1);
@@ -142,6 +150,14 @@ public class RobotContainer {
     new ButtonMap(operatorJoystick).map(operatorsMap);
     new ButtonMap(driverJoystick).map(driverMap);
   }
+  //Auto/Camera Stuff -
+
+  
+  Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+
+  // Construct PhotonPoseEstimator
+  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, cam, robotToCam);
+
 
   public boolean deployReady()
   {
