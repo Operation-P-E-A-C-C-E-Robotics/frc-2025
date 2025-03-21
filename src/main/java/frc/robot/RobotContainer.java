@@ -3,16 +3,22 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import java.io.File;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonTargetSortMode;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +42,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.lib.util.ButtonMap.MultiButton;
 import org.photonvision.PhotonCamera.*;
-
+import org.photonvision.PhotonPoseEstimator.*;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -57,7 +63,16 @@ public class RobotContainer {
   
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
   
-  
+  //Auto/Camera Stuff -
+  public File deployPathyWathy = Filesystem.getDeployDirectory();
+  public File fileyWiley = new File(deployPathyWathy, "PhotonVision/reefscapewelded.json");
+  public AprilTagFields aprilTagFields;
+  //public AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout((deployPathyWathy.toString() + "/PhotonVision/reefscapewelded.json"));
+  public AprilTagFieldLayout aprilTagFieldLayout =  AprilTagFieldLayout.loadField(aprilTagFields);//new AprilTagFieldLayout("PhotonVision/reefscapewelded");
+  public PhotonCamera camera = new PhotonCamera("photeyWotey");
+  public Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+  public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCam);
+
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
@@ -122,7 +137,7 @@ public class RobotContainer {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    
+    System.out.println(deployPathyWathy.toString() + "/PhotonVision/reefscapewelded.json");
     SmartDashboard.putData("AUTO MODE", autoChooser);
 
   }
@@ -150,15 +165,7 @@ public class RobotContainer {
     new ButtonMap(operatorJoystick).map(operatorsMap);
     new ButtonMap(driverJoystick).map(driverMap);
   }
-  //Auto/Camera Stuff -
-
-  
-  Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-
-  // Construct PhotonPoseEstimator
-  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, cam, robotToCam);
-
-
+ 
   public boolean deployReady()
   {
       if(10 >= wrist.getWristPosition().getDegrees()){
