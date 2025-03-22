@@ -165,6 +165,10 @@ public class RobotContainer {
     new ButtonMap(operatorJoystick).map(operatorsMap);
     new ButtonMap(driverJoystick).map(driverMap);
   }
+
+  public static AprilTagFieldLayout getAprilTagFieldLayout() {
+    return aprilTagFieldLayout;
+  }
  
   public boolean deployReady()
   {

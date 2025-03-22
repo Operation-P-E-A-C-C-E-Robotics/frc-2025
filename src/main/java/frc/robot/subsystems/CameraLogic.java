@@ -22,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import frc.robot.FieldConstants;
+import frc.robot.RobotContainer;
 
 public class CameraLogic extends SubsystemBase {
     private static final Vector<N3> STATE_STDS = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
@@ -61,7 +62,7 @@ public class CameraLogic extends SubsystemBase {
             new Rotation3d(0, 0, Units.degreesToRadians(35.895 / 2))
         );
 
-        AprilTagFieldLayout layout = FieldConstants.AprilTagLayoutType.OFFICIAL.getLayout();
+        AprilTagFieldLayout layout = RobotContainer.getAprilTagFieldLayout();
 
         photonPoseEstimatorRight = new PhotonPoseEstimator(
             layout,
@@ -81,15 +82,15 @@ public class CameraLogic extends SubsystemBase {
 
     @Override
     public void periodic() {
-        poseEstimator.update(
-            swerve.getGyroAngle().toRotation2d(), 
-            new SwerveModulePosition[4]  // same as earliear
-        );
+        // poseEstimator.update(
+        //     swerve.getGyroAngle().toRotation2d(), 
+        //     new SwerveModulePosition[4]  // same as earliear
+        // );
 
         Optional<EstimatedRobotPose> rightResult = getEstimatedGlobalPose(photonPoseEstimatorRight, cameraRight);
         if (rightResult.isPresent()) {
             EstimatedRobotPose pose = rightResult.get();
-            poseEstimator.addVisionMeasurement(
+            swerve.addVisionMeasurement(
                 pose.estimatedPose.toPose2d(),
                 pose.timestampSeconds
             );
@@ -98,7 +99,7 @@ public class CameraLogic extends SubsystemBase {
         Optional<EstimatedRobotPose> leftResult = getEstimatedGlobalPose(photonPoseEstimatorLeft, cameraLeft);
         if (leftResult.isPresent()) {
             EstimatedRobotPose pose = leftResult.get();
-            poseEstimator.addVisionMeasurement(
+            swerve.addVisionMeasurement(
                 pose.estimatedPose.toPose2d(),
                 pose.timestampSeconds
             );
