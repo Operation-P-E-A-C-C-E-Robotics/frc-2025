@@ -58,7 +58,7 @@ public class RobotContainer {
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
 
-  private final PhotonCamera cam = new PhotonCamera("testCamera");
+
 
   /* OI DEFINITIONS */
   private final Joystick driverJoystick = new Joystick(0);
@@ -67,8 +67,9 @@ public class RobotContainer {
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
   //Auto Camera Stuff
-  public static AprilTagFieldLayout aprilTagFieldLayout = FieldConstants.AprilTagLayoutType.OFFICIAL.getLayout();
-  public static PhotonCamera camera = new PhotonCamera("photeyWotey");
+  public static AprilTagFieldLayout aprilTagFieldLayout = FieldConstants.AprilTagLayoutType.OFFICIAL.getLayout();  
+  public final PhotonCamera cam = new PhotonCamera("testCamera");
+  public final PhotonCamera camera = new PhotonCamera("photeyWotey");
   public static Transform3d robotToCamLeft = new Transform3d(new Translation3d(Units.inchesToMeters(7.47), Units.inchesToMeters(13.5), Units.inchesToMeters(0.5)), new Rotation3d(0,Units.degreesToRadians(285),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   public static Transform3d robotToCamRight = new Transform3d(new Translation3d(Units.inchesToMeters(7.35), Units.inchesToMeters(13.5), Units.inchesToMeters(20.5)), new Rotation3d(0,Units.degreesToRadians(281.2),0));
   public static PhotonPoseEstimator photonPoseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamRight);
