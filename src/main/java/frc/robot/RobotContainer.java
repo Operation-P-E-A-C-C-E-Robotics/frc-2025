@@ -46,6 +46,7 @@ import frc.robot.subsystems.Elevator;
 import frc.lib.util.ButtonMap.MultiButton;
 import org.photonvision.PhotonCamera.*;
 import org.photonvision.PhotonPoseEstimator.*;
+import frc.lib.vision.ApriltagCamera.*;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -68,13 +69,12 @@ public class RobotContainer {
 
   //Auto Camera Stuff
   public static AprilTagFieldLayout aprilTagFieldLayout = FieldConstants.AprilTagLayoutType.OFFICIAL.getLayout();  
-  public final PhotonCamera cam = new PhotonCamera("testCamera");
-  public final PhotonCamera camera = new PhotonCamera("photeyWotey");
   public static Transform3d robotToCamLeft = new Transform3d(new Translation3d(Units.inchesToMeters(7.47), Units.inchesToMeters(13.5), Units.inchesToMeters(0.5)), new Rotation3d(0,Units.degreesToRadians(285),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
   public static Transform3d robotToCamRight = new Transform3d(new Translation3d(Units.inchesToMeters(7.35), Units.inchesToMeters(13.5), Units.inchesToMeters(20.5)), new Rotation3d(0,Units.degreesToRadians(281.2),0));
   public static PhotonPoseEstimator photonPoseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamRight);
-  public static PhotonPoseEstimator photonPoseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamLeft);
-
+  public static PhotonPoseEstimator photonPoseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamLeft);  
+  public static final ApriltagPhotonvision rightCam = new ApriltagPhotonvision("testCamera", robotToCamRight, aprilTagFieldLayout, 1);
+  public static final ApriltagPhotonvision leftCam = new ApriltagPhotonvision("photyWotey", robotToCamLeft, aprilTagFieldLayout, 1);
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
@@ -120,6 +120,7 @@ public class RobotContainer {
   //-------------------------------------------------------------------------------------------------------------------------------------
 
   public RobotContainer() {
+    photonPoseEstimatorLeft.getRobotToCameraTransform();
     configureBindings();
     try {
       PathPlannerPath l1Path = PathPlannerPath.fromPathFile("Drive To Reef");
