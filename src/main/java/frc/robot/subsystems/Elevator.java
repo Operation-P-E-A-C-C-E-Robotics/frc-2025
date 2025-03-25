@@ -75,10 +75,10 @@ public class Elevator extends SubsystemBase {
    * Sets the height of the elevator to the given height by using the position control mode of the Talon.
    * @param height the desired height of the elevator in inches
    */
-  public void setHeight(double height) {
+  public void setHeight(double height, boolean overrideLimitSwitches) {
     // if(!coralIndexed.getAsBoolean() && height > maxExtensionWithoutIndexing) height = maxExtensionWithoutIndexing;
     //don't allow the elevator to move if the coral isn't indexed, unless we're aiming for L4 and the elevator is already high enough
-    if(!coralIndexed.getAsBoolean() && !(height == ElevatorSetpoints.L4.getHeight() && getHeight() > ElevatorSetpoints.L4.getHeight() - (2 * setpointTolerance))){
+    if(!coralIndexed.getAsBoolean() && !(height == ElevatorSetpoints.L4.getHeight() && getHeight() > ElevatorSetpoints.L4.getHeight() - (2 * setpointTolerance)) && overrideLimitSwitches == false){
       setSpeed(0);
       return;
     }
@@ -112,8 +112,12 @@ public class Elevator extends SubsystemBase {
     return lowerLimit.getValue() == ReverseLimitValue.ClosedToGround;
   }
 
+  public Command goToSetpoint(ElevatorSetpoints setpoint, boolean overrideLimitSwitches) {
+      return this.run(() -> setHeight(setpoint.getHeight(), overrideLimitSwitches));
+  }
+
   public Command goToSetpoint(ElevatorSetpoints setpoint) {
-      return this.run(() -> setHeight(setpoint.getHeight()));
+    return this.run(() -> setHeight(setpoint.getHeight(), false));
   }
 
   public Command manualInput(DoubleSupplier speed) {
@@ -149,21 +153,23 @@ public class Elevator extends SubsystemBase {
   }
 
   public enum ElevatorSetpoints {
-        REST(0.0),
-        L1(0.13),
-        L2(0.35),
-        L3(0.75),
-        L4(1.3);
-
-        private double height;
-
-        ElevatorSetpoints(double height) {
-            this.height = height;
-        }
-
-        public double getHeight() {
-            return height;
-        }
+    REST(0.0),
+    L1(0.13),
+    L2(0.35),
+    L2_5(0.55), // New setpoint between L3 and L2
+    L3(0.75),
+    L3_5(1.0),  // New setpoint between L4 and L3
+    L4(1.3);
+  
+    private double height;
+  
+    ElevatorSetpoints(double height) {
+      this.height = height;
     }
+  
+    public double getHeight() {
+      return height;
+    }
+  }
 }
 

@@ -38,8 +38,16 @@ public class AutomationCommands {
         return elevator.goToSetpoint(ElevatorSetpoints.L2).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
 
+    public Command l2_5ElevatorWrist() {
+        return elevator.goToSetpoint(ElevatorSetpoints.L2_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(wrist.manualInput(() -> 0.5)).until(() -> !sushi.getFrontBeamBrake());
+    }
+
     public Command l3ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L3).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
+    }
+
+    public Command l3_5ElevatorWrist() {
+        return elevator.goToSetpoint(ElevatorSetpoints.L3_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(wrist.manualInput(() -> 0.5)).until(() -> !sushi.getFrontBeamBrake());
     }
 
     public Command l4ElevatorWrist() {

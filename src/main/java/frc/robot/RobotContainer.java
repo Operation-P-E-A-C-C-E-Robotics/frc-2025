@@ -19,6 +19,7 @@ import frc.robot.subsystems.Elevator.ElevatorSetpoints;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.JoystickTrigger;
+import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Chute;
@@ -56,7 +57,9 @@ public class RobotContainer {
 
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
+    MultiButton.onHold(automationCommands.l2_5ElevatorWrist(), 9, 10), // TODO PARKER Do The Buttons
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
+    MultiButton.onHold(automationCommands.l3_5ElevatorWrist(), 9, 10), // TODO PARKER Do The Buttons
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
 
     // MultiButton.onHold(automationCommands.deployClimber(), 9, 10),
