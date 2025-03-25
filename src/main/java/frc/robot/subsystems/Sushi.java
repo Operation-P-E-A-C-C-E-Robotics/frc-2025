@@ -23,7 +23,7 @@ import java.util.function.BooleanSupplier;
 
 public class Sushi extends SubsystemBase {
 
-  private final TalonFX tariyaki = new TalonFX(sushiMainID);
+  public final TalonFX tariyaki = new TalonFX(sushiMainID);
   private final StatusSignal<Angle> positionSignal;
   private final PositionVoltage positionVoltage = new PositionVoltage(0);
 
@@ -104,7 +104,7 @@ public class Sushi extends SubsystemBase {
   }
 
   public Command place(BooleanSupplier isSlow) {
-    return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.7:1)).until(() -> !getFrontBeamBrake());
+    return this.run(() -> setSpeed(isSlow.getAsBoolean() ? 0.3:0.8)).until(() -> !(getFrontBeamBrake() || getRearBeamBrake()));
   }
 
   public Command shuffleBack() {

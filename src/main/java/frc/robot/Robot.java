@@ -4,29 +4,34 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.telemetry.ControlSystemTelemetry;
-import frc.robot.Constants.ControlSystem;
 
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
 
-  private PowerDistribution pdp = new PowerDistribution(ControlSystem.PDPCanId, ControlSystem.PDPModuleType);
+  // private PowerDistribution pdp = new PowerDistribution(ControlSystem.PDPCanId, ControlSystem.PDPModuleType);
   private Timer scheduleTimer = new Timer();
+  private UsbCamera camera;
 
   public Robot() {
     super(Constants.period);
     CommandScheduler.getInstance().setPeriod(Constants.period);
     SmartDashboard.updateValues();
+    camera = CameraServer.startAutomaticCapture(0);
+    camera.setVideoMode(PixelFormat.kYUYV, 320, 240, 20);
   }
 
   @Override
@@ -39,9 +44,11 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
 
     //log current draw
-    SmartDashboard.putData("PDP", pdp);
+    // SmartDashboard.putData("PDP", pdp);
     System.out.println("Robot Initialized");
     System.out.println("yay the software didn't crash yet");
+
+
   }
 
   @Override
@@ -65,6 +72,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    
     for(int i = 0; i < 50; i++)
     {
       System.out.println("AUTO INIT FUNCTION STARTED");
@@ -76,10 +84,6 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command
     autonomousCommand = robotContainer.getAutonomousCommand();
     if (autonomousCommand != null) {
-      for(int i = 0; i < 300; i++)
-      {
-        System.out.println("!!!!!!ACOM SUCCESSFULLY GOTTEN!!!!!!!!");
-      }
       autonomousCommand.schedule();
     }
   }

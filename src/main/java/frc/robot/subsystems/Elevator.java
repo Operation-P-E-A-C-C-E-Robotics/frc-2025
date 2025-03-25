@@ -159,7 +159,7 @@ public class Elevator extends SubsystemBase {
     L2_5(0.55), // New setpoint between L3 and L2
     L3(0.75),
     L3_5(1.0),  // New setpoint between L4 and L3
-    L4(1.3);
+    L4(1.28);
   
     private double height;
   

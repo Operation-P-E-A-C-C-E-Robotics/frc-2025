@@ -28,14 +28,14 @@ public interface ApriltagCamera {
 
         public VisionResults getLatestResults(Pose2d referencePose){
             LimelightHelpers.SetRobotOrientation(name, referencePose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-            var result = RobotState.isEnabled() ? 
+            var poseEstimate = RobotState.isEnabled() ? 
                 LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name)
                 : LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
             last = new VisionResults(
-                result.pose,
-                result.tagCount,
-                result.timestampSeconds,
-                result.timestampSeconds > last.getTimestamp()
+                poseEstimate.pose,
+                poseEstimate.tagCount,
+                poseEstimate.timestampSeconds,
+                poseEstimate.timestampSeconds > last.getTimestamp()
             );
             return last;
         }
@@ -61,13 +61,16 @@ public interface ApriltagCamera {
         @Override
         public VisionResults getLatestResults(Pose2d referencePose) {
             poseEstimator.setReferencePose(referencePose);
-            var result = poseEstimator.update(camera.getAllUnreadResults().get(0));
-            if(result.isEmpty()) return last.stale();
+            var results = camera.getAllUnreadResults();
+            if(results.isEmpty()) return last.stale();
+            var poseEstimate = poseEstimator.update(results.get(0));
+            if(poseEstimate.isEmpty()) return last.stale();
+            System.out.println(poseEstimate.get().estimatedPose);
             last = new VisionResults(
-                result.get().estimatedPose,
-                result.get().targetsUsed.size(),
-                result.get().timestampSeconds,
-                result.get().timestampSeconds > last.getTimestamp()
+                poseEstimate.get().estimatedPose,
+                poseEstimate.get().targetsUsed.size(),
+                poseEstimate.get().timestampSeconds,
+                poseEstimate.get().timestampSeconds > last.getTimestamp()
             );
 
             return last;

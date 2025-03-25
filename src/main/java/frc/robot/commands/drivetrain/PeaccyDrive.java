@@ -266,7 +266,7 @@ public class PeaccyDrive extends Command {
      */
     private Translation2d smoothAndDeadband (Translation2d linearVelocity) {
         //handle deadband and reset the rate limiter if we're in the deadband
-        double rawLinearSpeed = handleDeadbandFixSlope(Constants.Swerve.teleopLinearSpeedDeadband,0.03,linearVelocity.getNorm());
+        double rawLinearSpeed = handleDeadbandFixSlope(Constants.Swerve.teleopLinearSpeedDeadband,0.01,linearVelocity.getNorm());
         if(Math.abs(rawLinearSpeed) < Constants.Swerve.teleopLinearSpeedDeadband) linearSpeedLimiter.reset(0);
         rawLinearSpeed = Constants.Swerve.teleopLinearSpeedCurve.apply(rawLinearSpeed);
 
