@@ -44,7 +44,7 @@ public class AutomationCommands {
     }
 
     public Command l2_5ElevatorWrist() {
-        return elevator.goToSetpoint(ElevatorSetpoints.L2_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(wrist.manualInput(() -> 0.5));
+        return elevator.goToSetpoint(ElevatorSetpoints.L2_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(sushi.manualInput(() -> 0.5));
     }
 
     public Command l3ElevatorWrist() {

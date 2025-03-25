@@ -42,8 +42,7 @@ public class Sushi extends SubsystemBase {
   public Sushi() {
     Reporter.report(
       tariyaki.getConfigurator().apply(motorConfig),
-      "Failed to configure tariyaki"
-    );
+      "Failed to configure tariyaki"); 
 
     positionSignal = tariyaki.getPosition();
 
