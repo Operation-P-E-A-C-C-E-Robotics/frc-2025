@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "RobotContainer",
+      "request": "launch",
+      "mainClass": "frc.robot.RobotContainer",
+      "projectName": "frc-2025"
+    },
+    {
+      "type": "java",
+      "name": "CameraLogic",
+      "request": "launch",
+      "mainClass": "frc.robot.subsystems.CameraLogic",
+      "projectName": "frc-2025"
+    },
+    {
+      "type": "java",
       "name": "AutoAlign",
       "request": "launch",
       "mainClass": "frc.robot.commands.drivetrain.AutoAlign",

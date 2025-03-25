@@ -8,20 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.317520491802923,
-        "y": 1.2138831967233057
+        "x": 6.617213114754098,
+        "y": 0.5425717213114762
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.454405737704918,
-        "y": 3.1558913934426234
+        "x": 5.25061475409836,
+        "y": 3.0480020491803272
       },
       "prevControl": {
-        "x": 6.149692622950818,
-        "y": 1.8851946721311472
+        "x": 5.947553154462535,
+        "y": 1.6541252484519688
+      },
+      "nextControl": {
+        "x": 5.138811355223371,
+        "y": 3.2716088469303064
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.9868852459016395,
+        "y": 2.8921618852459017
+      },
+      "prevControl": {
+        "x": 5.163661941198277,
+        "y": 3.0689385805425378
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "L1",
+      "name": "CovidTheNineteen",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": null

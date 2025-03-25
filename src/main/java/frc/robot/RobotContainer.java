@@ -91,9 +91,9 @@ public class RobotContainer {
     
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
-    MultiButton.onHold(automationCommands.l2_5ElevatorWrist(), 9, 10), // TODO PARKER Do The Buttons
+    MultiButton.onHold(automationCommands.l2_5ElevatorWrist(), 9, 2), //
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
-    MultiButton.onHold(automationCommands.l3_5ElevatorWrist(), 9, 10), // TODO PARKER Do The Buttons
+    MultiButton.onHold(automationCommands.l3_5ElevatorWrist(), 9, 1), // TODO PARKER Do The Buttons
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
     
     MultiButton.onHold(climber.deploy(), 9, 10),
