@@ -81,6 +81,7 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+
   private final OIEntry[] operatorsMap = new OIEntry[] {
     Button.onHold(sushi.place(() -> (elevator.getHeight() < 5.0) && (elevator.getHeight() > 1.5)), 8),
     Button.onHold(sushi.intake(), 7),
@@ -90,9 +91,9 @@ public class RobotContainer {
     Button.onRelease(chute.rest(), 5),
     
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
-    Button.onHold(automationCommands.l2ElevatorWrist(), 2),
+    //Button.onHold(automationCommands.l2ElevatorWrist(), 2),
     MultiButton.onHold(automationCommands.l2_5ElevatorWrist(), 9, 2), //
-    Button.onHold(automationCommands.l3ElevatorWrist(), 1),
+    //Button.onHold(automationCommands.l3ElevatorWrist(), 1),
     MultiButton.onHold(automationCommands.l3_5ElevatorWrist(), 9, 1), // TODO PARKER Do The Buttons
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
     

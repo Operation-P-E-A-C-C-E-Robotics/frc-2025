@@ -20,6 +20,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Sushi.*;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 public class Sushi extends SubsystemBase {
 
@@ -63,6 +64,9 @@ public class Sushi extends SubsystemBase {
    */
   public void setSpeed(double speed) {
     tariyaki.set(speed);
+  }
+  public Command manualInput(DoubleSupplier speed) {
+    return this.run(() -> setSpeed(speed.getAsDouble()));
   }
 
   /**
