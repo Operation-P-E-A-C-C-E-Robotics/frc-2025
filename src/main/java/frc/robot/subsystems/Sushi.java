@@ -20,6 +20,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import static frc.robot.Constants.Sushi.*;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 public class Sushi extends SubsystemBase {
 
@@ -111,6 +112,9 @@ public class Sushi extends SubsystemBase {
     return this.run(() -> setSpeed(-0.1)).withTimeout(0.5).andThen(new RunCommand(() -> {}, this));
   }
 
+  public Command manualInput(DoubleSupplier speed) {
+    return this.run(() -> setSpeed(speed.getAsDouble()));
+  }
 
   /**
    * intake a gamepiece from the chute. only runs if there isn't already a gamepiece in the sushi.
