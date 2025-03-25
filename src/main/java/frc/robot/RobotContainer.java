@@ -73,8 +73,6 @@ public class RobotContainer {
   public static Transform3d robotToCamRight = new Transform3d(new Translation3d(Units.inchesToMeters(7.35), Units.inchesToMeters(13.5), Units.inchesToMeters(20.5)), new Rotation3d(0,Units.degreesToRadians(281.2),0));
   public static PhotonPoseEstimator photonPoseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamRight);
   public static PhotonPoseEstimator photonPoseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamLeft);  
-  public static final ApriltagPhotonvision rightCam = new ApriltagPhotonvision("testCamera", robotToCamRight, aprilTagFieldLayout, 1);
-  public static final ApriltagPhotonvision leftCam = new ApriltagPhotonvision("photyWotey", robotToCamLeft, aprilTagFieldLayout, 1);
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());

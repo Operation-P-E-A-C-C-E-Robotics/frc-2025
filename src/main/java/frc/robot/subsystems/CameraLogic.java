@@ -21,7 +21,6 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import frc.robot.FieldConstants;
 import frc.robot.RobotContainer;
 
 public class CameraLogic extends SubsystemBase {
@@ -40,7 +39,7 @@ public class CameraLogic extends SubsystemBase {
         this.swerve = swerve;
         this.driveKinematics = kinematics;
         
-        cameraRight = new PhotonCamera("rightCamera"); // here fr now
+        cameraRight = new PhotonCamera("rightCamera");
         cameraLeft = new PhotonCamera("leftCamera");
 
         poseEstimator = new SwerveDrivePoseEstimator(
@@ -82,10 +81,6 @@ public class CameraLogic extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // poseEstimator.update(
-        //     swerve.getGyroAngle().toRotation2d(), 
-        //     new SwerveModulePosition[4]  // same as earliear
-        // );
 
         Optional<EstimatedRobotPose> rightResult = getEstimatedGlobalPose(photonPoseEstimatorRight, cameraRight);
         if (rightResult.isPresent()) {
