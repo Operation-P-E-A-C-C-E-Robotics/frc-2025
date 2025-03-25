@@ -34,28 +34,21 @@ public class AutomationCommands {
         // NamedCommands.registerCommand("L2", l2ElevatorWrist().alongWith(elevator.goToSetpoint(ElevatorSetpoints.L2)));
         // NamedCommands.registerCommand("L4", l4ElevatorWrist().alongWith(elevator.goToSetpoint(ElevatorSetpoints.L4)));
     }
-
     public Command l1ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L1).alongWith(wrist.goToSetpoint(WristSetpoints.L1));
     }
-
     public Command l2ElevatorWrist() {
-
         return elevator.goToSetpoint(ElevatorSetpoints.L2).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
-
     public Command l2_5ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L2_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(sushi.manualInput(() -> 0.8));
     }
-
     public Command l3ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L3).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
-
     public Command l3_5ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L3_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(sushi.manualInput(() -> 0.8));
     }
-
     public Command l4ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L4)
             .alongWith(new RunCommand(() -> {}, wrist)
@@ -65,14 +58,12 @@ public class AutomationCommands {
                 wrist.goToSetpoint(WristSetpoints.L4)
                 .alongWith(sushi.shuffleBack(() -> elevator.getHeight() < 7.9 - Constants.Elevator.setpointTolerance))));//.until(() -> !(sushi.getFrontBeamBrake() || sushi.getRearBeamBrake()));
     }
-
     public Command l2AutoAlign() {
         return autoAlign.alongWith(
             new WaitUntilCommand(autoAlign::aligning)
             .andThen(l2ElevatorWrist())
         );
     }
-
     public Command l3AutoAlign() {
         return autoAlign.alongWith(
             new WaitUntilCommand(autoAlign::aligning)
