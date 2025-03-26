@@ -78,8 +78,8 @@ public class Climber extends SubsystemBase {
    */
   public void winchToPosition(double position) {
     if(getPosition() < position) {
-      climbWinch.set(autoClimbSpeed);
-      climbDeploy.set(1);
+      setWinchSpeed(autoClimbSpeed);
+      setDeploySpeed(1);
     } else {
       setWinchSpeed(0);
       setDeploySpeed(0);
@@ -128,10 +128,10 @@ public class Climber extends SubsystemBase {
    */
   public Command deploy() {
     return this.run(() -> {
-      if(deployReady.getAsBoolean()) {
+      // if(deployReady.getAsBoolean()) {
         setDeploySpeed(-1);
         deployed = true;
-      }
+      // }
     });
   }
 
@@ -143,10 +143,12 @@ public class Climber extends SubsystemBase {
    */
   public Command manualInput(DoubleSupplier speedSupplier) {
     return this.run(() ->  {
+      // if(!deployed) return;
       var speed = speedSupplier.getAsDouble();
-      if(speed > 0 && !chuteDropped.getAsBoolean() && getPosition() > 0) speed = 0;
-      setDeploySpeed(speed);
+      // if(speed > 0 && !chuteDropped.getAsBoolean() && getPosition() > 0) speed = 0;
+      // setDeploySpeed(speed);
       setWinchSpeed(speed);
-    });
+      setDeploySpeed(0);
+    });//.unless(() -> !deployed);
   }
 }

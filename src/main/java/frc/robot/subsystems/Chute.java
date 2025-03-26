@@ -14,7 +14,7 @@ public class Chute extends SubsystemBase {
 
     public static TalonSRX rightChuteMotor = new TalonSRX(rightMotorID); // Should be 28
     public static TalonSRX leftChuteMotor = new TalonSRX(leftMotorID);   // Should be 16
-    public static TalonSRX chuteDropMotor = new TalonSRX(90); // TODO
+    public static TalonSRX chuteDropMotor = new TalonSRX(deployMotorID); // TODO
 
     private boolean hasDropped = false;
 
@@ -22,11 +22,11 @@ public class Chute extends SubsystemBase {
         rightChuteMotor.setInverted(false);
         rightChuteMotor.configPeakCurrentLimit(40);
 
-        leftChuteMotor.setInverted(false);
+        leftChuteMotor.setInverted(true);
         leftChuteMotor.configPeakCurrentLimit(40);
 
         chuteDropMotor.setInverted(false);
-        chuteDropMotor.configPeakCurrentLimit(40);
+        chuteDropMotor.configPeakCurrentLimit(5);
     }
 
     /**
@@ -55,21 +55,26 @@ public class Chute extends SubsystemBase {
         return hasDropped;
     }
 
-    public void drop() {
-        chuteDropMotor.set(ControlMode.PercentOutput, 0.4); // TODO: Figure out if this is a good speed to pull the pins
-        hasDropped = true;
+    public Command dropCommand() {
+        return this.run(() -> {
+            chuteDropMotor.set(ControlMode.PercentOutput, 0.4); // TODO: Figure out if this is a good speed to pull the pins
+            hasDropped = true;
+        }).withTimeout(2);
+    }
+
+    public Command rest() {
+        return this.run(() -> {
+            setSpeed(0.3, 0.3);
+            chuteDropMotor.set(ControlMode.PercentOutput,0);
+        });
     }
 
     public Command intake() {
-        return this.runOnce(() -> setSpeed(intakeSpeed, intakeSpeed));
+        return this.run(() -> setSpeed(1, 1));
     }
 
     public Command unjam() {
-        return this.runOnce(() -> setSpeed(unjamSpeed, unjamSpeed));
-    }
-
-    public Command dropCommand() {
-        return this.run(this::drop);
+        return this.run(() -> setSpeed(-0.5, -1));
     }
 }
 

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -18,6 +20,9 @@ import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import static frc.robot.Constants.Elevator.*;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 public class Elevator extends SubsystemBase {
 
   private final TalonFX master = new TalonFX(elevatorMasterID);
@@ -26,11 +31,19 @@ public class Elevator extends SubsystemBase {
   private final DutyCycleOut dutyCycle = new DutyCycleOut(0);
   private final MotionMagicExpoVoltage motionMagic = new MotionMagicExpoVoltage(0);
 
-  private final StatusSignal<Angle> position = master.getPosition();
+  private double lastHeight = 0;
+
+  private final StatusSignal<Angle> position;
   private final StatusSignal<ForwardLimitValue> upperLimit = master.getForwardLimit();
   private final StatusSignal<ReverseLimitValue> lowerLimit = master.getReverseLimit();
+  private final BooleanSupplier coralIndexed, wristExtended;
 
-  public Elevator() {
+  public Elevator(BooleanSupplier coralIndexed, BooleanSupplier wristExtended) {
+    this.coralIndexed = coralIndexed;
+    this.wristExtended = wristExtended;
+
+    position = master.getPosition();
+
     Reporter.report(
       master.getConfigurator().apply(motorConfig),
       "couldn't config elevator master motor"
@@ -42,7 +55,7 @@ public class Elevator extends SubsystemBase {
     );
 
     Reporter.report(
-      follower.setControl(new Follower(elevatorMasterID, false)),
+      follower.setControl(new Follower(elevatorMasterID, true)),
       "failed to configure elevator follow motor to follow master"
     );
 
@@ -52,7 +65,9 @@ public class Elevator extends SubsystemBase {
       master.getVelocity(),
       master.getAcceleration(),
       master.getClosedLoopError(),
-      master.getClosedLoopReference()
+      master.getClosedLoopReference(),
+      upperLimit,
+      lowerLimit
     );
   }
 
@@ -60,9 +75,19 @@ public class Elevator extends SubsystemBase {
    * Sets the height of the elevator to the given height by using the position control mode of the Talon.
    * @param height the desired height of the elevator in inches
    */
-  public void setHeight(double height) {
-    motionMagic.withPosition(spoolRotations(height));
+  public void setHeight(double height, boolean overrideLimitSwitches) {
+    // if(!coralIndexed.getAsBoolean() && height > maxExtensionWithoutIndexing) height = maxExtensionWithoutIndexing;
+    //don't allow the elevator to move if the coral isn't indexed, unless we're aiming for L4 and the elevator is already high enough
+    if(!coralIndexed.getAsBoolean() && !(height == ElevatorSetpoints.L4.getHeight() && getHeight() > ElevatorSetpoints.L4.getHeight() - (2 * setpointTolerance)) && overrideLimitSwitches == false){
+      setSpeed(0);
+      return;
+    }
+    if(wristExtended.getAsBoolean() && height < lastHeight) return;
+
+    // motionMagic.withSlot(height >= lastHeight ? 0 : 1);
+    motionMagic.withPosition(motorRotationsFromHeight(height));
     master.setControl(motionMagic);
+    lastHeight = height;
   }
 
   /**
@@ -70,11 +95,13 @@ public class Elevator extends SubsystemBase {
    * @param speed The desired motor speed between -1 and 1.
    */
   public void setSpeed(double speed) {
-    master.setControl(dutyCycle.withOutput(speed));
+    if(!coralIndexed.getAsBoolean() && getHeight() > maxExtensionWithoutIndexing && speed > 0) speed = 0;
+    if(wristExtended.getAsBoolean() && speed < 0) speed = 0;
+    master.setControl(dutyCycle.withOutput(speed).withOverrideBrakeDurNeutral(true));
   }
 
   public double getHeight() {
-    return heightFromSpoolRotations(position.getValueAsDouble());
+    return heightFromMotorRotations(position.getValue().baseUnitMagnitude());
   }
 
   public boolean getUpperLimitSwitch() {
@@ -85,11 +112,26 @@ public class Elevator extends SubsystemBase {
     return lowerLimit.getValue() == ReverseLimitValue.ClosedToGround;
   }
 
+  public Command goToSetpoint(ElevatorSetpoints setpoint, boolean overrideLimitSwitches) {
+      return this.run(() -> setHeight(setpoint.getHeight(), overrideLimitSwitches));
+  }
+
+  public Command goToSetpoint(ElevatorSetpoints setpoint) {
+    return this.run(() -> setHeight(setpoint.getHeight(), false));
+  }
+
+  public Command manualInput(DoubleSupplier speed) {
+      return this.run(() -> setSpeed(speed.getAsDouble()));
+  }
+
   @Override
   public void periodic() {
     // periodically refresh all status signals from the talon, including
     // position, upper limit switch, and lower limit switch
     StatusSignal.refreshAll(position, upperLimit, lowerLimit);
+    SmartDashboard.putNumber("Elevator Height Meters", getHeight());
+    SmartDashboard.putBoolean("Elevator Upper Limit", getUpperLimitSwitch());
+    SmartDashboard.putBoolean("Elevator Lower Limit", getLowerLimitSwitch());    
   }
 
   /**
@@ -98,16 +140,36 @@ public class Elevator extends SubsystemBase {
    * @param height the height to convert to spool rotations
    * @return the number of spool rotations corresponding to the given height
    */
-  private double spoolRotations(double height) {
-    return height / spoolCircumference;
+  private double motorRotationsFromHeight(double height) {
+    return (height / spoolCircumference) / spoolRotationsPerMotorRotations;
   }
 
   /**
    * @param rotations the spool rotations to convert to a height
    * @return the height corresponding to the given spool rotations
    */
-  private double heightFromSpoolRotations(double rotations) {
-    return rotations * spoolCircumference;
+  private double heightFromMotorRotations(double rotations) {
+    return (rotations * spoolRotationsPerMotorRotations) * spoolCircumference;
+  }
+
+  public enum ElevatorSetpoints {
+    REST(0.0),
+    L1(0.13),
+    L2(0.35),
+    L2_5(0.55), // New setpoint between L3 and L2
+    L3(0.75),
+    L3_5(1.0),  // New setpoint between L4 and L3
+    L4(1.28);
+  
+    private double height;
+  
+    ElevatorSetpoints(double height) {
+      this.height = height;
+    }
+  
+    public double getHeight() {
+      return height;
+    }
   }
 }
 

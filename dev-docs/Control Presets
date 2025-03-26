@@ -1,0 +1,76 @@
+// Seany Drive: 
+  
+//     Button.onHold(sushi.place(), 8),
+//     Button.onHold(sushi.intake(), 7),
+//     Button.onHold(chute.intake(), 7),
+//     Button.onRelease(chute.rest(), 7),
+//     Button.onHold(chute.unjam(), 5),
+//     Button.onRelease(chute.rest(), 5),
+//     Button.onPress(climber.getToClimbPos(), 6),
+
+//     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
+//     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
+//     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
+//     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
+
+//     MultiButton.onPress(automationCommands.deployClimber(), 9, 10),
+
+//     Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
+//     Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
+
+//     JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*1), 3, 0.15),
+//     JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*1), 1, 0.1),
+//     JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
+//   };
+
+//   private final OIEntry[] driverMap = new OIEntry[] {
+//     JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
+//     JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
+//     JoystickTrigger.onMove(driverJoystick, automationCommands.placeAndRetract(), 3, 0.5),
+
+//     Button.onHold(automationCommands.l1ElevatorWrist(), 2),
+//     Button.onHold(automationCommands.l2ElevatorWrist(), 1),
+//     Button.onHold(automationCommands.l3ElevatorWrist(), 3),
+//     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
+//   };
+
+
+
+
+// Peter Parkey Drive (main differences are setpoint activation buttons):    Doesnt work lol.
+    
+// Button.onHold(sushi.place(), 3),
+// Button.onHold(sushi.intake(), 4),
+// Button.onHold(chute.intake(), 4),
+// Button.onRelease(chute.rest(), 4),
+// Button.onHold(chute.unjam(), 5),
+// Button.onRelease(chute.rest(), 5),
+// Button.onPress(climber.getToClimbPos(), 6),
+
+// MultiButton.onHold(automationCommands.l1ElevatorWrist(), 3, 7),
+// MultiButton.onHold(automationCommands.l2ElevatorWrist(), 2, 7),
+// MultiButton.onHold(automationCommands.l3ElevatorWrist(), 1, 7),
+// MultiButton.onHold(automationCommands.l4ElevatorWrist(), 4, 7),
+
+// MultiButton.onPress(automationCommands.deployClimber(), 9, 10),
+
+// Button.onPress(elevator.goToSetpoint(ElevatorSetpoints.REST),12),
+// Button.onPress(wrist.goToSetpoint(WristSetpoints.REST),12),
+
+// JoystickTrigger.onMove(operatorJoystick, elevator.manualInput(() -> -operatorJoystick.getRawAxis(3)*0.5), 3, 0.15),
+// JoystickTrigger.onMove(operatorJoystick, wrist.manualInput(() -> -operatorJoystick.getRawAxis(1)*0.5), 1, 0.1),
+// JoystickTrigger.onMove(operatorJoystick, climber.manualInput(() -> -operatorJoystick.getRawAxis(0)*0.05), 0, 0.2),
+// };
+
+// private final OIEntry[] driverMap = new OIEntry[] {
+// JoystickTrigger.onMove(driverJoystick, automationCommands.intakeUntilCoralObtained(), 2, 0.5),
+// JoystickTrigger.onZero(driverJoystick, sushi.index().alongWith(chute.rest()), 2, 0.4),
+// JoystickTrigger.onMove(driverJoystick, automationCommands.placeAndRetract(), 3, 0.5),
+
+// MultiButton.onHold(automationCommands.l1ElevatorWrist(), 2, 8),
+// MultiButton.onHold(automationCommands.l2ElevatorWrist(), 1, 8),
+// MultiButton.onHold(automationCommands.l3ElevatorWrist(), 3, 8),
+// MultiButton.onHold(automationCommands.l4ElevatorWrist(), 4, 8),
+// };
+
+

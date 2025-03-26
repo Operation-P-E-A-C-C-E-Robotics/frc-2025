@@ -9,11 +9,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Reporter;
 import edu.wpi.first.wpilibj2.command.Command;
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static frc.robot.Constants.Wrist.*;
 
 import java.util.function.DoubleSupplier;
@@ -32,19 +33,19 @@ public class Wrist extends SubsystemBase {
         );
 
         positionSignal = motor.getPosition();
-        BaseStatusSignal.setUpdateFrequencyForAll(100,
-            positionSignal,
-            motor.getDutyCycle(),
-            motor.getVelocity(),
-            motor.getAcceleration(),
-            motor.getClosedLoopError(),
-            motor.getClosedLoopReference()
-        );
+        // BaseStatusSignal.setUpdateFrequencyForAll(100,
+        //     positionSignal,
+        //     motor.getDutyCycle(),
+        //     motor.getVelocity(),
+        //     motor.getAcceleration(),
+        //     motor.getClosedLoopError(),
+        //     motor.getClosedLoopReference()
+        // );
     }
 
     /**
      * Sets the speed of the wrist by adjusting the duty cycle.
-     * 
+     *
      * @param speed The desired speed for the wrist motor, represented as a duty cycle value.
      */
     public void setSpeed(double speed) {
@@ -53,58 +54,66 @@ public class Wrist extends SubsystemBase {
 
     /**
      * Sets the position of the wrist using Motion Magic control
-     * 
+     *
      * Motion Magic is a position control strategy implemented by CTRE that
      * takes into account the motor's acceleration and velocity limits to generate
      * a smooth and efficient motion profile. This method takes a Rotation2d object
      * representing the desired wrist angle and uses it to set the Motion Magic
      * control's position setpoint.
-     * 
+     *
      * @param angle the desired wrist angle as a Rotation2d
      */
     public void setPosition(Rotation2d angle) {
-        motionMagicControl.withPosition(angle.getDegrees());
+        motionMagicControl.withPosition(angle.getRotations() / wristRotationsPerMotorRotation);
         motor.setControl(motionMagicControl);
     }
 
     /**
      * Retrieves the current position of the wrist motor.
-     * 
+     *
      * This method converts the motor's rotor position into a Rotation2d object,
      * which provides a convenient way to represent and work with angular positions
      * in the codebase.
-     * 
+     *
      * @return The current wrist position as a Rotation2d.
      */
     public Rotation2d getWristPosition() {
-        double rotorPosition = motor.getRotorPosition().getValueAsDouble();
+        double rotorPosition = positionSignal.getValueAsDouble() * wristRotationsPerMotorRotation;
         return Rotation2d.fromRotations(rotorPosition);
     }
 
     /**
      * Returns a command to move the wrist to a specific setpoint
-     * 
+     *
      * This method takes a WristSetpoints enum value and returns a command that
      * will move the wrist to the corresponding setpoint. The command is
      * implemented using the runOnce() method, which will execute the given
      * lambda expression once and then finish immediately.
-     * 
+     *
      * @param setpoint the desired wrist setpoint
      * @return a command to move the wrist to the setpoint
      */
     public Command goToSetpoint(WristSetpoints setpoint) {
-        return this.runOnce(() -> setPosition(setpoint.getAngle()));
+        return this.run(() -> setPosition(setpoint.getAngle()));
     }
 
     public Command manualInput(DoubleSupplier speed) {
         return this.run(() -> setSpeed(speed.getAsDouble()));
     }
-    
+
+    @Override
+    public void periodic() {
+        positionSignal.refresh();
+        SmartDashboard.putNumber("Wrist Position Degrees", getWristPosition().getDegrees());
+        SmartDashboard.putNumber("Wrist position wtf", motor.getPosition().getValueAsDouble());
+    }
+
+    //setpoints always at bottom of subsytem
     public enum WristSetpoints {
-        REST(Rotation2d.fromDegrees(0)),
-        L1(Rotation2d.fromDegrees(35)),
-        L2L3(Rotation2d.fromDegrees(75)),
-        L4(Rotation2d.fromDegrees(90));
+        REST(Rotation2d.fromDegrees(8.5)),
+        L1(Rotation2d.fromDegrees(0)),
+        L2L3(Rotation2d.fromDegrees(25)),
+        L4(Rotation2d.fromDegrees(55));
 
         private Rotation2d angle;
 
