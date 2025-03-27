@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import static frc.robot.Constants.Chute.*;
 
+import java.util.function.BooleanSupplier;
+
 public class Chute extends SubsystemBase {
 
     public static TalonSRX rightChuteMotor = new TalonSRX(rightMotorID); // Should be 28
@@ -18,7 +20,11 @@ public class Chute extends SubsystemBase {
 
     private boolean hasDropped = false;
 
-    public Chute() {
+    private final BooleanSupplier elevatorDown;
+
+    public Chute(BooleanSupplier elevatorDown) {
+        this.elevatorDown = elevatorDown;
+
         rightChuteMotor.setInverted(false);
         rightChuteMotor.configPeakCurrentLimit(40);
 
@@ -64,7 +70,7 @@ public class Chute extends SubsystemBase {
 
     public Command rest() {
         return this.run(() -> {
-            setSpeed(0.3, 0.3);
+            setSpeed(elevatorDown.getAsBoolean() ? 0.3 : 0, elevatorDown.getAsBoolean() ? 0.3 : 0);
             chuteDropMotor.set(ControlMode.PercentOutput,0);
         });
     }

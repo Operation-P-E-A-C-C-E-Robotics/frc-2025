@@ -189,7 +189,7 @@ public class PeaccyRequest implements LegacySwerveRequest {
             //the robot will hold its current heading if HoldHeading or SoftHoldHeading is true,
             //unless Heading is explicitly set to something else.
             Heading = swerve.getPose().getRotation().getRadians();
-            if(AllianceFlipUtil.shouldFlip()) Heading += Math.PI;
+            // if(AllianceFlipUtil.shouldFlip()) Heading += Math.PI;
         }
 
         SmartDashboard.putNumber("Requested X Velocity", toApplyTranslation.getX());
@@ -372,7 +372,7 @@ public class PeaccyRequest implements LegacySwerveRequest {
      */
     private double applyAutoHeading(LegacySwerveControlRequestParameters parameters) {
         var currentHeading = swerve.getPose().getRotation().getRadians();
-        if(AllianceFlipUtil.shouldFlip()) currentHeading += Math.PI;
+        // if(AllianceFlipUtil.shouldFlip()) currentHeading += Math.PI;
 
         //make sure our odometry heading is within +/- 180 degrees of the target heading to prevent it from wrapping LIKE CTRE DOES >:(
         while (Math.abs(currentHeading - Heading) > Math.PI) {

@@ -119,7 +119,7 @@ public final class Constants {
                         .withKV(0)
                         .withKA(0);
 
-      motorConfig.CurrentLimits.withStatorCurrentLimit(40)
+      motorConfig.CurrentLimits.withStatorCurrentLimit(50)
                                .withStatorCurrentLimitEnable(true);
 
       motorConfig.MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive)

@@ -31,8 +31,8 @@ public class CameraLogic extends SubsystemBase {
     private final SwerveDrivePoseEstimator poseEstimator;
     private final PhotonCamera cameraRight;
     private final PhotonCamera cameraLeft;
-    private final PhotonPoseEstimator photonPoseEstimatorRight;
-    private final PhotonPoseEstimator photonPoseEstimatorLeft;
+    // private final PhotonPoseEstimator photonPoseEstimatorRight;
+    // private final PhotonPoseEstimator photonPoseEstimatorLeft;
     private final Swerve swerve;
 
     public CameraLogic(Swerve swerve, SwerveDriveKinematics kinematics) {
@@ -61,57 +61,57 @@ public class CameraLogic extends SubsystemBase {
             new Rotation3d(0, 0, Units.degreesToRadians(35.895 / 2))
         );
 
-        AprilTagFieldLayout layout = RobotContainer.getAprilTagFieldLayout();
+        // AprilTagFieldLayout layout = RobotContainer.getAprilTagFieldLayout();
 
-        photonPoseEstimatorRight = new PhotonPoseEstimator(
-            layout,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            RIGHT_CAMERA_TO_CENTER
-        );
+        // photonPoseEstimatorRight = new PhotonPoseEstimator(
+        //     layout,
+        //     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+        //     RIGHT_CAMERA_TO_CENTER
+        // );
 
-        photonPoseEstimatorLeft = new PhotonPoseEstimator(
-            layout,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            LEFT_CAMERA_TO_CENTER
-        );
+        // photonPoseEstimatorLeft = new PhotonPoseEstimator(
+        //     layout,
+        //     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+        //     LEFT_CAMERA_TO_CENTER
+        // );
 
-        photonPoseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-        photonPoseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+        // photonPoseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+        // photonPoseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     }
 
     @Override
     public void periodic() {
 
-        Optional<EstimatedRobotPose> rightResult = getEstimatedGlobalPose(photonPoseEstimatorRight, cameraRight);
-        if (rightResult.isPresent()) {
-            EstimatedRobotPose pose = rightResult.get();
-            swerve.addVisionMeasurement(
-                pose.estimatedPose.toPose2d(),
-                pose.timestampSeconds
-            );
-        }
+        // Optional<EstimatedRobotPose> rightResult = getEstimatedGlobalPose(photonPoseEstimatorRight, cameraRight);
+        // if (rightResult.isPresent()) {
+        //     EstimatedRobotPose pose = rightResult.get();
+        //     swerve.addVisionMeasurement(
+        //         pose.estimatedPose.toPose2d(),
+        //         pose.timestampSeconds
+        //     );
+        // }
 
-        Optional<EstimatedRobotPose> leftResult = getEstimatedGlobalPose(photonPoseEstimatorLeft, cameraLeft);
-        if (leftResult.isPresent()) {
-            EstimatedRobotPose pose = leftResult.get();
-            swerve.addVisionMeasurement(
-                pose.estimatedPose.toPose2d(),
-                pose.timestampSeconds
-            );
-        }
+        // Optional<EstimatedRobotPose> leftResult = getEstimatedGlobalPose(photonPoseEstimatorLeft, cameraLeft);
+        // if (leftResult.isPresent()) {
+        //     EstimatedRobotPose pose = leftResult.get();
+        //     swerve.addVisionMeasurement(
+        //         pose.estimatedPose.toPose2d(),
+        //         pose.timestampSeconds
+        //     );
+        // }
     }
     
-    private Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator estimator, PhotonCamera camera) {
-        try {
-            PhotonPipelineResult latestResult = camera.getLatestResult();
+    // private Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator estimator, PhotonCamera camera) {
+    //     try {
+    //         PhotonPipelineResult latestResult = camera.getLatestResult();
             
-            return estimator.update(latestResult);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
+    //         return estimator.update(latestResult);
+    //     } catch (Exception e) {
+    //         return Optional.empty();
+    //     }
+    // }
     
-    public Pose2d getCurrentPose() {
-        return poseEstimator.getEstimatedPosition();
-    }
+    // public Pose2d getCurrentPose() {
+    //     return poseEstimator.getEstimatedPosition();
+    // }
 }

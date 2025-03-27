@@ -9,18 +9,10 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,11 +23,7 @@ import frc.lib.swerve.SwerveDescription;
 import frc.lib.swerve.SwerveDescription.PidGains;
 import frc.lib.telemetry.SwerveTelemetry;
 import frc.lib.util.AllianceFlipUtil;
-import frc.lib.vision.ApriltagCamera;
-import frc.lib.vision.PeaccyVision;
 import frc.robot.Constants;
-import frc.robot.FieldConstants;
-
 import static frc.robot.Constants.Swerve.*;
 
 public class Swerve extends SubsystemBase {
@@ -233,7 +221,7 @@ public class Swerve extends SubsystemBase {
         }
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
-        var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
+        // var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
         // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
         // if(eyes.hasUpdated()){
         //     swerve.addVisionMeasurement(

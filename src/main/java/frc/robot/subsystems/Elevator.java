@@ -153,13 +153,13 @@ public class Elevator extends SubsystemBase {
   }
 
   public enum ElevatorSetpoints {
-    REST(0.0),
-    L1(0.13),
-    L2(0.35),
-    L2_5(0.55), // New setpoint between L3 and L2
-    L3(0.75),
-    L3_5(1.0),  // New setpoint between L4 and L3
-    L4(1.28);
+    REST(0.01),
+    L1(0.10),
+    L2(0.3),
+    L2_5(0.45), // New setpoint between L3 and L2
+    L3(0.7),
+    L3_5(0.85),  // New setpoint between L4 and L3
+    L4(1.27);
   
     private double height;
   

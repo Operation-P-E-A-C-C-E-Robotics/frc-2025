@@ -3,32 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import java.io.File;
-
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonTargetSortMode;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.targeting.PhotonPipelineResult;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.FieldConstants.AprilTagLayoutType;
 import frc.robot.commands.AutomationCommands;
 import frc.robot.commands.drivetrain.AutoAlign;
 import frc.robot.commands.drivetrain.PeaccyDrive;
@@ -41,14 +24,11 @@ import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.JoystickTrigger;
 import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
+import frc.lib.util.ButtonMap.SimplePOV;
 import frc.robot.subsystems.Wrist.WristSetpoints;
 import frc.robot.subsystems.Chute;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
-import frc.lib.util.ButtonMap.MultiButton;
-import org.photonvision.PhotonCamera.*;
-import org.photonvision.PhotonPoseEstimator.*;
-import frc.lib.vision.ApriltagCamera.*;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -57,7 +37,7 @@ public class RobotContainer {
   private final Sushi sushi = new Sushi();
   private final Wrist wrist = new Wrist();                                                                                                                      
   private final Elevator elevator = new Elevator(() -> !sushi.getRearBeamBrake(), () -> wrist.getWristPosition().getDegrees() > 60);                                                                               //private String song = "output.chrp"; private static Sushi musicalSushi = new Sushi(); ArrayList<TalonFX> instruments = new ArrayList<TalonFX>(); for(int i = 0; i < 0; i++) {instruments.add(new TalonFX(0));} private Orchestra music = new Orchestra();
-  private final Chute chute = new Chute();
+  private final Chute chute = new Chute(() -> (elevator.getHeight() < 1.5));
   private final Climber climber = new Climber(this::deployReady, chute::hasDropped);
   private final Swerve driveTrain = new Swerve ();
 
@@ -69,12 +49,6 @@ public class RobotContainer {
   
   private final JoystickButton zeroButton = new JoystickButton(driverJoystick, Constants.OI.zeroOdometry); //for debugging
 
-  //Auto Camera Stuff 
-  public static AprilTagFieldLayout aprilTagFieldLayout = FieldConstants.AprilTagLayoutType.OFFICIAL.getLayout(); 
-  public static Transform3d robotToCamLeft = new Transform3d(new Translation3d(Units.inchesToMeters(7.47), Units.inchesToMeters(13.5), Units.inchesToMeters(0.5)), new Rotation3d(0,Units.degreesToRadians(285),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-  public static Transform3d robotToCamRight = new Transform3d(new Translation3d(Units.inchesToMeters(7.35), Units.inchesToMeters(13.5), Units.inchesToMeters(20.5)), new Rotation3d(0,Units.degreesToRadians(281.2),0));
-  public static PhotonPoseEstimator photonPoseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamRight);
-  public static PhotonPoseEstimator photonPoseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamLeft);  
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   private final AutoAlign autoAlign = new AutoAlign(driveTrain, () -> operatorJoystick.getPOV());
@@ -93,9 +67,9 @@ public class RobotContainer {
     
     Button.onHold(automationCommands.l1ElevatorWrist(), 3),
     Button.onHold(automationCommands.l2ElevatorWrist(), 2),
-    MultiButton.onHold(automationCommands.l2_5ElevatorWrist(), 9, 2), //
+    SimplePOV.onHold(automationCommands.l2AlgaeClear(), 90), //
     Button.onHold(automationCommands.l3ElevatorWrist(), 1),
-    MultiButton.onHold(automationCommands.l3_5ElevatorWrist(), 9, 1), // TODO PARKER Do The Buttons
+    SimplePOV.onHold(automationCommands.l3AlgaeClear(), 270), // TODO PARKER Do The Buttons
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
     
     MultiButton.onHold(climber.deploy(), 9, 10),
@@ -118,12 +92,14 @@ public class RobotContainer {
     Button.onHold(automationCommands.l2ElevatorWrist(), 1),
     Button.onHold(automationCommands.l3ElevatorWrist(), 3),
     Button.onHold(automationCommands.l4ElevatorWrist(), 4),
+    SimplePOV.onHold(automationCommands.l2AlgaeClear(), 90), //
+    SimplePOV.onHold(automationCommands.l3AlgaeClear(), 270), // TODO PARKER Do The Buttons
+
   };
   
   //-------------------------------------------------------------------------------------------------------------------------------------
 
   public RobotContainer() {
-    photonPoseEstimatorLeft.getRobotToCameraTransform();
     configureBindings();
     try {
       PathPlannerPath l1Path = PathPlannerPath.fromPathFile("Drive To Reef");
@@ -131,8 +107,8 @@ public class RobotContainer {
       PathPlannerPath l1Center = PathPlannerPath.fromPathFile("Drive To Reef Center");
       PathPlannerPath driveOffLinePath = PathPlannerPath.fromPathFile("Drive Off Line");
       Command l1AllianceSideAuto = AutoBuilder.resetOdom(l1Path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
-      Command l1OppositeSideAuto = AutoBuilder.resetOdom(l1OppositePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
-      Command l1CenterAuto = AutoBuilder.resetOdom(l1Center.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1OppositeSideAuto = AutoBuilder.resetOdom(l1OppositePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1OppositePath).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1CenterAuto = AutoBuilder.resetOdom(l1Center.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Center).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
       Command driveOffLineAuto = AutoBuilder.resetOdom(driveOffLinePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(driveOffLinePath).raceWith(sushi.index()));
     
       autoChooser.addOption("DO NOTHING", null);
@@ -170,9 +146,6 @@ public class RobotContainer {
     new ButtonMap(driverJoystick).map(driverMap);
   }
 
-  public static AprilTagFieldLayout getAprilTagFieldLayout() {
-    return aprilTagFieldLayout;
-  }
  
   public boolean deployReady()
   {

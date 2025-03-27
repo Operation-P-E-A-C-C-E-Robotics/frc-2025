@@ -40,14 +40,18 @@ public class AutomationCommands {
     public Command l2ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L2).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
-    public Command l2_5ElevatorWrist() {
-        return elevator.goToSetpoint(ElevatorSetpoints.L2_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(sushi.manualInput(() -> 0.8));
+    public Command l2AlgaeClear() {
+        return sushi.panic().raceWith(wrist.goToSetpoint(WristSetpoints.PASS_BACK), chute.unjam()).until(() -> !(sushi.getFrontBeamBrake()  || sushi.getRearBeamBrake())).andThen(
+             elevator.goToSetpoint(ElevatorSetpoints.L2, true).alongWith(wrist.goToSetpoint(WristSetpoints.L4)).alongWith(sushi.manualInput(() -> 0.8))
+        );
     }
     public Command l3ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L3).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).until(() -> !sushi.getFrontBeamBrake());
     }
-    public Command l3_5ElevatorWrist() {
-        return elevator.goToSetpoint(ElevatorSetpoints.L3_5, true).alongWith(wrist.goToSetpoint(WristSetpoints.L2L3)).alongWith(sushi.manualInput(() -> 0.8));
+    public Command l3AlgaeClear() {
+        return sushi.panic().raceWith(wrist.goToSetpoint(WristSetpoints.PASS_BACK), chute.unjam()).until(() -> !(sushi.getFrontBeamBrake()  || sushi.getRearBeamBrake())).andThen(
+            elevator.goToSetpoint(ElevatorSetpoints.L3, true).alongWith(wrist.goToSetpoint(WristSetpoints.L4)).alongWith(sushi.manualInput(() -> 0.8))
+        );
     }
     public Command l4ElevatorWrist() {
         return elevator.goToSetpoint(ElevatorSetpoints.L4)
