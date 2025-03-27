@@ -105,10 +105,12 @@ public class RobotContainer {
       PathPlannerPath l1Path = PathPlannerPath.fromPathFile("Drive To Reef");
       PathPlannerPath l1OppositePath = PathPlannerPath.fromPathFile("Drive To Reef Opposite Side");
       PathPlannerPath l1Center = PathPlannerPath.fromPathFile("Drive To Reef Center");
+      PathPlannerPath l1CenterWithCurve = PathPlannerPath.fromPathFile("Drive To Reef Center With Curve");
       PathPlannerPath driveOffLinePath = PathPlannerPath.fromPathFile("Drive Off Line");
       Command l1AllianceSideAuto = AutoBuilder.resetOdom(l1Path.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Path).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
       Command l1OppositeSideAuto = AutoBuilder.resetOdom(l1OppositePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1OppositePath).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
-      Command l1CenterAuto = AutoBuilder.resetOdom(l1Center.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Center).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l1CenterAuto = AutoBuilder.resetOdom(l1CenterWithCurve.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1CenterWithCurve).raceWith(sushi.index()).andThen(automationCommands.l1ElevatorWrist().alongWith(new WaitCommand(0.5).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
+      Command l2CenterAuto = AutoBuilder.resetOdom(l1Center.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(l1Center).raceWith(sushi.index()).andThen(automationCommands.l2ElevatorWrist().alongWith(new WaitCommand(1).andThen(sushi.place(() -> true).withTimeout(2), sushi.index())))); //I THINK THE PROBLEMO COULD BE AN AUTOBUILDER ISSUE WITH RETURNING A NULL VALUE
       Command driveOffLineAuto = AutoBuilder.resetOdom(driveOffLinePath.getStartingHolonomicPose().get()).andThen(AutoBuilder.followPath(driveOffLinePath).raceWith(sushi.index()));
     
       autoChooser.addOption("DO NOTHING", null);
@@ -116,6 +118,7 @@ public class RobotContainer {
       autoChooser.addOption("L1 Coral", l1AllianceSideAuto);
       autoChooser.addOption("L1 Opposite Coral", l1OppositeSideAuto);
       autoChooser.addOption("L1 Center Coral", l1CenterAuto);
+      autoChooser.addOption("L2 Center Coral", l2CenterAuto);
     } catch (Exception e) {
       e.printStackTrace();
     }
